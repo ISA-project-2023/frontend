@@ -1,0 +1,30 @@
+<div id="companiesReview">
+    <form (ngSubmit)="search()">
+        <label for="searchLocation">Location:</label>
+        <input type="text" id="searchLocation" [(ngModel)]="searchLocation" name="searchLocation">
+
+        <label for="searchName">Name:</label>
+        <input type="text" id="searchName" [(ngModel)]="searchName" name="searchName">
+
+        <button type="submit">Search</button>
+        <button type="button" (click)="reset()">Reset</button>
+    </form>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Grade</th>
+        </tr>
+        <tr *ngFor="let c of filteredCompanies">
+            <td>{{c.name}}</td>
+            <td>{{c.location}}</td>
+            <td>{{c.grade}}</td>
+        </tr>
+    </table>
+    <form (ngSubmit)="filter()">
+        <label for="filterGrade">Grade above:</label>
+        <input type="number" id="filterGrade" [(ngModel)]="gradeFilter" name="filterGrade">
+
+        <button type="submit">Filter</button>
+    </form>
+</div>
