@@ -1,0 +1,19 @@
+<div class="container">
+  <header>
+    <h2>Welcome to the Medical Equipment Reservation System!</h2>
+  </header>
+  <main>
+    <section>
+      <p>Explore our centralized information system for medical equipment procurement.</p>
+    </section>
+    <section *ngIf="!isLoggedIn(); else loggedInSection">
+      <button (click)="navigateToLogin()">Log in</button>
+    </section>
+    <ng-template #loggedInSection>
+      <button (click)="logout()">Log out</button>
+    </ng-template>
+  </main>
+  <footer>
+    <p>&copy; 2023 Medical Equipment Reservation System</p>
+  </footer>
+</div>
