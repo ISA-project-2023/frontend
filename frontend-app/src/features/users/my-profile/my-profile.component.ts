@@ -9,6 +9,7 @@ import { User } from '../model/user.model';
 })
 export class MyProfileComponent implements OnInit {
   user!: User;
+  updatedUser!:User;
 
   constructor(private userService: UserService) { }
 
@@ -16,11 +17,24 @@ export class MyProfileComponent implements OnInit {
     this.userService.getCurrentUser().subscribe(
       (user: User) => {
         this.user = user;
+        this.updatedUser = user;
       },
       (error) => {
         console.error('Error fetching current user:', error);
       }
     );
   }
+  updateProfile(event: Event) {
+    event.preventDefault();
+  
+    this.userService.updateUser(this.updatedUser).subscribe(
+      (user: User) => {
+        this.user = user;
+        this.updatedUser = user;
+        alert('Profile updated successfully.');
+      }
+    );
+  }
+  
 
 }

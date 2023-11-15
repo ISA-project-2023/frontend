@@ -19,8 +19,11 @@ export class UserService {
     );
   }
   getCurrentUser(): Observable<User>{
-    return this.http.get<User>(`${this.apiUrl}/current-user` );
+    return this.http.get<User>(`${this.apiUrl}/api/users/current-user` );
   } 	
+  updateUser(user: User): Observable<User> {
+    return this.http.put<User>(`${this.apiUrl}/api/users`, user);
+  }
 
   logout(): Observable<string> {
     localStorage.removeItem('sessionId');

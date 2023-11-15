@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { CompaniesModule } from 'src/features/companies/companies.module';
 import { HomeModule } from 'src/features/home/home.module';
 import { LoginModule } from 'src/features/login/login.module';
+import { MyProfileComponent } from 'src/features/users/my-profile/my-profile.component';
+import { UsersModule } from 'src/features/users/users.module';
 
 
 @NgModule({
@@ -20,8 +22,9 @@ import { LoginModule } from 'src/features/login/login.module';
     HttpClientModule,
     AppRoutingModule,
     CompaniesModule,
+    UsersModule,
     HomeModule,
-    LoginModule
+    LoginModule 
   ],
   providers: [],
   bootstrap: [AppComponent]
