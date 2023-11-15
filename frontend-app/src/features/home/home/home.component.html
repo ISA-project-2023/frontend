@@ -1,5 +1,6 @@
 <div class="container">
   <button (click)="navigateToCompanies()">Companies</button>
+  <button *ngIf="isLoggedIn()" (click)="navigateToMyProfile()">My profile</button>
   <header>
     <h2>Welcome to the Medical Equipment Reservation System!</h2>
   </header>

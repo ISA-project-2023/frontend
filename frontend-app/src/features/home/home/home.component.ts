@@ -17,7 +17,10 @@ export class HomeComponent {
   navigateToCompanies() {
     this.router.navigate(['/companiesReview']);
   }
-
+  
+  navigateToMyProfile(){
+    this.router.navigate(['/my-profile'])
+  }
   logout() {
     this.userService.logout().subscribe(
       () => {

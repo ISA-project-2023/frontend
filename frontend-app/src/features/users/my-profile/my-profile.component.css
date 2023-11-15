@@ -1,0 +1,25 @@
+.profile-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    color: #333;
+  }
+  
+  .user-details {
+    margin-top: 20px;
+  }
+  
+  .user-details div {
+    margin-bottom: 10px;
+  }
+  
+  strong {
+    margin-right: 5px;
+  }
+  
