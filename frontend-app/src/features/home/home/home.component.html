@@ -7,7 +7,11 @@
       <p>Explore our centralized information system for medical equipment procurement.</p>
     </section>
     <section *ngIf="!isLoggedIn(); else loggedInSection">
-      <button (click)="navigateToLogin()">Log in</button>
+      <button (click)="navigateToLogin()">Log in</button><br><br>
+      <div class="register-section">
+        <p>Don't have an account?</p>
+        <a (click)="register()">Register</a>
+      </div>
     </section>
     <ng-template #loggedInSection>
       <button (click)="logout()">Log out</button>
