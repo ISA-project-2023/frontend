@@ -1,0 +1,53 @@
+<div id="companyProfile">
+    <h1>Company profile</h1>
+
+
+    <table *ngIf="canShow">
+        <tr>
+            <td>Name</td>
+            <td>{{company?.name}}</td>
+        </tr>
+        <tr>
+            <td>Location</td>
+            <td>{{company?.location}}</td>
+        </tr>
+        <tr>
+            <td>Grade</td>
+            <td>{{company?.grade}}</td>
+        </tr>
+        <tr>
+            <td>Working hours</td>
+            <td>{{company?.startTime}} - {{company?.endTime}}</td>
+        </tr>
+    </table>
+
+    <h2>Equipment in stock</h2>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+        <tr *ngFor="let e of equipment">
+            <td>{{e.name}}</td>
+            <td>{{e.description}}</td>
+        </tr>
+    </table>
+
+    <h2>PickUp Appointments</h2>
+    <table>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </table>
+
+    <button *ngIf="!shouldEdit" type="submit" (click)="editCompany()">
+        Edit profile
+    </button>
+
+    <div>
+        <xp-company-profile-form *ngIf="shouldRenderEditForm" [shouldEdit]="shouldEdit"
+        [company]="company" (companyProfileUpdated)="onCompanyUpdated()"></xp-company-profile-form>
+    </div>
+
+</div>

@@ -1,0 +1,59 @@
+<div id="company-profile-form">
+    <form class="profile-form" [formGroup]="companyProfileForm">
+        <div>
+
+            <table>
+                <mat-form-field>
+                    <tr>
+                        <td><mat-label>Name</mat-label></td>
+                    </tr>
+                    <tr>
+                        <td><input matInput formControlName="name" type="text" /></td>
+                    </tr>
+               </mat-form-field>
+                <mat-form-field>
+                    <tr>
+                        <td><mat-label>Location</mat-label></td>
+                    </tr>
+                    <tr>
+                        <td><input matInput formControlName="location" type="text" /></td>
+                    </tr>
+                </mat-form-field>
+                <mat-form-field>
+                    <tr>
+                        <td><mat-label>Grade</mat-label></td>
+                    </tr>
+                    <tr>
+                        <td><input matInput formControlName="grade" type="number" [defaultValue]="1" min="1" max="5" placeholder="1"/></td>
+                    </tr>
+                </mat-form-field>
+                <mat-form-field>
+                    <tr>
+                        <td><mat-label>Start of shift</mat-label></td>
+                    </tr>
+                    <tr>
+                        <td><input matInput formControlName="startTime" type="datetime" /></td>
+                        <!--    [defaultValue]="07:00" -->
+                    </tr>
+                </mat-form-field>
+                <mat-form-field>
+                    <tr>
+                        <td><mat-label>End of shift</mat-label></td>
+                    </tr>
+                    <tr>
+                        <td><input matInput formControlName="endTime" type="datetime" /></td>
+                        <!--    [defaultValue]="07:00" -->
+                    </tr>
+                </mat-form-field>
+            </table>
+
+            <!-- TODO - company available equipment update -->
+
+            <!-- TODO - fix update -->
+            <!-- Update -->
+            <button *ngIf="shouldEdit" color="primary" type="submit" (click)="updateCompanyProfile()" mat-raised-button>
+                save changes
+            </button>
+        </div>
+    </form>
+</div>

@@ -14,4 +14,17 @@ export class CompanyService {
   getCompanies(): Observable<Company[]> {
     return this.http.get<Company[]>(`${this.apiUrl}/all`);
   }
+
+  getCompany(id: number): Observable<Company> {
+    return this.http.get<Company>(`${this.apiUrl}/${id}`);
+  }
+  addCompany(company: Company):  Observable<Company> {
+    return this.http.post<Company>(`${this.apiUrl}`, company);
+  }
+  updateCompany(company: Company): Observable<Company> {
+    return this.http.put<Company>(`${this.apiUrl}`, company);
+  }
+  deleteCompany(id: number): Observable<Company> {
+    return this.http.delete<Company>(`${this.apiUrl}/${id}`);
+  }
 }
