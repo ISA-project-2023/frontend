@@ -41,7 +41,13 @@
         </tr>
     </table>
 
-    <button type="submit">Edit profile</button>
+    <button *ngIf="!shouldEdit" type="submit" (click)="editCompany()">
+        Edit profile
+    </button>
 
+    <div>
+        <xp-company-profile-form *ngIf="shouldRenderEditForm" [shouldEdit]="shouldEdit"
+        [company]="company" (companyProfileUpdated)="onCompanyUpdated()"></xp-company-profile-form>
+    </div>
 
 </div>

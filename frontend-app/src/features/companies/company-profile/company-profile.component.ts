@@ -11,10 +11,11 @@ import { CompanyService } from '../company.service';
 })
 export class CompanyProfileComponent implements OnInit {
   companyId: number = 0;
-  companies: Company[] = []; 
   company: Company | undefined;
-  canShow: boolean = false;
   equipment: Equipment[] = [];
+  canShow: boolean = false; // TODO - only admin van change
+  shouldEdit: boolean = false;
+  shouldRenderEditForm: boolean = false; 
   
   constructor(private companyService: CompanyService, private activatedRoute : ActivatedRoute) {
     this.activatedRoute.params.subscribe(params=>{
@@ -24,10 +25,14 @@ export class CompanyProfileComponent implements OnInit {
     if (this.companyId !== undefined){
       this.canShow = true;
     }
-    this.getCompany(this.companyId);
+    this.getCompany();
   } 
   
   ngOnInit() {
+    this.getCompany();
+  }
+
+  getCompany(): void {
     this.companyService.getCompany(this.companyId).subscribe(
       (data) => {
         this.company = data;
@@ -39,23 +44,16 @@ export class CompanyProfileComponent implements OnInit {
     );
   }
 
-  getCompany(id: number): void {
-    this.companyService.getCompany(id).subscribe(
-      (data) => {
-        this.company = data;
-      },
-      (error) => {
-        alert('Unable to load company. Try again later.');
-      }
-    );
+  editCompany(): void{
+    this.shouldRenderEditForm = true;
+    this.shouldEdit = true;
   }
 
-  // updateCompanyProfile(): void {
-  //   this.companyService.updateCompany(this.company).subscribe({
-  //     next: () => {},
-  //     error: () => {}
-  //   });
-  // }
+  onCompanyUpdated(): void {
+    this.getCompany();
+    this.shouldEdit = false;
+    this. shouldRenderEditForm = false;
+  }
   
   // deleteCompanyProfile(): void {
   //   this.companyService.deleteCompany(this.companyId).subscribe();
