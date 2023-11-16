@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { User } from './model/user.model';
@@ -38,4 +38,12 @@ export class UserService {
   isAuthenticated(): boolean {
     return !!localStorage.getItem('sessionId');
   }
+
+  saveUser(employee: any, password: string): Observable<any> {
+    const params = { password };
+    const options = { params: new HttpParams({ fromObject: params }) };
+
+    return this.http.post(`${this.apiUrl}/api/users`, employee, options);
+}
+
 }

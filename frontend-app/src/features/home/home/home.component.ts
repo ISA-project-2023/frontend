@@ -32,6 +32,10 @@ export class HomeComponent {
     );
   }
 
+  register(){
+    this.router.navigate(['/register']);
+  }
+
   isLoggedIn(): boolean {
     return this.userService.isAuthenticated();
   }
