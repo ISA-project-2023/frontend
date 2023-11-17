@@ -9,6 +9,8 @@ export class CompanyRegistrationComponent {
 
   name: string = '';
   description: string = '';
+  startTime: string = '00:00';
+  endTime: string = '00:00';
 
   save() : void {
 

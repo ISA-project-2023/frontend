@@ -5,12 +5,18 @@
         </div>
         <form (ngSubmit)="save()" class="company-form">
 
-            <label for="name">Name:</label>
-            <input type="text" id="name" [(ngModel)]="name" name="name">
-    
-            <label for="description">Description:</label>
-            <textarea id="description" [(ngModel)]="description" name="description"></textarea>
-    
+                <label for="name">Name:</label>
+                <input type="text" id="name" [(ngModel)]="name" name="name"> <br>
+
+                <label for="description">Description:</label>
+                <textarea id="description" [(ngModel)]="description" name="description"></textarea> <br>
+
+                <label for="name">Start of working time:</label>
+                <input type="time" id="startTime" [(ngModel)]="startTime" name="startTime"> <br>
+
+                <label for="name">End of working time:</label>
+                <input type="time" id="endTime" [(ngModel)]="endTime" name="startTime"> <br>
+
         </form>
     </div>
     <div class="register">
