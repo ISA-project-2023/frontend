@@ -1,7 +1,6 @@
 <div id="companyProfile">
     <h1>Company profile</h1>
 
-
     <table *ngIf="canShow">
         <tr>
             <td>Name</td>
@@ -30,6 +29,22 @@
         <tr *ngFor="let e of equipment">
             <td>{{e.name}}</td>
             <td>{{e.description}}</td>
+        </tr>
+    </table>
+
+    <h2>Company administrators</h2>
+    <table>
+        <tr>
+            <th>Company Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Job Description</th>
+        </tr>
+        <tr *ngFor="let ca of admins">
+            <td>{{ca.company.name}}</td>
+            <td>{{ca.user?.firstName}} {{ca.user?.lastName}}</td> 
+            <td>{{ca.user?.email}}</td> 
+            <td>{{ca.jobDescription}}</td>
         </tr>
     </table>
 

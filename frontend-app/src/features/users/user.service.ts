@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { CompanyAdmin } from './model/company-admin.model';
+import { Company } from '../companies/model/company.model';
 import { User } from './model/user.model';
 
 @Injectable({
@@ -25,11 +26,9 @@ export class UserService {
   updateUser(user: User): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/api/users`, user);
   }
-
-  // getUser(id: number): Observable<User>{
-  //   return this.http.get<User>(`${this.apiUrl}/api/users/${id}`);
-  // } 	
-
+  getUser(id: number): Observable<User>{
+    return this.http.get<User>(`${this.apiUrl}/api/users/${id}`);
+  }
   logout(): Observable<string> {
     localStorage.removeItem('sessionId');
 
@@ -55,10 +54,13 @@ export class UserService {
   //  CompanyAdmins 
   //  api/users/companyAdmins
   getCompanyAdmins(): Observable<CompanyAdmin[]> {
-    return  this.http.get<CompanyAdmin[]>(`${this.apiUrl}/api/users/companyAdmins/all`);
+    return this.http.get<CompanyAdmin[]>(`${this.apiUrl}/api/users/companyAdmins/all`);
   }
   getCompanyAdmin(id: number): Observable<CompanyAdmin> {
     return this.http.get<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins/${id}`);
+  }
+  getCompanyAdminsByCompany(company: Company): Observable<CompanyAdmin[]> {
+    return this.http.post<CompanyAdmin[]>(`${this.apiUrl}/api/users/companyAdmins/findByCompany`, company);
   }
   // addCompanyAdmin(company: CompanyAdmin):  Observable<CompanyAdmin> {
   //   return this.http.post<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins`, company);
@@ -69,7 +71,4 @@ export class UserService {
   // deleteCompanyAdmin(id: number): Observable<CompanyAdmin> {
   //   return this.http.delete<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins/${id}`);
   // }
-  getCompanyAdminsByCompany(companyId: number): Observable<CompanyAdmin> {
-    return this.http.get<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins/findByCompany/${companyId}`);
-  }
 }
