@@ -5,12 +5,14 @@ import { HomeComponent } from 'src/features/home/home/home.component';
 import { MyProfileComponent } from 'src/features/users/my-profile/my-profile.component';
 import { CompanyProfileComponent } from 'src/features/companies/company-profile/company-profile.component';
 import { CompanyProfileFormComponent } from 'src/features/companies/company-profile-form/company-profile-form.component';
+import { CompanyAdminProfileComponent } from 'src/features/users/company-admin-profile/company-admin-profile.component';
 import { LoginComponent } from 'src/features/users/login/login.component';
 import { RegistrationComponent } from 'src/features/users/registration/registration.component';
 
 const routes: Routes = [
   { path: 'companiesReview', component: CompanyComponent },
   { path: 'my-profile', component: MyProfileComponent },
+  { path: 'company-admin-profile', component: CompanyAdminProfileComponent },
   { path: 'company-profile/:id', component: CompanyProfileComponent },
   { path: 'company-profile/edit/:id', component: CompanyProfileFormComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },

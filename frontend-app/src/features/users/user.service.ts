@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
+import { CompanyAdmin } from './model/company-admin.model';
 import { User } from './model/user.model';
 
 @Injectable({
@@ -25,6 +26,10 @@ export class UserService {
     return this.http.put<User>(`${this.apiUrl}/api/users`, user);
   }
 
+  // getUser(id: number): Observable<User>{
+  //   return this.http.get<User>(`${this.apiUrl}/api/users/${id}`);
+  // } 	
+
   logout(): Observable<string> {
     localStorage.removeItem('sessionId');
 
@@ -44,6 +49,27 @@ export class UserService {
     const options = { params: new HttpParams({ fromObject: params }) };
 
     return this.http.post(`${this.apiUrl}/api/users`, employee, options);
-}
+  }
 
+
+  //  CompanyAdmins 
+  //  api/users/companyAdmins
+  getCompanyAdmins(): Observable<CompanyAdmin[]> {
+    return  this.http.get<CompanyAdmin[]>(`${this.apiUrl}/api/users/companyAdmins/all`);
+  }
+  getCompanyAdmin(id: number): Observable<CompanyAdmin> {
+    return this.http.get<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins/${id}`);
+  }
+  // addCompanyAdmin(company: CompanyAdmin):  Observable<CompanyAdmin> {
+  //   return this.http.post<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins`, company);
+  // }
+  // updateCompanyAdmin(company: CompanyAdmin): Observable<CompanyAdmin> {
+  //   return this.http.put<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins`, company);
+  // }
+  // deleteCompanyAdmin(id: number): Observable<CompanyAdmin> {
+  //   return this.http.delete<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins/${id}`);
+  // }
+  getCompanyAdminsByCompany(companyId: number): Observable<CompanyAdmin> {
+    return this.http.get<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins/findByCompany/${companyId}`);
+  }
 }
