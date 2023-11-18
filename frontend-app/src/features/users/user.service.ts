@@ -63,9 +63,9 @@ export class UserService {
   // addCompanyAdmin(company: CompanyAdmin):  Observable<CompanyAdmin> {
   //   return this.http.post<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins`, company);
   // }
-  // updateCompanyAdmin(company: CompanyAdmin): Observable<CompanyAdmin> {
-  //   return this.http.put<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins`, company);
-  // }
+  updateCompanyAdmin(companyAdmin: CompanyAdmin): Observable<CompanyAdmin> {
+    return this.http.put<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins`, companyAdmin);
+  }
   // deleteCompanyAdmin(id: number): Observable<CompanyAdmin> {
   //   return this.http.delete<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins/${id}`);
   // }

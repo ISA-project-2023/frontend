@@ -1,4 +1,4 @@
-#companyAdminProfile {
+#companyAdminProfileForm {
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
@@ -36,10 +36,6 @@ th {
     color: white;
 }
 
-tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
 button {
     background-color: #4caf50;
     color: white;
@@ -58,6 +54,18 @@ button {
     margin-right: 10px;
 }
 
-.company-details-button {
-    margin-left: auto;
+.change {
+    background-color: white;
 }
+
+.no-change {
+    background-color: #f2f2f2;
+}
+
+/* TODO - fix input style */
+/* .input-style {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    height: 15px;
+    width: 100%;
+} */

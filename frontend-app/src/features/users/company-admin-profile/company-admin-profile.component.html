@@ -47,18 +47,15 @@
             <button *ngIf="!shouldEdit" type="submit" (click)="editProfile()">
                 Edit your profile
             </button>
-        
-            <div>
-                <!-- TODO add company-admin-profile-form -->
-                <!-- 
-                <xp-company-admin-profile-form *ngIf="shouldRenderEditForm" [shouldEdit]="shouldEdit"
-                [company]="company" (companyAdminProfileUpdated)="onCompanyAdminUpdated()"
-                >
-                </xp-company-admin-profile-form> -->
-            </div>
-    
-            <button (click)="seeCompanyDetails(companyAdmin.company.id)">See company details</button>
-    
-        </div>      
+            <button class="company-details-button" (click)="seeCompanyDetails(companyAdmin.company.id)">
+                See company details
+            </button>
+        </div>
+        <div>
+            <xp-company-admin-profile-form *ngIf="shouldRenderEditForm" [shouldEdit]="shouldEdit" 
+            (companyAdminProfileUpdated)="onCompanyAdminUpdated()"
+            [user]="user" [companyAdmin]="companyAdmin"
+            ></xp-company-admin-profile-form>
+        </div>
     </div>
 </div>

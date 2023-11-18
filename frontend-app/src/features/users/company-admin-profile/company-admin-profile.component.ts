@@ -17,10 +17,17 @@ export class CompanyAdminProfileComponent implements OnInit {
   shouldEdit: boolean = false;
   shouldRenderEditForm: boolean = false; 
 
-  constructor(private userService: UserService,
-    private router: Router) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
+    this.getUser();
+
+    // TODO -> fix - user and companyAdmin undefined here and they shouldn't be
+    console.log(this.user);
+    console.log(this.companyAdmin);
+  }
+
+  getUser(): void{
     this.userService.getCurrentUser().subscribe(
       (user: User) => {
         this.user = user;
@@ -31,10 +38,6 @@ export class CompanyAdminProfileComponent implements OnInit {
         console.error('Error fetching current user:', error);
       }
     );
-
-    // TODO -> fix - user and companyAdmin undefined here and they shouldn't be
-    console.log(this.user);
-    console.log(this.companyAdmin);
   }
 
   getCompanyAdmin(user: User): void{
@@ -57,6 +60,7 @@ export class CompanyAdminProfileComponent implements OnInit {
   onCompanyAdminUpdated(): void{
     this.shouldEdit = false;
     this. shouldRenderEditForm = false;
+    this.getUser();
   }
 
   seeCompanyDetails(companyId: number): void{
