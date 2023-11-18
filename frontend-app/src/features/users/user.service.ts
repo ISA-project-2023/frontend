@@ -7,6 +7,7 @@ import { User } from './model/user.model';
   providedIn: 'root'
 })
 export class UserService {
+  
   private apiUrl = 'http://localhost:8084';
 
   constructor(private http: HttpClient) {}
@@ -44,6 +45,9 @@ export class UserService {
     const options = { params: new HttpParams({ fromObject: params }) };
 
     return this.http.post(`${this.apiUrl}/api/users`, employee, options);
-}
+  }
 
+  activateUser(token: string) {
+    return this.http.get(`${this.apiUrl}/api/users/activate/${token}`, { responseType: 'text' });
+  }  
 }

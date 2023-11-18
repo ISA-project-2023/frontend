@@ -7,6 +7,7 @@ import { CompanyProfileComponent } from 'src/features/companies/company-profile/
 import { CompanyProfileFormComponent } from 'src/features/companies/company-profile-form/company-profile-form.component';
 import { LoginComponent } from 'src/features/users/login/login.component';
 import { RegistrationComponent } from 'src/features/users/registration/registration.component';
+import { ConfirmRegistrationComponent } from 'src/features/users/confirm-registration/confirm-registration.component';
 
 const routes: Routes = [
   { path: 'companiesReview', component: CompanyComponent },
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegistrationComponent }
+  { path: 'register', component: RegistrationComponent },
+  { path: 'activate/:token', component: ConfirmRegistrationComponent }
 ];
 
 @NgModule({

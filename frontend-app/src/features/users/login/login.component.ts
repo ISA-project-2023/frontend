@@ -10,7 +10,7 @@ import { UserService } from 'src/features/users/user.service';
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  errorMessage: string = '';
+  errorMessage: string = 'You can not access to this account. Wrong credentials or unauthenticated profile!';
 
   constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
     this.loginForm = this.fb.group({
@@ -36,7 +36,6 @@ export class LoginComponent {
         },
         (error) => {
           console.error('Login error:', error);
-          this.errorMessage = error;
         }
       );
     }
