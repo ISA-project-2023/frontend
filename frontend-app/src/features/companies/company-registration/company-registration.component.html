@@ -1,27 +1,49 @@
 <div class="main">
-    <div class="register">
-        <div class="center">
-            <h1>New company</h1>
-        </div>
-        <form (ngSubmit)="save()" class="company-form">
+        <form (ngSubmit)="save()" class="register">
+                <div class="company-form">
+                    <div class="center">
+                        <h1>New company</h1>
+                    </div>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" [(ngModel)]="name" name="name"> <br>
 
-                <label for="name">Name:</label>
-                <input type="text" id="name" [(ngModel)]="name" name="name"> <br>
+                    <label for="location">Location:</label>
+                    <input type="text" id="location" [(ngModel)]="location" name="location"> <br>
 
-                <label for="description">Description:</label>
-                <textarea id="description" [(ngModel)]="description" name="description"></textarea> <br>
+                    <label for="name">Start of working time:</label>
+                    <input type="time" id="startTime" [(ngModel)]="startTime" name="startTime"> <br>
 
-                <label for="name">Start of working time:</label>
-                <input type="time" id="startTime" [(ngModel)]="startTime" name="startTime"> <br>
+                    <label for="name">End of working time:</label>
+                    <input type="time" id="endTime" [(ngModel)]="endTime" name="endTime"> <br>
 
-                <label for="name">End of working time:</label>
-                <input type="time" id="endTime" [(ngModel)]="endTime" name="startTime"> <br>
+                    <label for="name" *ngIf = "allEntered">Fill in all informations!</label>
+                    <label for="name" *ngIf = "repassOk">Password not entered correctly!</label>
+                    <label for="name" *ngIf = "registrationOk">Successfully registered company!</label>
+                </div>
+            <div class="company-form">
+                <div class="center">
+                    <h1>Administrator</h1>
+                </div>
+                    <label for="name">Name:</label>
+                    <input type="text" id="nameAdmin" [(ngModel)]="nameAdmin" name="nameAdmin"> <br>
+    
+                    <label for="surname">Surname:</label>
+                    <input type="text" id="surnameAdmin" [(ngModel)]="surnameAdmin" name="surnameAdmin"><br>
+    
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" [(ngModel)]="username" name="username"> <br>
+    
+                    <label for="password">Password:</label>
+                    <input type="text" id="password" [(ngModel)]="password" name="password"> <br>
 
+                    <label for="repassword">Re-enter password:</label>
+                    <input type="text" id="repassword" [(ngModel)]="repassword" name="repassword"> <br>
+
+                    <label for="email">Email:</label>
+                    <input type="text" id="email" [(ngModel)]="email" name="email"> <br><br>
+
+                    <button type="submit">Submit</button>
+                </div>
         </form>
-    </div>
-    <div class="register">
-        <div class="center">
-            <h1>Administrator</h1>
-        </div>  
-    </div>
+
 </div>

@@ -1,5 +1,7 @@
 .register{
-    width: 550px;
+    display: flex;
+    justify-content: space-between;
+    width: 850px;
     margin: 50px auto;
     padding: 20px;
     border: 1px solid #ccc;
@@ -9,15 +11,29 @@
 
 .main{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+}
+
+label{
+    font-weight: bold;
 }
 
 .center{
     display: flex;
-    justify-content: center;
+    margin: 0 auto;
 }
 
 .company-form{
     display: flex;
     flex-direction: column;
+    width: 330px;
+}
+
+button[type="submit"] {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }

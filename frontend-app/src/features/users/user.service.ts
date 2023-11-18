@@ -58,8 +58,8 @@ export class UserService {
     const params = { password };
     const options = { params: new HttpParams({ fromObject: params }) };
 
-    return this.http.post(`${this.apiUrl}/api/users`, employee, options);
-  }
+    return this.http.post(`${this.apiUrl}/api/users/store`, employee, options);
+}
 
   activateUser(token: string) {
     return this.http.get(`${this.apiUrl}/api/users/activate/${token}`, { responseType: 'text' });

@@ -5,7 +5,7 @@ export interface Company{
     name: string;
     location: string;
     grade: number;
-    startTime: Date;
-    endTime: Date;
-    equipment: Equipment[];
+    startTime: string;
+    endTime: string;
+    equipmentInStock: Equipment[];
 }

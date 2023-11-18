@@ -19,7 +19,6 @@ const routes: Routes = [
   { path: 'company-profile/:id', component: CompanyProfileComponent },
   { path: 'company-profile/edit/:id', component: CompanyProfileFormComponent },
   { path: 'company-admin-profile/add-appointment', component: PickupAppointmentFormComponent },
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent },
