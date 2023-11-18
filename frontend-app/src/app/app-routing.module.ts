@@ -6,6 +6,7 @@ import { MyProfileComponent } from 'src/features/users/my-profile/my-profile.com
 import { CompanyProfileComponent } from 'src/features/companies/company-profile/company-profile.component';
 import { CompanyProfileFormComponent } from 'src/features/companies/company-profile-form/company-profile-form.component';
 import { CompanyAdminProfileComponent } from 'src/features/users/company-admin-profile/company-admin-profile.component';
+import { PickupAppointmentFormComponent } from 'src/features/companies/pickup-appointment-form/pickup-appointment-form.component';
 import { LoginComponent } from 'src/features/users/login/login.component';
 import { RegistrationComponent } from 'src/features/users/registration/registration.component';
 
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'company-admin-profile', component: CompanyAdminProfileComponent },
   { path: 'company-profile/:id', component: CompanyProfileComponent },
   { path: 'company-profile/edit/:id', component: CompanyProfileFormComponent },
+  { path: 'company-admin-profile/add-appointment', component: PickupAppointmentFormComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },

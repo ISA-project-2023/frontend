@@ -35,13 +35,15 @@
     <h2>Company administrators</h2>
     <table>
         <tr>
-            <th>Company Id</th>
-            <th>Name</th>
+            <th>Company</th>
+            <th>Admin Id</th>
+            <th>Administrator</th>
             <th>Email</th>
             <th>Job Description</th>
         </tr>
         <tr *ngFor="let ca of admins">
             <td>{{ca.company.name}}</td>
+            <td>{{ca.id}}</td>
             <td>{{ca.user?.firstName}} {{ca.user?.lastName}}</td> 
             <td>{{ca.user?.email}}</td> 
             <td>{{ca.jobDescription}}</td>
@@ -51,8 +53,19 @@
     <h2>PickUp Appointments</h2>
     <table>
         <tr>
-            <th></th>
-            <th></th>
+            <th>Administrator</th>
+            <th>Starts at</th>
+            <th>Duration (in hours)</th>
+        </tr>
+        <tr *ngFor="let a of appointments">
+            <!-- TODO - companyAdmin full name insted of id -->
+            <!-- <td>{{a.companyAdmin.user?.firstName }} {{a.companyAdmin.user?.lastName }} </td> -->
+            <td>{{ a.companyAdmin.id }} </td>
+            <!-- TODO - format date  -->
+            <!-- <td>{{ a.date | date: 'dd.MM.yyyy HH:mm' }}</td>  -->
+            <!-- <td>{{ a.date | date: "dd.MM.yyyy HH:mm"}}</td>  -->
+            <td>{{ a.date }}</td> 
+            <td>{{ a.duration }}</td> 
         </tr>
     </table>
 

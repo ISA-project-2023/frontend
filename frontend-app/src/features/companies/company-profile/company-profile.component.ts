@@ -1,22 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { DatePipe } from '@angular/common';
 import { Company } from '../model/company.model';
 import { Equipment } from '../model/equipment.model';
 import { CompanyService } from '../company.service';
 import { CompanyAdmin } from 'src/features/users/model/company-admin.model';
 import { User } from 'src/features/users/model/user.model';
 import { UserService } from 'src/features/users/user.service';
+import { PickUpAppointment } from '../model/pickup-appointment.model';
 
 @Component({
   selector: 'app-company-profile',
   templateUrl: './company-profile.component.html',
-  styleUrls: ['./company-profile.component.css']
+  styleUrls: ['./company-profile.component.css'],
+  providers: [DatePipe]
 })
 export class CompanyProfileComponent implements OnInit {
   companyId: number = 0;
   company: Company | undefined;
   equipment: Equipment[] = [];
   admins: CompanyAdmin[] = [];
+  appointments: PickUpAppointment[] = [];
   users: User[] = [];
   canShow: boolean = false; // TODO - only admin van change
   shouldEdit: boolean = false;
@@ -35,7 +39,6 @@ export class CompanyProfileComponent implements OnInit {
   
   ngOnInit() {
     this.getCompany();
-    console.log(this.users);
   }
 
   getCompany(): void {
@@ -44,9 +47,10 @@ export class CompanyProfileComponent implements OnInit {
         this.company = data;
         this.equipment = this.company.equipment;
         this.getCompanyAdmins(this.company);
+        this.getAppointments();
       },
       (error) => {
-        alert('Unable to load company. Try again later.');
+        console.error('Unable to load company. Try again later.');
       }
     );
   }
@@ -58,7 +62,7 @@ export class CompanyProfileComponent implements OnInit {
         this.getUsers(this.admins);
       },
       (error) => {
-        alert('Unable to load company administrators. Try again later.');
+        console.error('Unable to load company administrators. Try again later.');
       }
     );
   }
@@ -70,14 +74,30 @@ export class CompanyProfileComponent implements OnInit {
         (data) => {
           user = data;
           admin.user = user;
-          console.log(admin.user);
+          //console.log(admin.user);
         },
         (error) => {
-          alert('Unable to load user. Try again later.');
+          console.error('Unable to load user. Try again later.');
         }
       );
     })
   }
+
+  getAppointments(): void {
+    if (this.company !== undefined){
+      this.companyService.getByCompany(this.company).subscribe(
+        (data) => {
+          this.appointments = data;
+        },
+        (error) => {
+          console.error('Unable to load appointments.');
+        }
+      );
+    } else {
+      console.error('Unable to load appointments. Company isnt loaded.');
+    }    
+  }
+
   editCompany(): void{
     this.shouldRenderEditForm = true;
     this.shouldEdit = true;

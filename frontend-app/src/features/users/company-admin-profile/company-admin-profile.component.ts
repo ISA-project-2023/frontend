@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 import { User } from '../model/user.model';
 import { CompanyAdmin } from '../model/company-admin.model';
+import { PickupAppointmentFormComponent } from 'src/features/companies/pickup-appointment-form/pickup-appointment-form.component';
 
 @Component({
   selector: 'app-company-admin-profile',
@@ -44,6 +45,7 @@ export class CompanyAdminProfileComponent implements OnInit {
     this.userService.getCompanyAdmin(user.id).subscribe(
       (compAdmin : CompanyAdmin) => {
         this.companyAdmin = compAdmin;
+        this.companyAdmin.user = user;
         this.updatedCompanyAdmin = compAdmin;
       },
       (error) => {
@@ -61,6 +63,10 @@ export class CompanyAdminProfileComponent implements OnInit {
     this.shouldEdit = false;
     this. shouldRenderEditForm = false;
     this.getUser();
+  }
+
+  addNewAppointment(): void {
+    this.router.navigate(['company-admin-profile/add-appointment']);
   }
 
   seeCompanyDetails(companyId: number): void{

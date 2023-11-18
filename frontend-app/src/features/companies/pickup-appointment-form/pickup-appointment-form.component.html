@@ -1,0 +1,33 @@
+<div id="pickup-appointment-form">
+    <form class="appointment-form" [formGroup]="appointmentForm">
+        <div>
+            <h2>New appointment</h2>
+            <table>
+                <tr class="no-change">
+                    <td>Company</td>
+                    <td>{{ companyAdmin?.company?.name }}</td>
+                </tr> 
+                <br>
+                <tr class="no-change">
+                    <td>Company Administrator</td>
+                    <td>{{ companyAdmin?.user?.firstName }} {{ companyAdmin?.user?.lastName }} </td>
+                </tr>
+                <br>
+                <br>
+                <mat-form-field>
+                    <mat-label>Date</mat-label>
+                    <input matInput formControlName="date" type="date" />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Duration (in hours)</mat-label>
+                    <input matInput formControlName="duration" type="number" min="1" max="6" [defaultValue]="1" placeholder="1"/>
+                </mat-form-field>
+            </table>
+            <div>
+                <button color="primary" type="submit" (click)="addNewAppointment()" mat-raised-button>
+                    Make new appointment
+                </button>
+            </div>
+        </div>
+    </form>    
+</div>

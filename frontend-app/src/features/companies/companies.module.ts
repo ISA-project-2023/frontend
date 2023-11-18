@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { CompanyComponent } from './company/company.component';
 import { CompanyProfileComponent } from './company-profile/company-profile.component';
 import { CompanyProfileFormComponent } from './company-profile-form/company-profile-form.component';
+import { PickupAppointmentFormComponent } from './pickup-appointment-form/pickup-appointment-form.component';
 
 
 
@@ -14,7 +15,8 @@ import { CompanyProfileFormComponent } from './company-profile-form/company-prof
   declarations: [
     CompanyComponent,
     CompanyProfileComponent,
-    CompanyProfileFormComponent
+    CompanyProfileFormComponent,
+    PickupAppointmentFormComponent
   ],
   imports: [
     CommonModule,
