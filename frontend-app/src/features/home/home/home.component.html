@@ -1,25 +1,33 @@
 <div class="container">
-  <button (click)="navigateToCompanies()">Companies</button>
-  <button *ngIf="isLoggedIn()" (click)="navigateToMyProfile()">My profile</button>
   <header>
     <h2>Welcome to the Medical Equipment Reservation System!</h2>
   </header>
+  <nav class="navbar">
+    <ul>
+      <li><button (click)="navigateToCompanies()">Companies</button></li>
+      <li *ngIf="isLoggedIn()"><button (click)="navigateToMyProfile()">My Profile</button></li>
+      <li *ngIf="!isLoggedIn()"><button (click)="navigateToLogin()">Log in</button></li>
+      <li *ngIf="isLoggedIn()"><button (click)="logout()">Log out</button></li>
+      <li><img src="https://cdn-icons-png.flaticon.com/256/8166/8166558.png" alt="Sidebar Toggle" (click)="toggleSidebar()" style="cursor: pointer; width: 30px; height: 30px;"></li>
+    </ul>
+  </nav>
   <main>
+    <div *ngIf="!isLoggedIn()" class="register-section"  >
+      <p class="register-text">Don't have an account?</p>
+      <a (click)="register()"><u>Register</u></a>
+    </div>
+  </main>
+
+  <div id="sidebar">
+    <img src="https://cdn-icons-png.flaticon.com/256/8166/8166558.png" alt="Sidebar Toggle" (click)="toggleSidebar()" style="cursor: pointer; width: 30px; height: 30px;"><br><br>
+    <button (click)="navigateToCompanies()">Companies</button>
+    <button (click)="navigateToMyProfile()">My Profile</button>
+  </div>
+
+  <footer>
     <section>
       <p>Explore our centralized information system for medical equipment procurement.</p>
     </section>
-    <section *ngIf="!isLoggedIn(); else loggedInSection">
-      <button (click)="navigateToLogin()">Log in</button><br><br>
-      <div class="register-section">
-        <p>Don't have an account?</p>
-        <a (click)="register()">Register</a>
-      </div>
-    </section>
-    <ng-template #loggedInSection>
-      <button (click)="logout()">Log out</button>
-    </ng-template>
-  </main>
-  <footer>
     <p>&copy; 2023 Medical Equipment Reservation System</p>
   </footer>
 </div>

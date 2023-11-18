@@ -14,6 +14,16 @@ export class HomeComponent {
     this.router.navigate(['/login']);
   }
 
+  toggleSidebar() {
+    var sidebar = document.getElementById('sidebar');
+  
+    if (sidebar) {
+      sidebar.style.display = (sidebar.style.display === 'none' || sidebar.style.display === '') ? 'block' : 'none';
+    } else {
+      console.error('Sidebar element not found.');
+    }
+  }
+  
   navigateToCompanies() {
     this.router.navigate(['/companiesReview']);
   }
