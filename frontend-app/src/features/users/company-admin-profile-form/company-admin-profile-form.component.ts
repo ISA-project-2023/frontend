@@ -56,8 +56,21 @@ export class CompanyAdminProfileFormComponent implements OnChanges {
       const editedLastName : String = this.companyAdminForm.value.lastName;
       const editedjobDescription : string = this.companyAdminForm.value.jobDescription;
       
-      const editedUser: User = {
-        id: this.updatedUser.id,
+      // const editedUser: User = {
+      //   id: this.updatedUser.id,
+      //   username: this.updatedUser.username,
+      //   email: this.updatedUser.email,
+      //   penaltyPoints: this.updatedUser.penaltyPoints,
+      //   role: this.updatedUser.role,
+      //   firstName: editedFirstName,
+      //   lastName: editedLastName,
+      //   category: this.updatedUser.category
+      // };
+      const editedCompanyAdmin: CompanyAdmin = {
+        id: this.updatedCompanyAdmin.id,
+        jobDescription: editedjobDescription,
+        company: this.updatedCompanyAdmin.company,
+        
         username: this.updatedUser.username,
         email: this.updatedUser.email,
         penaltyPoints: this.updatedUser.penaltyPoints,
@@ -65,19 +78,37 @@ export class CompanyAdminProfileFormComponent implements OnChanges {
         firstName: editedFirstName,
         lastName: editedLastName,
         category: this.updatedUser.category
-      };
-      const editedCompanyAdmin: CompanyAdmin = {
-        id: this.updatedCompanyAdmin.id,
-        jobDescription: editedjobDescription,
-        company: this.updatedCompanyAdmin.company
       }
       
-      if (this.updateUserAndCompanyAdmin(editedUser, editedCompanyAdmin)){
-        alert('Profile updated successfully!');
-        this.companyAdminProfileUpdated.emit();
-      } else {
-        console.error('unknown update error: ');
-      }
+      this.userService.updateCompanyAdmin(editedCompanyAdmin).subscribe(
+        (updatedCompanyAdmin: CompanyAdmin) => {
+          this.companyAdmin = updatedCompanyAdmin;
+          this.updatedCompanyAdmin = updatedCompanyAdmin;
+          
+          // this.companyAdmin.user!.firstName = updatedCompanyAdmin.firstName;
+          // this.companyAdmin.user!.lastName = updatedCompanyAdmin.lastName;
+          this.updatedUser.firstName = updatedCompanyAdmin.firstName;
+          this.updatedUser.lastName = updatedCompanyAdmin.lastName;
+          //this.user?.firstName updatedCompanyAdmin.firstName;
+          //this.user?lastName = updatedCompanyAdmin.lastName;
+
+          alert('Profile updated successfully!');
+          this.companyAdminProfileUpdated.emit();
+        },
+        (error) => {
+          console.error('Error in update company administrator:', error);
+          return false;
+        }
+      );
+
+      //this.updatedUser.id = 
+
+      // if (this.updateUserAndCompanyAdmin(editedUser, editedCompanyAdmin)){
+      //   alert('Profile updated successfully!');
+      //   this.companyAdminProfileUpdated.emit();
+      // } else {
+      //   console.error('unknown update error: ');
+      // }
     } 
     else {
       alert('please fill in form properly!');
