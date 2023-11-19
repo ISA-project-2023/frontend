@@ -37,15 +37,18 @@ export class UserService {
   getUser(id: number): Observable<User>{
     return this.http.get<User>(`${this.apiUrl}/api/users/${id}`);
   }
-  logout(): Observable<string> {
-    localStorage.removeItem('sessionId');
 
-    return this.http.post<string>(`${this.apiUrl}/api/users/logout`, {}).pipe(
-      tap(() => {
-        
-      })
-    );
-  }
+  logout(): Observable<any> {
+  localStorage.removeItem('sessionId');
+
+  return this.http.post(`${this.apiUrl}/api/users/logout`, {}, { responseType: 'text' as 'json' }).pipe(
+    tap(response => {
+      console.log('Logout successful:', response);
+    })
+  );
+}
+
+  
 
   isAuthenticated(): boolean {
     return !!localStorage.getItem('sessionId');

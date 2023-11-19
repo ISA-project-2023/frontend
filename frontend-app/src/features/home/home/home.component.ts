@@ -38,8 +38,13 @@ export class HomeComponent {
   
   logout() {
     this.userService.logout().subscribe(
-      () => {
-        this.router.navigate(['/login']);
+      (response) => {
+        if(response === 'Logout successful'){
+          this.router.navigate(['/home']);
+        }
+        else {
+          console.error('Unexpected response:', response);
+        }
       },
       (error) => {
         console.error('Logout error:', error);
