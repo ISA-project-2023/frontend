@@ -3,22 +3,6 @@
           
         <table>
             <!-- user -->
-            <tr class="change">
-                <td>First Name </td>
-                <td>
-                    <mat-form-field>
-                        <input matInput formControlName="firstName" type="text" />
-                    </mat-form-field>
-                </td>
-            </tr>
-            <tr class="change">
-                <td>Last Name </td>
-                <td>
-                    <mat-form-field>
-                        <input matInput formControlName="lastName" type="text" />
-                    </mat-form-field>
-                </td>
-            </tr>
             <tr class="no-change">
                 <td>Username </td>
                 <td>{{ user?.username }}</td>
@@ -45,10 +29,29 @@
                 <td>Company</td>
                 <td>{{ companyAdmin?.company?.name }}</td>
             </tr>
+            <br>
+
+            <!-- data for updating -->
             <tr class="change">
-                <td>Job Description</td>
-                <td>
-                    <mat-form-field>
+                <td colspan="2">
+                    <mat-form-field class="content">
+                        <mat-label>First Name</mat-label>
+                        <input matInput formControlName="firstName" type="text" />
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr class="change">
+                <td colspan="2">
+                    <mat-form-field class="content">
+                        <mat-label>Last Name</mat-label>
+                        <input matInput formControlName="lastName" type="text" />
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr class="change">
+                <td colspan="2">
+                    <mat-form-field class="content">
+                        <mat-label>Job Description</mat-label>
                         <input matInput formControlName="jobDescription" type="text" />
                     </mat-form-field>
                 </td>

@@ -19,6 +19,14 @@ h1{
     margin-bottom: 7px;
 }
 
+div {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    gap: 10px;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -45,27 +53,39 @@ button {
     cursor: pointer;
 }
 
-.button-div {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-left: 10px;
-    margin-right: 10px;
+.company-admin-profile-form mat-form-field {
+    width: 70%;
+}
+
+.company-admin-profile-form mat-form-field textarea {
+    width: calc(100% - 24px);
+}
+
+.company-admin-profile-form mat-form-field input {
+    width: 80%;
+}
+
+.company-admin-profile-form mat-label{
+    width: auto;
+    height: fit-content;
 }
 
 .change {
     background-color: white;
+    justify-content: center;
+    align-items: center;
 }
 
 .no-change {
     background-color: #f2f2f2;
 }
 
-/* TODO - fix input style */
-/* .input-style {
-    margin-top: 2px;
-    margin-bottom: 2px;
-    height: 15px;
-    width: 100%;
-} */
+.content{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    align-items: center;
+    height: fit-content;
+    width: 90%;
+    margin-left: 5%;
+}
