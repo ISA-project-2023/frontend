@@ -19,16 +19,14 @@ export class RegistrationComponent {
   phoneNumber: string = '';
   profession: string = '';
   companyInfo: string = '';
-  passwordError: string = '';
 
   constructor(private userService: UserService, private router: Router) {} 
 
   validateForm(): boolean {
     if (this.password !== this.confirmPassword) {
-      this.passwordError = 'Passwords do not match';
+      
       return false;
     } else {
-      this.passwordError = '';
       return true;
     }
   }
@@ -61,6 +59,9 @@ export class RegistrationComponent {
         }
     );
     
+    }
+    else{
+      alert('Passwords do not match');
     }
   }
 
