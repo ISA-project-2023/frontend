@@ -64,7 +64,6 @@ export class PickupAppointmentFormComponent implements OnInit {
     this.userService.getCompanyAdmin(user.id).subscribe(
       (compAdmin : CompanyAdmin) => {
         this.companyAdmin = compAdmin;
-        this.companyAdmin.user = user;
       },
       (error) => {
         console.error('Error fetching current logged in company administrator:', error);

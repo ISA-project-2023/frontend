@@ -12,8 +12,8 @@ import { CompanyAdmin } from '../model/company-admin.model';
 export class CompanyAdminProfileFormComponent implements OnChanges {
   
   @Output() companyAdminProfileUpdated = new EventEmitter<null>();
-  @Input() user?: User;
-  @Input() companyAdmin?: CompanyAdmin;
+  @Input() user!: User;
+  @Input() companyAdmin!: CompanyAdmin;
   @Input() shouldEdit: boolean = false;
   
   updatedUser!:User;
@@ -38,8 +38,7 @@ export class CompanyAdminProfileFormComponent implements OnChanges {
         jobDescription: this.companyAdmin?.jobDescription
       });  
     }
-    // console.log(this.user);
-    // console.log(this.companyAdmin);
+
     if (this.user !== undefined && this.companyAdmin !== undefined){
       this.updatedUser = this.user;
       this.updatedCompanyAdmin = this.companyAdmin;
@@ -56,16 +55,6 @@ export class CompanyAdminProfileFormComponent implements OnChanges {
       const editedLastName : String = this.companyAdminForm.value.lastName;
       const editedjobDescription : string = this.companyAdminForm.value.jobDescription;
       
-      // const editedUser: User = {
-      //   id: this.updatedUser.id,
-      //   username: this.updatedUser.username,
-      //   email: this.updatedUser.email,
-      //   penaltyPoints: this.updatedUser.penaltyPoints,
-      //   role: this.updatedUser.role,
-      //   firstName: editedFirstName,
-      //   lastName: editedLastName,
-      //   category: this.updatedUser.category
-      // };
       const editedCompanyAdmin: CompanyAdmin = {
         id: this.updatedCompanyAdmin.id,
         jobDescription: editedjobDescription,
@@ -85,12 +74,12 @@ export class CompanyAdminProfileFormComponent implements OnChanges {
           this.companyAdmin = updatedCompanyAdmin;
           this.updatedCompanyAdmin = updatedCompanyAdmin;
           
-          // this.companyAdmin.user!.firstName = updatedCompanyAdmin.firstName;
-          // this.companyAdmin.user!.lastName = updatedCompanyAdmin.lastName;
+          this.companyAdmin.firstName = updatedCompanyAdmin.firstName;
+          this.companyAdmin.lastName = updatedCompanyAdmin.lastName;
           this.updatedUser.firstName = updatedCompanyAdmin.firstName;
           this.updatedUser.lastName = updatedCompanyAdmin.lastName;
-          //this.user?.firstName updatedCompanyAdmin.firstName;
-          //this.user?lastName = updatedCompanyAdmin.lastName;
+          this.user.firstName = updatedCompanyAdmin.firstName;
+          this.user.lastName = updatedCompanyAdmin.lastName;
 
           alert('Profile updated successfully!');
           this.companyAdminProfileUpdated.emit();
@@ -121,7 +110,6 @@ export class CompanyAdminProfileFormComponent implements OnChanges {
       (user: User) => {
         this.user = user;
         this.updatedUser = user;
-        //console.log('update user succesful!');
       },
       (error) => {
         console.error('Error in update user:', error);
@@ -133,7 +121,6 @@ export class CompanyAdminProfileFormComponent implements OnChanges {
       (updatedCompanyAdmin: CompanyAdmin) => {
         this.companyAdmin = updatedCompanyAdmin;
         this.updatedCompanyAdmin = updatedCompanyAdmin;
-        //console.log('update company administrator succesful!');
       },
       (error) => {
         console.error('Error in update company administrator:', error);

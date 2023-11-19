@@ -73,7 +73,7 @@ export class CompanyProfileComponent implements OnInit {
       this.userService.getUser(admin.id).subscribe(
         (data) => {
           user = data;
-          admin.user = user;
+          //admin.user = user;
           //console.log(admin.user);
         },
         (error) => {

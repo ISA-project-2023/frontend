@@ -33,8 +33,6 @@ export class LoginComponent {
         (sessionId) => {
           localStorage.setItem('sessionId', sessionId);
           this.router.navigate(['/home']);
-          
-          console.log(sessionId);
         },
         (error) => {
           console.error('Login error:', error);

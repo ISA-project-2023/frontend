@@ -44,8 +44,8 @@
         <tr *ngFor="let ca of admins">
             <td>{{ca.company.name}}</td>
             <td>{{ca.id}}</td>
-            <td>{{ca.user?.firstName}} {{ca.user?.lastName}}</td> 
-            <td>{{ca.user?.email}}</td> 
+            <td>{{ca.firstName}} {{ca.lastName}}</td> 
+            <td>{{ca.email}}</td> 
             <td>{{ca.jobDescription}}</td>
         </tr>
     </table>

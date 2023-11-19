@@ -73,6 +73,9 @@ export class UserService {
   getCompanyAdmin(id: number): Observable<CompanyAdmin> {
     return this.http.get<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins/${id}`);
   }
+  getCurrentCompanyAdmin(): Observable<CompanyAdmin>{
+    return this.http.get<CompanyAdmin>(`${this.apiUrl}/api/users/current-companyAdmin`);
+  }
   getCompanyAdminsByCompany(company: Company): Observable<CompanyAdmin[]> {
     return this.http.post<CompanyAdmin[]>(`${this.apiUrl}/api/users/companyAdmins/findByCompany`, company);
   }

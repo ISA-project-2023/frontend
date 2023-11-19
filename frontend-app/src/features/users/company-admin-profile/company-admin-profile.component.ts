@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 import { User } from '../model/user.model';
@@ -9,22 +9,43 @@ import { CompanyAdmin } from '../model/company-admin.model';
   templateUrl: './company-admin-profile.component.html',
   styleUrls: ['./company-admin-profile.component.css']
 })
-export class CompanyAdminProfileComponent implements OnInit {
-  user?: User;
-  updatedUser!:User;
-  companyAdmin?: CompanyAdmin; 
-  companyId: number = 0;
+export class CompanyAdminProfileComponent implements OnInit, OnChanges {
+  companyAdmin!: CompanyAdmin; 
   updatedCompanyAdmin!: CompanyAdmin; 
+  companyId: number = 0;
   shouldEdit: boolean = false;
   shouldRenderEditForm: boolean = false; 
 
-  constructor(private userService: UserService, private router: Router) { 
-    this.getUser();
-  }
+  // TODO
+  user!: User;
+  updatedUser!:User; 
+
+  constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
     this.getUser();
+    //this.getCompanyAdmin(this.user);
   }
+
+  ngOnChanges(): void {
+    this.getUser();
+    //this.getCompanyAdmin(this.user);
+  }
+
+
+  // TODO why this doesnt work?
+  // getCurrentCompanyAdmin(): void{
+  //   this.userService.getCurrentCompanyAdmin().subscribe(
+  //     (user: CompanyAdmin) => {
+  //       this.companyAdmin = user;
+  //       this.updatedCompanyAdmin = user;
+  //       console.log(this.companyAdmin);
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching current user:', error);
+  //     }
+  //   );
+  // }
 
   getUser(): void{
     this.userService.getCurrentUser().subscribe(
@@ -32,6 +53,7 @@ export class CompanyAdminProfileComponent implements OnInit {
         this.user = user;
         this.updatedUser = user;
         this.getCompanyAdmin(user);
+        //console.log(this.companyAdmin)
       },
       (error) => {
         console.error('Error fetching current user:', error);
@@ -43,9 +65,19 @@ export class CompanyAdminProfileComponent implements OnInit {
     this.userService.getCompanyAdmin(user.id).subscribe(
       (compAdmin : CompanyAdmin) => {
         this.companyAdmin = compAdmin;
-        this.companyAdmin.user = user;
-        this.updatedCompanyAdmin = compAdmin;
+        this.companyAdmin.username = user.username;
+        this.companyAdmin.firstName = user.firstName;
+        this.companyAdmin.lastName = user.lastName;
+        this.companyAdmin.email = user.email;
+        this.companyAdmin.role = user.role;
+        this.companyAdmin.penaltyPoints = user.penaltyPoints;
+        this.companyAdmin.category = user.category;
+        
+        this.updatedCompanyAdmin = this.companyAdmin;
         this.companyId = compAdmin.company.id;
+        
+        console.log(this.companyAdmin)
+        console.log(this.updatedCompanyAdmin)
       },
       (error) => {
         console.error('Error fetching current logged in company administrator:', error);
