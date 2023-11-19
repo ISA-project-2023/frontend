@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { User } from '../model/user.model';
+import { Employee } from '../model/employee.model';
 
 @Component({
   selector: 'app-my-profile',
@@ -8,16 +9,16 @@ import { User } from '../model/user.model';
   styleUrls: ['./my-profile.component.css']
 })
 export class MyProfileComponent implements OnInit {
-  user!: User;
-  updatedUser!:User;
+  employee!: Employee;
+  updatedEmployee!:Employee;
 
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    this.userService.getCurrentUser().subscribe(
-      (user: User) => {
-        this.user = user;
-        this.updatedUser = user;
+    this.userService.getCurrentEmployee().subscribe(
+      (employee: Employee) => {
+        this.employee = employee;
+        this.updatedEmployee = employee;
       },
       (error) => {
         console.error('Error fetching current user:', error);
@@ -27,10 +28,10 @@ export class MyProfileComponent implements OnInit {
   updateProfile(event: Event) {
     event.preventDefault();
   
-    this.userService.updateUser(this.updatedUser).subscribe(
-      (user: User) => {
-        this.user = user;
-        this.updatedUser = user;
+    this.userService.updateEmployee(this.updatedEmployee).subscribe(
+      (employee: Employee) => {
+        this.employee = employee;
+        this.updatedEmployee = employee;
         alert('Profile updated successfully.');
       }
     );

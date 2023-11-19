@@ -4,6 +4,7 @@ import { Observable, tap } from 'rxjs';
 import { CompanyAdmin } from './model/company-admin.model';
 import { Company } from '../companies/model/company.model';
 import { User } from './model/user.model';
+import { Employee } from './model/employee.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,14 @@ export class UserService {
   getCurrentUser(): Observable<User>{
     return this.http.get<User>(`${this.apiUrl}/api/users/current-user` );
   } 	
+  getCurrentEmployee(): Observable<Employee>{
+    return this.http.get<Employee>(`${this.apiUrl}/api/users/current-employee` );
+  } 	
   updateUser(user: User): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/api/users`, user);
+  }
+  updateEmployee(user: Employee): Observable<Employee> {
+    return this.http.put<Employee>(`${this.apiUrl}/api/users/employee`, user);
   }
   getUser(id: number): Observable<User>{
     return this.http.get<User>(`${this.apiUrl}/api/users/${id}`);

@@ -1,25 +1,37 @@
 <div class="profile-container">
     <h2>My Profile</h2>
     <div class="user-details">
-      <div><strong>ID:</strong> {{ user.id }}</div>
-      <div><strong>Username:</strong> {{ user.username }}</div>
-      <div><strong>Email:</strong> {{ user.email }}</div>
-      <div><strong>Category:</strong> {{ user.category }}</div>
-      <div><strong>Role:</strong> {{ user.role }}</div>
+      <div><strong>ID:</strong> {{ employee.id }}</div>
+      <div><strong>Username:</strong> {{ employee.username }}</div>
+      <div><strong>Email:</strong> {{ employee.email }}</div>
+      <div><strong>Category:</strong> {{ employee.category }}</div>
+      <div><strong>Role:</strong> {{ employee.role }}</div>
+      <div><strong>Penalty points:</strong> {{ employee.penaltyPoints }}</div>
       <form (submit)="updateProfile($event)">
         <div>
-          <label for="penaltyPoints"><strong>Penalty Points:</strong></label>
-          <input type="number" id="penaltyPoints" [(ngModel)]="user.penaltyPoints" name="penaltyPoints">
+          <label for="city"><strong>City:</strong></label>
+          <input type="text" id="city" [(ngModel)]="employee.city" name="city">
+        </div>
+        <div>
+          <label for="country"><strong>Country:</strong></label>
+          <input type="text" id="country" [(ngModel)]="employee.country" name="country">
+        </div>
+        <div>
+          <label for="phoneNumber"><strong>Phone number:</strong></label>
+          <input type="text" id="phoneNumber" [(ngModel)]="employee.phoneNumber" name="phoneNumber">
         </div>
         <div>
           <label for="firstName"><strong>First name:</strong></label>
-          <input type="text" id="firstName" [(ngModel)]="user.firstName" name="firstName">
+          <input type="text" id="firstName" [(ngModel)]="employee.firstName" name="firstName">
         </div>
         <div>
           <label for="lastName"><strong>Last Name:</strong></label>
-          <input type="text" id="lastName" [(ngModel)]="user.lastName" name="lastName">
+          <input type="text" id="lastName" [(ngModel)]="employee.lastName" name="lastName">
         </div>
-        
+        <div>
+          <label for="companyInfo"><strong>Company info:</strong></label>
+          <input type="text" id="companyInfo" [(ngModel)]="employee.companyInfo" name="companyInfo">
+        </div>
         <button type="submit">Update Profile</button>
       </form>
       
