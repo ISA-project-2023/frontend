@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Company } from './model/company.model';
 import { CompanyAdmin } from '../users/model/company-admin.model';
@@ -39,9 +39,14 @@ export class CompanyService {
   getAppointment(id: number): Observable<PickUpAppointment> {
     return this.http.get<PickUpAppointment>(`${this.apiUrlAppointments}/${id}`);
   }
-  addAppointment(appointment: any): Observable<PickUpAppointment> {
-    return this.http.post<PickUpAppointment>(`${this.apiUrlAppointments}`, appointment);
+  addAppointment(appointment: PickUpAppointment | any): Observable<PickUpAppointment> {
+    return this.http.post<PickUpAppointment>(`${this.apiUrlAppointments}/addNew`, appointment);
   }
+  // addAppointment(appointment: any, date: any): Observable<any> {
+  //   const params = { date };
+  //   const options = { params: new HttpParams({ fromObject: params }) };
+  //   return this.http.post(`${this.apiUrlAppointments}`, appointment, options);
+  // }
   updateAppointment(appointment: PickUpAppointment): Observable<PickUpAppointment> {
     return this.http.put<PickUpAppointment>(`${this.apiUrlAppointments}`, appointment);
   }

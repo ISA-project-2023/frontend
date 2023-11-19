@@ -5,41 +5,41 @@
         <table>
             <tr>
                 <td>First Name </td>
-                <td>{{ user.firstName }}</td>
+                <td>{{ user?.firstName }}</td>
             </tr>
             <tr>
                 <td>Last Name </td>
-                <td>{{ user.lastName }}</td>
+                <td>{{ user?.lastName }}</td>
             </tr>
             <tr>
                 <td>Username </td>
-                <td>{{ user.username }}</td>
+                <td>{{ user?.username }}</td>
             </tr>
             <tr>
                 <td>Email </td>
-                <td>{{ user.email }}</td>
+                <td>{{ user?.email }}</td>
             </tr>
             <tr>
                 <td>Role</td>
-                <td>{{ user.role }}</td>
+                <td>{{ user?.role }}</td>
             </tr>
             <tr>
                 <td>Category</td>
-                <td>{{ user.category }}</td>
+                <td>{{ user?.category }}</td>
             </tr>
             <tr>
                 <td>Penalty Points</td>
-                <td>{{ user.penaltyPoints }}</td>
+                <td>{{ user?.penaltyPoints }}</td>
             </tr>
 
             <!-- companyAdmin info -->
             <tr>
                 <td>Company</td>
-                <td>{{ companyAdmin.company.name }}</td>
+                <td>{{ companyAdmin?.company?.name }}</td>
             </tr>
             <tr>
                 <td>Job Description</td>
-                <td>{{ companyAdmin.jobDescription }}</td>
+                <td>{{ companyAdmin?.jobDescription }}</td>
             </tr>
         </table>
 
@@ -53,7 +53,7 @@
                 Add new appoinment
             </button>
             <!-- company profile -->
-            <button class="company-details-button" (click)="seeCompanyDetails(companyAdmin.company.id)">
+            <button class="company-details-button" (click)="seeCompanyDetails()">
                 See company details
             </button>
         </div>
