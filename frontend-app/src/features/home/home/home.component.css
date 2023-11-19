@@ -81,6 +81,8 @@ main {
   border: none;
   border-radius: 20px;
   margin-bottom: 20px;
+  margin-left: 8%;
+  width: 90%;
 }
 
 #sidebar button:hover {
