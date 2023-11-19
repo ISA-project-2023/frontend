@@ -11,6 +11,7 @@ import { LoginComponent } from 'src/features/users/login/login.component';
 import { RegistrationComponent } from 'src/features/users/registration/registration.component';
 import { ConfirmRegistrationComponent } from 'src/features/users/confirm-registration/confirm-registration.component';
 import { CompanyRegistrationComponent } from 'src/features/companies/company-registration/company-registration.component';
+import { SearchEquipmentComponent } from 'src/features/companies/search-equipment/search-equipment.component';
 
 const routes: Routes = [
   { path: 'companiesReview', component: CompanyComponent },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'register', component: RegistrationComponent },
   { path: 'activate/:token', component: ConfirmRegistrationComponent },
   { path: 'companyRegistration', component: CompanyRegistrationComponent},
+  { path: 'searchEquipment', component: SearchEquipmentComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 

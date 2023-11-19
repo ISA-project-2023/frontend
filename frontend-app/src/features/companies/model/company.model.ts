@@ -7,5 +7,5 @@ export interface Company{
     grade: number;
     startTime: string;
     endTime: string;
-    equipmentInStock: Equipment[];
+    equipment: Equipment[];
 }

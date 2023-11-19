@@ -1,4 +1,8 @@
 <div class="container">
+  <button (click)="navigateToCompanies()">Companies</button>
+  <button *ngIf="isLoggedIn()" (click)="navigateToMyProfile()">My profile</button>
+  <button *ngIf="isLoggedIn()" (click)="navigateToEquipmentSearch()">Equipment</button>
+  <button *ngIf="isLoggedIn()" (click)="navigateToCompanyRegistration()">Register new company</button>
   <header>
     <h2>Welcome to the Medical Equipment Reservation System!</h2>
   </header>

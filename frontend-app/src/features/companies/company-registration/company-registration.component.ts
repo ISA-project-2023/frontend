@@ -52,7 +52,7 @@ export class CompanyRegistrationComponent {
         grade: 0,
         startTime: (this.startTime + ':00'),
         endTime: (this.endTime + ':00'),
-        equipmentInStock: []
+        equipment: []
       };
       
       this.user = {
@@ -66,15 +66,14 @@ export class CompanyRegistrationComponent {
         category: 'REGULAR'
       };
 
-      
-
     this.registrationOk = true
-    console.log(this.startTime)
-    console.log(this.company.startTime)
-    }
+  
     console.log(this.company)
     this.service.addCompany(this.company).subscribe({
       next: () => {
+        this.registrationOk = true
+        this.allEntered = false
+        this.repassOk = false
       },
       error: () => {}
     });
@@ -86,5 +85,26 @@ export class CompanyRegistrationComponent {
       },
       error: () => {}
     });
+
+    this.reset()
+    }
   }
+    reset(){
+      this.allEntered = false
+      this.repassOk = false
+      this.registrationOk = true
+    
+      this.name = '';
+      this.location = '';
+      this.startTime = '00:00';
+      this.endTime = '00:00';
+    
+      this.nameAdmin = '';
+      this.surnameAdmin = '';
+      this.username = '';
+      this.password = '';
+      this.repassword = '';
+      this.email = '';
+    }
+
 }

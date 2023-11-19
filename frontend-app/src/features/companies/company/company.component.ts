@@ -21,6 +21,7 @@ export class CompanyComponent implements OnInit {
       (data) => {
         this.companies = data;
         this.filteredCompanies = data;
+        console.log(this.companies);
       },
       (error) => {
         alert('Unable to load companies. Try again later.');

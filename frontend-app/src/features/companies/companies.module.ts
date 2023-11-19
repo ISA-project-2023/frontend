@@ -9,6 +9,7 @@ import { CompanyProfileComponent } from './company-profile/company-profile.compo
 import { CompanyProfileFormComponent } from './company-profile-form/company-profile-form.component';
 import { PickupAppointmentFormComponent } from './pickup-appointment-form/pickup-appointment-form.component';
 import { CompanyRegistrationComponent } from './company-registration/company-registration.component';
+import { SearchEquipmentComponent } from './search-equipment/search-equipment.component';
 
 
 
@@ -18,7 +19,8 @@ import { CompanyRegistrationComponent } from './company-registration/company-reg
     CompanyProfileComponent,
     CompanyProfileFormComponent,
     PickupAppointmentFormComponent,
-    CompanyRegistrationComponent
+    CompanyRegistrationComponent,
+    SearchEquipmentComponent
   ],
   imports: [
     CommonModule,

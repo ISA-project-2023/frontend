@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Company } from './model/company.model';
 import { CompanyAdmin } from '../users/model/company-admin.model';
 import { PickUpAppointment } from './model/pickup-appointment.model';
+import { Equipment } from './model/equipment.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,6 @@ export class CompanyService {
   getCompanies(): Observable<Company[]> {
     return this.http.get<Company[]>(`${this.apiUrl}/all`);
   }
-
   getCompany(id: number): Observable<Company> {
     return this.http.get<Company>(`${this.apiUrl}/${id}`);
   }
@@ -28,6 +28,9 @@ export class CompanyService {
   }
   deleteCompany(id: number): Observable<Company> {
     return this.http.delete<Company>(`${this.apiUrl}/${id}`);
+  }
+  getEquipment(): Observable<Equipment[]>{
+    return this.http.get<Equipment[]>(`${this.apiUrl}/all`);
   }
 
   // PickUpAppointments
