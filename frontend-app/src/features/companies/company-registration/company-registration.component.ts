@@ -18,6 +18,8 @@ export class CompanyRegistrationComponent {
   allEntered: boolean = false
   repassOk: boolean = false
   registrationOk: boolean = false
+  userExists: boolean = false
+  timeOk: boolean = false
 
   name: string = '';
   location: string = '';
@@ -40,9 +42,15 @@ export class CompanyRegistrationComponent {
     this.nameAdmin === '' || this.surnameAdmin === '' || this.username === '' || this.password === '' || this.email === ''){
       this.allEntered = true
       this.registrationOk = false
+      this.userExists = false
+      this.repassOk = false
+      this.timeOk = false
     } else if(this.password !== this.repassword){
       this.repassOk = true
+      this.allEntered = false
       this.registrationOk = false
+      this.userExists = false
+      this.timeOk = false
     } else {
 
       this.company = {
@@ -66,33 +74,38 @@ export class CompanyRegistrationComponent {
         category: 'REGULAR'
       };
 
-    this.registrationOk = true
-  
     console.log(this.company)
+
     this.service.addCompany(this.company).subscribe({
       next: () => {
-        this.registrationOk = true
-        this.allEntered = false
-        this.repassOk = false
       },
-      error: () => {}
+      error: () => {
+      }
     });
+
     this.userService.saveUser(this.user, this.password).subscribe({
       next: () => {
         this.registrationOk = true
         this.allEntered = false
         this.repassOk = false
+        this.timeOk = false
+        this.reset()
       },
-      error: () => {}
+      error: () => {
+        this.registrationOk = false
+        this.userExists = true
+        return
+      }
     });
 
-    this.reset()
     }
   }
     reset(){
       this.allEntered = false
       this.repassOk = false
       this.registrationOk = true
+      this.userExists = false
+      this.timeOk = false
     
       this.name = '';
       this.location = '';
