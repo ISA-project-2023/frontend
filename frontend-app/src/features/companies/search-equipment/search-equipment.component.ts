@@ -23,7 +23,6 @@ export class SearchEquipmentComponent {
     this.companyService.getCompanies().subscribe(
       (data) => {
         this.companies = data;
-        //this.filteredCompanies = data;
         console.log(this.companies);
       },
       (error) => {

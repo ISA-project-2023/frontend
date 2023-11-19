@@ -1,8 +1,4 @@
 <div class="container">
-  <button (click)="navigateToCompanies()">Companies</button>
-  <button *ngIf="isLoggedIn()" (click)="navigateToMyProfile()">My profile</button>
-  <button *ngIf="isLoggedIn()" (click)="navigateToEquipmentSearch()">Equipment</button>
-  <button *ngIf="isLoggedIn()" (click)="navigateToCompanyRegistration()">Register new company</button>
   <header>
     <h2>Welcome to the Medical Equipment Reservation System!</h2>
   </header>
@@ -11,6 +7,8 @@
       <li><button (click)="navigateToCompanies()">Companies</button></li>
       <li *ngIf="isLoggedIn()"><button (click)="navigateToMyProfile()">My Profile</button></li>
       <li *ngIf="isLoggedIn()"><button (click)="navigateToCompanyAdminProfile()">CompanyAdmin Profile</button></li>
+      <li *ngIf="isLoggedIn()"><button (click)="navigateToEquipmentSearch()">Equipment</button> </li>
+      <li *ngIf="isLoggedIn()"> <button (click)="navigateToCompanyRegistration()">Register new company</button></li>
       <li *ngIf="!isLoggedIn()"><button (click)="navigateToLogin()">Log in</button></li>
       <li *ngIf="isLoggedIn()"><button (click)="logout()">Log out</button></li>
       <li><img src="https://cdn-icons-png.flaticon.com/256/8166/8166558.png" alt="Sidebar Toggle" (click)="toggleSidebar()" style="cursor: pointer; width: 30px; height: 30px;"></li>
