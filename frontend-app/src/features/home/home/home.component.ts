@@ -31,6 +31,11 @@ export class HomeComponent {
   navigateToMyProfile(){
     this.router.navigate(['/my-profile'])
   }
+
+  navigateToCompanyAdminProfile(){
+    this.router.navigate(['/company-admin-profile'])
+  }
+  
   logout() {
     this.userService.logout().subscribe(
       () => {

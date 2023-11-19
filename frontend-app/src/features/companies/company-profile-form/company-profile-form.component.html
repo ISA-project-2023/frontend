@@ -3,48 +3,46 @@
         <div>
 
             <table>
-                <mat-form-field>
-                    <tr>
-                        <td><mat-label>Name</mat-label></td>
-                    </tr>
-                    <tr>
-                        <td><input matInput formControlName="name" type="text" /></td>
-                    </tr>
-               </mat-form-field>
-                <mat-form-field>
-                    <tr>
-                        <td><mat-label>Location</mat-label></td>
-                    </tr>
-                    <tr>
-                        <td><input matInput formControlName="location" type="text" /></td>
-                    </tr>
-                </mat-form-field>
-                <mat-form-field>
-                    <tr>
-                        <td><mat-label>Grade</mat-label></td>
-                    </tr>
-                    <tr>
-                        <td><input matInput formControlName="grade" type="number" [defaultValue]="1" min="1" max="5" placeholder="1"/></td>
-                    </tr>
-                </mat-form-field>
-                <mat-form-field>
-                    <tr>
-                        <td><mat-label>Start of shift</mat-label></td>
-                    </tr>
-                    <tr>
-                        <td><input matInput formControlName="startTime" type="datetime" /></td>
-                        <!--    [defaultValue]="07:00" -->
-                    </tr>
-                </mat-form-field>
-                <mat-form-field>
-                    <tr>
-                        <td><mat-label>End of shift</mat-label></td>
-                    </tr>
-                    <tr>
-                        <td><input matInput formControlName="endTime" type="datetime" /></td>
-                        <!--    [defaultValue]="07:00" -->
-                    </tr>
-                </mat-form-field>
+                <tr>
+                    <td>
+                        <mat-form-field class="content">
+                            <mat-label>Name</mat-label>
+                            <input matInput formControlName="name" type="text" />
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <mat-form-field class="content">
+                            <mat-label>Location</mat-label>
+                            <input matInput formControlName="location" type="text" />        
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <mat-form-field class="content">
+                            <mat-label>Grade</mat-label>
+                            <input matInput formControlName="grade" type="number" [defaultValue]="1" min="1" max="5" placeholder="1"/>
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="shift-div">
+                            <mat-form-field class="content">
+                                <mat-label>Start of shift</mat-label>
+                                 <input matInput formControlName="startTime" type="datetime" />
+                                     <!--    [defaultValue]="07:00" -->                    
+                            </mat-form-field>
+                            <mat-form-field class="content">
+                                <mat-label>End of shift</mat-label>
+                                <input matInput formControlName="endTime" type="datetime" />
+                                    <!--    [defaultValue]="07:00" -->
+                            </mat-form-field>
+                        </div>
+                    </td>
+                </tr>
             </table>
 
             <!-- TODO - company available equipment update -->

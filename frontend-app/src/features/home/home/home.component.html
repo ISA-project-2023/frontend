@@ -6,6 +6,7 @@
     <ul>
       <li><button (click)="navigateToCompanies()">Companies</button></li>
       <li *ngIf="isLoggedIn()"><button (click)="navigateToMyProfile()">My Profile</button></li>
+      <li *ngIf="isLoggedIn()"><button (click)="navigateToCompanyAdminProfile()">CompanyAdmin Profile</button></li>
       <li *ngIf="!isLoggedIn()"><button (click)="navigateToLogin()">Log in</button></li>
       <li *ngIf="isLoggedIn()"><button (click)="logout()">Log out</button></li>
       <li><img src="https://cdn-icons-png.flaticon.com/256/8166/8166558.png" alt="Sidebar Toggle" (click)="toggleSidebar()" style="cursor: pointer; width: 30px; height: 30px;"></li>
@@ -22,6 +23,7 @@
     <img src="https://cdn-icons-png.flaticon.com/256/8166/8166558.png" alt="Sidebar Toggle" (click)="toggleSidebar()" style="cursor: pointer; width: 30px; height: 30px;"><br><br>
     <button (click)="navigateToCompanies()">Companies</button>
     <button (click)="navigateToMyProfile()">My Profile</button>
+    <button *ngIf="isLoggedIn()" (click)="navigateToCompanyAdminProfile()">CompanyAdmin Profile</button>
   </div>
 
   <footer>

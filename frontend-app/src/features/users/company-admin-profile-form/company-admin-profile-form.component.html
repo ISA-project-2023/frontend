@@ -1,0 +1,67 @@
+<div id="companyAdminProfileForm">
+    <form class="company-admin-profile-form" [formGroup]="companyAdminForm">
+          
+        <table>
+            <!-- user -->
+            <tr class="no-change">
+                <td>Username </td>
+                <td>{{ user?.username }}</td>
+            </tr>
+            <tr class="no-change">
+                <td>Email </td>
+                <td>{{ user?.email }}</td>
+            </tr>
+            <tr class="no-change">
+                <td>Role</td>
+                <td>{{ user?.role }}</td>
+            </tr>
+            <tr class="no-change">
+                <td>Category</td>
+                <td>{{ user?.category }}</td>
+            </tr>
+            <tr class="no-change">
+                <td>Penalty Points</td>
+                <td>{{ user?.penaltyPoints }}</td>
+            </tr>
+
+            <!-- companyAdmin -->
+            <tr class="no-change">
+                <td>Company</td>
+                <td>{{ companyAdmin?.company?.name }}</td>
+            </tr>
+            <br>
+
+            <!-- data for updating -->
+            <tr class="change">
+                <td colspan="2">
+                    <mat-form-field class="content">
+                        <mat-label>First Name</mat-label>
+                        <input matInput formControlName="firstName" type="text" />
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr class="change">
+                <td colspan="2">
+                    <mat-form-field class="content">
+                        <mat-label>Last Name</mat-label>
+                        <input matInput formControlName="lastName" type="text" />
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr class="change">
+                <td colspan="2">
+                    <mat-form-field class="content">
+                        <mat-label>Job Description</mat-label>
+                        <input matInput formControlName="jobDescription" type="text" />
+                    </mat-form-field>
+                </td>
+            </tr>
+        </table>
+        
+        <div>
+            <button *ngIf="shouldEdit" color="primary" type="submit" (click)="updateCompanyAdminProfile()" mat-raised-button>
+                Save changes
+            </button>
+        </div>
+    </form>
+</div>

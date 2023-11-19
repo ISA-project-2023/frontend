@@ -1,0 +1,67 @@
+<div id="companyAdminProfile">
+    <h2>Company Administrator Profile</h2>
+    
+    <div>
+        <table>
+            <tr>
+                <td>First Name </td>
+                <td>{{ user?.firstName }}</td>
+            </tr>
+            <tr>
+                <td>Last Name </td>
+                <td>{{ user?.lastName }}</td>
+            </tr>
+            <tr>
+                <td>Username </td>
+                <td>{{ user?.username }}</td>
+            </tr>
+            <tr>
+                <td>Email </td>
+                <td>{{ user?.email }}</td>
+            </tr>
+            <tr>
+                <td>Role</td>
+                <td>{{ user?.role }}</td>
+            </tr>
+            <tr>
+                <td>Category</td>
+                <td>{{ user?.category }}</td>
+            </tr>
+            <tr>
+                <td>Penalty Points</td>
+                <td>{{ user?.penaltyPoints }}</td>
+            </tr>
+
+            <!-- companyAdmin info -->
+            <tr>
+                <td>Company</td>
+                <td>{{ companyAdmin?.company?.name }}</td>
+            </tr>
+            <tr>
+                <td>Job Description</td>
+                <td>{{ companyAdmin?.jobDescription }}</td>
+            </tr>
+        </table>
+
+        <div class="button-div">
+            <!-- update company admin profile -->
+            <button *ngIf="!shouldEdit" type="submit" (click)="editProfile()">
+                Edit your profile
+            </button>
+            <!-- TODO add new Appointment -->
+            <button class="company-details-button" (click)="addNewAppointment()">
+                Add new appoinment
+            </button>
+            <!-- company profile -->
+            <button class="company-details-button" (click)="seeCompanyDetails()">
+                See company details
+            </button>
+        </div>
+        <div>
+            <xp-company-admin-profile-form *ngIf="shouldRenderEditForm" [shouldEdit]="shouldEdit" 
+            (companyAdminProfileUpdated)="onCompanyAdminUpdated()"
+            [user]="user" [companyAdmin]="companyAdmin"
+            ></xp-company-admin-profile-form>
+        </div>
+    </div>
+</div>

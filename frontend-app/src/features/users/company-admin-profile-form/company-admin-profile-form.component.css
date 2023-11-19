@@ -1,0 +1,91 @@
+#companyAdminProfileForm {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+h2{
+    text-align: left;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    margin-bottom: 5px;
+}
+
+h1{
+    text-align: center;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    margin-bottom: 7px;
+}
+
+div {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    gap: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #4caf50;
+    color: white;
+}
+
+button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.company-admin-profile-form mat-form-field {
+    width: 70%;
+}
+
+.company-admin-profile-form mat-form-field textarea {
+    width: calc(100% - 24px);
+}
+
+.company-admin-profile-form mat-form-field input {
+    width: 80%;
+}
+
+.company-admin-profile-form mat-label{
+    width: auto;
+    height: fit-content;
+}
+
+.change {
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+}
+
+.no-change {
+    background-color: #f2f2f2;
+}
+
+.content{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    align-items: center;
+    height: fit-content;
+    width: 90%;
+    margin-left: 5%;
+}
