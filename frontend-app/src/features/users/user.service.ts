@@ -37,7 +37,9 @@ export class UserService {
   getUser(id: number): Observable<User>{
     return this.http.get<User>(`${this.apiUrl}/api/users/${id}`);
   }
-
+  saveCompanyAdmin(admin: CompanyAdmin, password: string): Observable<CompanyAdmin>{
+    return this.http.post<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins/`+ password, admin)
+  }
   logout(): Observable<any> {
   localStorage.removeItem('sessionId');
 
