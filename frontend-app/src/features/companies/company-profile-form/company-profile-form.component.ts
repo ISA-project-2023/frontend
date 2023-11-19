@@ -45,8 +45,8 @@ export class CompanyProfileFormComponent implements OnChanges {
   companyProfileForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     location: new FormControl('', [Validators.required]),
-    startTime: new FormControl(new Date()),
-    endTime: new FormControl(new Date()),
+    startTime: new FormControl('', [Validators.required]),
+    endTime: new FormControl('', [Validators.required]),
     grade: new FormControl(0, [Validators.required]),
     //equipment: new FormControl<Equipment>([], {nonNullable: false})
   });

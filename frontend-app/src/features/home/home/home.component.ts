@@ -27,6 +27,14 @@ export class HomeComponent {
   navigateToCompanies() {
     this.router.navigate(['/companiesReview']);
   }
+
+  navigateToCompanyRegistration() {
+    this.router.navigate(['/companyRegistration']);
+  }
+
+  navigateToEquipmentSearch() {
+    this.router.navigate(['/searchEquipment']);
+  }
   
   navigateToMyProfile(){
     this.router.navigate(['/my-profile'])
