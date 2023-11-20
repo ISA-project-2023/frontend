@@ -7,7 +7,6 @@ import { MatInputModule } from '@angular/material/input';
 import { UserComponent } from './user/user.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ConfirmRegistrationComponent } from './confirm-registration/confirm-registration.component';
 import { CompanyAdminProfileComponent } from './company-admin-profile/company-admin-profile.component';
@@ -19,7 +18,6 @@ import { CompanyAdminProfileFormComponent } from './company-admin-profile-form/c
   declarations: [
     UserComponent,
     MyProfileComponent,
-    LoginComponent,
     RegistrationComponent,
     ConfirmRegistrationComponent, 
     CompanyAdminProfileComponent,

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/features/users/user.service';
 
@@ -8,10 +9,13 @@ import { UserService } from 'src/features/users/user.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  constructor(private router: Router, private userService: UserService) {}
-
-  navigateToLogin() {
-    this.router.navigate(['/login']);
+  loginForm: FormGroup;
+  
+  constructor(private router: Router, private userService: UserService, private fb: FormBuilder) {
+    this.loginForm = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+    });
   }
 
   toggleSidebar() {
@@ -67,4 +71,27 @@ export class HomeComponent {
   isLoggedIn(): boolean {
     return this.userService.isAuthenticated();
   }
+
+  onSubmit() {
+    const usernameControl = this.loginForm.get('username');
+    const passwordControl = this.loginForm.get('password');
+  
+    if (usernameControl && passwordControl) {
+      const credentials = {
+        username: usernameControl.value,
+        password: passwordControl.value
+      };
+  
+      this.userService.login(credentials).subscribe(
+        (sessionId) => {
+          localStorage.setItem('sessionId', sessionId);
+          this.router.navigate(['/home']);
+        },
+        (error) => {
+          console.error('Login error:', error);
+          alert("Wrong credentials. Please try again!");
+        }
+      );
+    }
+  } 
 }
