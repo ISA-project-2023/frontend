@@ -22,6 +22,16 @@ export class UserService {
       })
     );
   }
+
+  logout(): Observable<any> {
+    localStorage.removeItem('sessionId');
+      return this.http.post(`${this.apiUrl}/api/users/logout`, {}, { responseType: 'text' as 'json' }).pipe(
+        tap(response => {
+          console.log('Logout successful:', response);
+        })
+        );
+  }  
+
   getCurrentUser(): Observable<User>{
     return this.http.get<User>(`${this.apiUrl}/api/users/current-user` );
   } 	
@@ -37,21 +47,12 @@ export class UserService {
   getUser(id: number): Observable<User>{
     return this.http.get<User>(`${this.apiUrl}/api/users/${id}`);
   }
+  getUsers(): Observable<User[]>{
+    return this.http.get<User[]>(`${this.apiUrl}/api/users/all`);
+  }
   saveCompanyAdmin(admin: CompanyAdmin, password: string): Observable<CompanyAdmin>{
     return this.http.post<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins/`+ password, admin)
   }
-  logout(): Observable<any> {
-  localStorage.removeItem('sessionId');
-
-  return this.http.post(`${this.apiUrl}/api/users/logout`, {}, { responseType: 'text' as 'json' }).pipe(
-    tap(response => {
-      console.log('Logout successful:', response);
-    })
-  );
-}
-
-  
-
   isAuthenticated(): boolean {
     return !!localStorage.getItem('sessionId');
   }

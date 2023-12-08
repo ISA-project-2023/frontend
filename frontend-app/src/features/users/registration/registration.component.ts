@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
+import { User } from '../model/user.model';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css']
 })
-export class RegistrationComponent {
+export class RegistrationComponent implements OnInit{
   username: string = '';
   email: string = '';
   password: string = '';
@@ -19,12 +20,20 @@ export class RegistrationComponent {
   phoneNumber: string = '';
   profession: string = '';
   companyInfo: string = '';
+  users: User[] = [];
 
   constructor(private userService: UserService, private router: Router) {} 
 
+  ngOnInit(){
+    this.userService.getUsers().subscribe(
+      (result)=>{
+        this.users = result;
+      }
+    )
+  }
+
   validateForm(): boolean {
     if (this.password !== this.confirmPassword) {
-      
       return false;
     } else {
       return true;
@@ -33,7 +42,7 @@ export class RegistrationComponent {
 
   register(): void {
     if (this.validateForm()) {
-      const employee = {
+      const customer = {
         username: this.username,
         email: this.email,
         password: this.password,
@@ -45,16 +54,24 @@ export class RegistrationComponent {
         phoneNumber: this.phoneNumber,
         profession: this.profession,
         companyInfo: this.companyInfo,
-        role: 'EMPLOYEE'
+        role: 'CUSTOMER'
       };
 
-      this.userService.saveUser(employee, this.password).subscribe(
+      for(let user of this.users){
+        if(user.email === customer.email){
+          console.error('Email duplicate.');
+          alert('The entered email is already used!');
+          break;
+        }
+      }
+
+      this.userService.saveUser(customer, this.password).subscribe(
         response => {
-            console.log('Employee saved successfully', response);
+            console.log('Customer saved successfully', response);
             this.router.navigate(['/home']);
         },
         error => {
-            console.error('Error saving employee', error);
+            console.error('Error saving customer', error);
             alert('There was an error while saving the data! Please try again.');
         }
     );
