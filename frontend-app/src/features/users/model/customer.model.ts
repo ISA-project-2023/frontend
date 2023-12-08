@@ -1,4 +1,4 @@
-export interface Employee{
+export interface Customer{
     id: number;
     username: String;
     email: String;

@@ -4,7 +4,7 @@ import { Observable, tap } from 'rxjs';
 import { CompanyAdmin } from './model/company-admin.model';
 import { Company } from '../companies/model/company.model';
 import { User } from './model/user.model';
-import { Employee } from './model/employee.model';
+import { Customer } from './model/customer.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,14 +25,14 @@ export class UserService {
   getCurrentUser(): Observable<User>{
     return this.http.get<User>(`${this.apiUrl}/api/users/current-user` );
   } 	
-  getCurrentEmployee(): Observable<Employee>{
-    return this.http.get<Employee>(`${this.apiUrl}/api/users/current-employee` );
+  getCurrentCustomer(): Observable<Customer>{
+    return this.http.get<Customer>(`${this.apiUrl}/api/users/current-customer` );
   } 	
   updateUser(user: User): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/api/users`, user);
   }
-  updateEmployee(user: Employee): Observable<Employee> {
-    return this.http.put<Employee>(`${this.apiUrl}/api/users/employee`, user);
+  updateCustomer(user: Customer): Observable<Customer> {
+    return this.http.put<Customer>(`${this.apiUrl}/api/users/customer`, user);
   }
   getUser(id: number): Observable<User>{
     return this.http.get<User>(`${this.apiUrl}/api/users/${id}`);
@@ -56,12 +56,12 @@ export class UserService {
     return !!localStorage.getItem('sessionId');
   }
 
-  saveUser(employee: any, password: string): Observable<any> {
+  saveUser(customer: any, password: string): Observable<any> {
     const params = { password };
     const options = { params: new HttpParams({ fromObject: params }) };
 
-    return this.http.post(`${this.apiUrl}/api/users`, employee, options);
-}
+    return this.http.post(`${this.apiUrl}/api/users`, customer, options);
+  }
 
   activateUser(token: string) {
     return this.http.get(`${this.apiUrl}/api/users/activate/${token}`, { responseType: 'text' });
