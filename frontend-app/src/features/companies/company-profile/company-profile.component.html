@@ -80,6 +80,11 @@
         </table>
     </div>
     <div #pickup>
+        <div *ngIf="user.role==='CUSTOMER' && availableAppointments" style="display: flex; flex-direction: row; justify-content: space-around; margin-bottom: 20px; margin-top: 20px; background-color: bisque; border-radius: 5px;">
+            <label style="margin-right: 10px; width: fit-content;">Choose custome date for your appointment</label>
+            <input type="date" placeholder="Date" [(ngModel)]="selectedDate">
+            <button style="margin-left: 10px;">Apply</button>
+        </div>
         <h2 *ngIf="user.role==='COMPANY_ADMIN'">PickUp Appointments</h2>
         <h2 *ngIf="user.role==='CUSTOMER' && availableAppointments">Available PickUp Appointments</h2>
         <table *ngIf="user.role==='COMPANY_ADMIN' || availableAppointments">
@@ -89,7 +94,7 @@
                 <th>Duration (in hours)</th>
                 <th *ngIf="user.role==='CUSTOMER'">Select</th>
             </tr>
-            <tr *ngFor="let a of appointments">
+            <tr *ngFor="let a of filterAppointments()">
                 <!-- TODO - companyAdmin full name insted of id -->
                 <!-- <td>{{a.companyAdmin.user?.firstName }} {{a.companyAdmin.user?.lastName }} </td> -->
                 <td>{{ a.companyAdmin.id }} </td>
@@ -102,6 +107,7 @@
             </tr>
         </table>
     </div>
+    
     <button *ngIf="!shouldEdit && user.role==='COMPANY_ADMIN'" type="submit" (click)="editCompany()">
         Edit profile
     </button>

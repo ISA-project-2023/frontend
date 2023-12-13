@@ -30,6 +30,8 @@ export class CompanyProfileComponent implements OnInit {
   search: string = '';
   cart: Equipment[] = [];
   availableAppointments: boolean = false;
+  selectedAppointment?: PickUpAppointment;
+  selectedDate?:Date;
   
   constructor(private companyService: CompanyService, private userService: UserService, private activatedRoute : ActivatedRoute) {
     this.activatedRoute.params.subscribe(params=>{
@@ -58,8 +60,15 @@ export class CompanyProfileComponent implements OnInit {
   ngOnInit() {
     this.getCompany();
   }
+  filterAppointments(): PickUpAppointment[] {
+    if(this.user.role==='CUSTOMER')
+      return this.appointments.filter(ap => ap.free);
+    else
+      return this.appointments;
+  }
   selectAppointment(a: PickUpAppointment){
-    
+    this.selectedAppointment = a;
+    confirm('Confirm your reservation?');
   }
   AddToCart(e:Equipment){
     const indexToRemove = this.cart.findIndex(item => item.id === e.id);
