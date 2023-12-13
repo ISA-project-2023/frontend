@@ -5,6 +5,7 @@ import { Company } from './model/company.model';
 import { CompanyAdmin } from '../users/model/company-admin.model';
 import { PickUpAppointment } from './model/pickup-appointment.model';
 import { Equipment } from './model/equipment.model';
+import { Reservation } from './model/reservation.model';
 
 @Injectable({
   providedIn: 'root',
@@ -45,6 +46,12 @@ export class CompanyService {
   addAppointment(appointment: PickUpAppointment | any): Observable<PickUpAppointment> {
     return this.http.post<PickUpAppointment>(`${this.apiUrlAppointments}/addNew`, appointment);
   }
+  
+  // addAppointment(appointment: any, date: any): Observable<any> {
+  //   const params = { date };
+  //   const options = { params: new HttpParams({ fromObject: params }) };
+  //   return this.http.post(`${this.apiUrlAppointments}`, appointment, options);
+  // }
   updateAppointment(appointment: PickUpAppointment): Observable<PickUpAppointment> {
     return this.http.put<PickUpAppointment>(`${this.apiUrlAppointments}`, appointment);
   }
@@ -59,5 +66,10 @@ export class CompanyService {
   }
   getCustomAppointmentsOnDate(date:Date, companyId: number){
     return this.http.get<PickUpAppointment[]>(`${this.apiUrlAppointments}/custom/${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}/${companyId}`)
+  }
+  private apiUrlReservations = 'http://localhost:8084/api/reservations';
+
+  getReservationsForCompanyAdmin(id: number): Observable<Reservation[]>{
+    return this.http.get<Reservation[]>(`${this.apiUrlReservations}/findByCompanyAdmin/` + id);
   }
 }

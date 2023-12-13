@@ -1,5 +1,5 @@
 #companyAdminProfile {
-    max-width: 600px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ddd;
@@ -60,4 +60,10 @@ button {
 
 .company-details-button {
     margin-left: auto;
+}
+
+.calendar{
+    width: 900px;
+    height: 450px;
+    margin-top: 50px;
 }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 import { UserComponent } from './user/user.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
@@ -30,7 +31,8 @@ import { MyReservationsComponent } from './my-reservations/my-reservations.compo
     CommonModule, 
     MatFormFieldModule, 
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FullCalendarModule
   ]
 })
 export class UsersModule { }

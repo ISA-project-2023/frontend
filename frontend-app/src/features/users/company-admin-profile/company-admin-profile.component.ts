@@ -3,6 +3,12 @@ import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 import { User } from '../model/user.model';
 import { CompanyAdmin } from '../model/company-admin.model';
+import { CalendarOptions } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import yearGridPlugin from '@fullcalendar/multimonth';
+import { Reservation } from 'src/features/companies/model/reservation.model';
+import { CompanyService } from 'src/features/companies/company.service';
 
 @Component({
   selector: 'app-company-admin-profile',
@@ -16,14 +22,26 @@ export class CompanyAdminProfileComponent implements OnInit, OnChanges {
   shouldEdit: boolean = false;
   shouldRenderEditForm: boolean = false; 
 
-  // TODO
   user!: User;
   updatedUser!:User; 
 
-  constructor(private userService: UserService, private router: Router) { }
+  reservations!: Reservation[];
+  calendarOptions: CalendarOptions = {
+    events: this.getEvents(),
+    initialView: 'dayGridMonth',
+    eventColor: '#4caf50',
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'timeGridWeek dayGridMonth multiMonthYear',
+    },
+    plugins: [dayGridPlugin, timeGridPlugin, yearGridPlugin]
+  };
+
+  constructor(private userService: UserService, private companyService: CompanyService, private router: Router) { }
 
   ngOnInit(): void {
-    this.getUser();
+    this.getUser()
     //this.getCompanyAdmin(this.user);
   }
 
@@ -48,7 +66,7 @@ export class CompanyAdminProfileComponent implements OnInit, OnChanges {
   // }
 
   getUser(): void{
-    this.userService.getCurrentUser().subscribe(
+    this.userService.getUser(1).subscribe(
       (user: User) => {
         this.user = user;
         this.updatedUser = user;
@@ -78,11 +96,27 @@ export class CompanyAdminProfileComponent implements OnInit, OnChanges {
         
         console.log(this.companyAdmin)
         console.log(this.updatedCompanyAdmin)
+
+        this.getReservationsForCompanyAdmin()
       },
       (error) => {
         console.error('Error fetching current logged in company administrator:', error);
       }
     );
+  }
+
+  getReservationsForCompanyAdmin() : void{
+    this.companyService.getReservationsForCompanyAdmin(this.companyAdmin.id).subscribe(
+      (data) => {
+        this.reservations = data;
+        console.log(this.reservations)
+        this.calendarOptions.events = this.getEvents()
+      },
+      (error) => {
+        alert('Unable to load reservations. Try again later.');
+        console.log(error);
+      }
+    )
   }
 
   editProfile(): void{
@@ -102,5 +136,27 @@ export class CompanyAdminProfileComponent implements OnInit, OnChanges {
 
   seeCompanyDetails(): void{
     this.router.navigate(['company-profile/' + this.companyId]);
+  }
+
+  getEvents() : any {
+    if(this.reservations != undefined){
+      return this.reservations.map(reservation => ({
+        title: `${reservation.customer.firstName} ${reservation.customer.lastName}`,
+        start: this.formatDate(reservation.pickUpAppointment.date),
+        //start: new Date('2023-12-12 09:10:00'),
+        end: new Date('2023-12-12 11:10:00')
+        //end: this.calculateEndDate(reservation)
+      }));
+    }
+  }
+
+  calculateEndDate(reservation: Reservation) : number {
+    const datum = new Date();
+    return datum.setTime(reservation.pickUpAppointment.date.getTime() + reservation.pickUpAppointment.duration * 60 * 60 * 1000)
+  }
+
+  formatDate(date: Date) : string {
+    
+    return 'sisa'
   }
 }
