@@ -5,6 +5,7 @@ import { CompanyAdmin } from './model/company-admin.model';
 import { Company } from '../companies/model/company.model';
 import { User } from './model/user.model';
 import { Customer } from './model/customer.model';
+import { Reservation } from './model/reservation';
 
 @Injectable({
   providedIn: 'root'
@@ -91,4 +92,8 @@ export class UserService {
   // deleteCompanyAdmin(id: number): Observable<CompanyAdmin> {
   //   return this.http.delete<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins/${id}`);
   // }
+
+  getCustomersReservations(id: number): Observable<Reservation[]>{
+    return this.http.get<Reservation[]>(`${this.apiUrl}/api/reservations/allByCustomer/${id}`);
+  }
 }

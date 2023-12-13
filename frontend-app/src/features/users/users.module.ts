@@ -11,6 +11,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { ConfirmRegistrationComponent } from './confirm-registration/confirm-registration.component';
 import { CompanyAdminProfileComponent } from './company-admin-profile/company-admin-profile.component';
 import { CompanyAdminProfileFormComponent } from './company-admin-profile-form/company-admin-profile-form.component';
+import { MyReservationsComponent } from './my-reservations/my-reservations.component';
 
 
 
@@ -21,7 +22,8 @@ import { CompanyAdminProfileFormComponent } from './company-admin-profile-form/c
     RegistrationComponent,
     ConfirmRegistrationComponent, 
     CompanyAdminProfileComponent,
-    CompanyAdminProfileFormComponent
+    CompanyAdminProfileFormComponent,
+    MyReservationsComponent
   ],
   imports: [
     FormsModule,
