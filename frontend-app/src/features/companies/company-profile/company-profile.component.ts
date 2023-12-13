@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { Company } from '../model/company.model';
 import { Equipment } from '../model/equipment.model';
@@ -23,7 +23,7 @@ export class CompanyProfileComponent implements OnInit {
   admins: CompanyAdmin[] = [];
   appointments: PickUpAppointment[] = [];
   users: User[] = [];
-  canShow: boolean = false; // TODO - only admin van change
+  canShow: boolean = false; // TODO - only admin can change
   shouldEdit: boolean = false;
   shouldRenderEditForm: boolean = false; 
   user: User = {id:0, lastName:'', firstName:'',penaltyPoints:0, role:'', email:'', username:'', category:''};
@@ -33,7 +33,7 @@ export class CompanyProfileComponent implements OnInit {
   selectedAppointment?: PickUpAppointment;
   selectedDate?:Date;
   
-  constructor(private companyService: CompanyService, private userService: UserService, private activatedRoute : ActivatedRoute) {
+  constructor(private companyService: CompanyService, private userService: UserService, private activatedRoute : ActivatedRoute, private router: Router) {
     this.activatedRoute.params.subscribe(params=>{
       this.companyId=params['id'];
       userService.getCurrentUser().subscribe({
@@ -47,7 +47,8 @@ export class CompanyProfileComponent implements OnInit {
       this.canShow = true;
     }
     this.getCompany();
-  } 
+  }
+
   scrollToElement() {
     setTimeout(() => {
       if (this.companyProfile && this.companyProfile.nativeElement) {
@@ -56,20 +57,29 @@ export class CompanyProfileComponent implements OnInit {
     }, 200);
   }
   
-  
   ngOnInit() {
     this.getCompany();
   }
+
   filterAppointments(): PickUpAppointment[] {
     if(this.user.role==='CUSTOMER')
       return this.appointments.filter(ap => ap.free);
     else
       return this.appointments;
   }
+
   selectAppointment(a: PickUpAppointment){
-    this.selectedAppointment = a;
-    confirm('Confirm your reservation?');
+    this.companyService.addAppointment(a).subscribe(
+      (result)=>{
+        console.log("Pickup appointment added.");
+        this.router.navigate(['/my-reservations']);
+      },
+      (error)=>{
+        console.log("Error while adding cart: " + error);
+      }
+    )
   }
+
   AddToCart(e:Equipment){
     const indexToRemove = this.cart.findIndex(item => item.id === e.id);
     if (indexToRemove === -1) {
@@ -77,6 +87,7 @@ export class CompanyProfileComponent implements OnInit {
       this.availableAppointments = false;
     }
   }
+
   RemoveFromCart(e:Equipment){
     const indexToRemove = this.cart.findIndex(item => item.id === e.id);
     if (indexToRemove !== -1) {
@@ -84,10 +95,12 @@ export class CompanyProfileComponent implements OnInit {
       this.availableAppointments = false;
     }
   }
+
   showAppointments(){
     this.availableAppointments = true;
     this.scrollToElement();
   }
+
   filter(){
     if(this.search==='' && this.company){
       this.equipment = this.company?.equipment;
@@ -96,6 +109,7 @@ export class CompanyProfileComponent implements OnInit {
     this.equipment = this.equipment.filter((eq) =>
     eq.name.toLowerCase().includes(this.search.toLowerCase()));
   }
+
   getCompany(): void {
     this.companyService.getCompany(this.companyId).subscribe(
       (data) => {

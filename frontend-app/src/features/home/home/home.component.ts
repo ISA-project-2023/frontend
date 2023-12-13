@@ -41,11 +41,15 @@ export class HomeComponent {
   }
   
   navigateToMyProfile(){
-    this.router.navigate(['/my-profile'])
+    this.router.navigate(['/my-profile']);
   }
 
   navigateToCompanyAdminProfile(){
-    this.router.navigate(['/company-admin-profile'])
+    this.router.navigate(['/company-admin-profile']);
+  }
+
+  navigateToMyReservations(){
+    this.router.navigate(['/my-reservations']);
   }
   
   logout() {
