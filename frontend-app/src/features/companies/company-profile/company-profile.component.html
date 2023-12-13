@@ -90,9 +90,7 @@
                 <th *ngIf="user.role==='CUSTOMER'">Select</th>
             </tr>
             <tr *ngFor="let a of appointments">
-                <!-- TODO - companyAdmin full name insted of id -->
-                <!-- <td>{{a.companyAdmin.user?.firstName }} {{a.companyAdmin.user?.lastName }} </td> -->
-                <td>{{ a.companyAdmin.id }} </td>
+                <td>{{ a.companyAdmin.firstName }} {{ a.companyAdmin.lastName }}</td>
                 <!-- TODO - format date  -->
                 <!-- <td>{{ a.date | date: 'dd.MM.yyyy HH:mm' }}</td>  -->
                 <!-- <td>{{ a.date | date: "dd.MM.yyyy HH:mm"}}</td>  -->

@@ -17,16 +17,26 @@
                 <mat-form-field>
                     <mat-label>Date</mat-label>
                     <input matInput formControlName="date" type="datetime-local" placeholder=""/>
+                    <mat-error *ngIf="appointmentForm.get('date')!.hasError('required')">
+                        Date is required.
+                    </mat-error>
+                    <mat-error *ngIf="appointmentForm.get('date')!.hasError('futureDate')">
+                        Please select a future date.
+                    </mat-error>
                     <!-- <input matInput formControlName="date" type="datetime" placeholder=""/> -->
                     <!-- <input matInput formControlName="date" type="text" placeholder="dd-mm-yyyyTHH:mm:ss"/> -->
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>Duration (in hours)</mat-label>
                     <input matInput formControlName="duration" type="number" min="1" max="6" [defaultValue]="1" placeholder="1"/>
+                    <mat-error *ngIf="appointmentForm.get('duration')!.hasError('required')">
+                        Duration is required.
+                    </mat-error>
                 </mat-form-field>
             </table>
             <div>
-                <button color="primary" type="submit" (click)="addNewAppointment()" mat-raised-button>
+                <button color="primary" type="submit" (click)="addNewAppointment()" mat-raised-button 
+                [disabled]="appointmentForm.invalid">
                     Make new appointment
                 </button>
             </div>
