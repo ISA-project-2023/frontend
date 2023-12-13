@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Company } from '../model/company.model';
 import { CompanyService } from '../company.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-company',
@@ -14,7 +15,7 @@ export class CompanyComponent implements OnInit {
   searchName: string = '';
   gradeFilter: number = 0.0;
 
-  constructor(private companyService: CompanyService) {} 
+  constructor(private companyService: CompanyService, private router: Router) {} 
 
   ngOnInit() {
     this.companyService.getCompanies().subscribe(

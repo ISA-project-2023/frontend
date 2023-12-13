@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { Company } from '../model/company.model';
@@ -16,6 +16,7 @@ import { PickUpAppointment } from '../model/pickup-appointment.model';
   providers: [DatePipe]
 })
 export class CompanyProfileComponent implements OnInit {
+  @ViewChild('pickup') companyProfile!: ElementRef;
   companyId: number = 0;
   company: Company | undefined;
   equipment: Equipment[] = [];
@@ -25,10 +26,19 @@ export class CompanyProfileComponent implements OnInit {
   canShow: boolean = false; // TODO - only admin van change
   shouldEdit: boolean = false;
   shouldRenderEditForm: boolean = false; 
+  user: User = {id:0, lastName:'', firstName:'',penaltyPoints:0, role:'', email:'', username:'', category:''};
+  search: string = '';
+  cart: Equipment[] = [];
+  availableAppointments: boolean = false;
   
   constructor(private companyService: CompanyService, private userService: UserService, private activatedRoute : ActivatedRoute) {
     this.activatedRoute.params.subscribe(params=>{
       this.companyId=params['id'];
+      userService.getCurrentUser().subscribe({
+          next:(result)=>{
+            this.user = result;
+          }
+      });
     });
 
     if (this.companyId !== undefined){
@@ -36,11 +46,47 @@ export class CompanyProfileComponent implements OnInit {
     }
     this.getCompany();
   } 
+  scrollToElement() {
+    setTimeout(() => {
+      if (this.companyProfile && this.companyProfile.nativeElement) {
+        this.companyProfile.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 200);
+  }
+  
   
   ngOnInit() {
     this.getCompany();
   }
-
+  selectAppointment(a: PickUpAppointment){
+    
+  }
+  AddToCart(e:Equipment){
+    const indexToRemove = this.cart.findIndex(item => item.id === e.id);
+    if (indexToRemove === -1) {
+      this.cart.push(e);
+      this.availableAppointments = false;
+    }
+  }
+  RemoveFromCart(e:Equipment){
+    const indexToRemove = this.cart.findIndex(item => item.id === e.id);
+    if (indexToRemove !== -1) {
+      this.cart.splice(indexToRemove, 1);
+      this.availableAppointments = false;
+    }
+  }
+  showAppointments(){
+    this.availableAppointments = true;
+    this.scrollToElement();
+  }
+  filter(){
+    if(this.search==='' && this.company){
+      this.equipment = this.company?.equipment;
+      return;
+    }
+    this.equipment = this.equipment.filter((eq) =>
+    eq.name.toLowerCase().includes(this.search.toLowerCase()));
+  }
   getCompany(): void {
     this.companyService.getCompany(this.companyId).subscribe(
       (data) => {
