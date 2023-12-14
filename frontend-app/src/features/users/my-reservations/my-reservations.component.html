@@ -1,10 +1,10 @@
 <p>My reservations</p>
 <div class="reservations-container">
     <div *ngFor="let reservation of reservations" class="reservation-card">
-      <div>Date: {{ reservation.pickUpAppointment.date | date:'mediumDate' }}</div>
+      <div>Date: TODO{{ reservation.pickUpAppointment.date | date:'mediumDate' }}</div>
       <div>Duration: {{ reservation.pickUpAppointment.duration }}</div>
       <div>Status: {{reservation.status}}</div>
-      <div>Company: {{ reservation.company }}</div>
-      <div></div>
+      <div>Company: {{ reservation.company.name }}</div>
+      <div>Equipment: TODO</div>
     </div>
 </div>

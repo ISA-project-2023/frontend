@@ -8,6 +8,7 @@ import { CompanyAdmin } from 'src/features/users/model/company-admin.model';
 import { User } from 'src/features/users/model/user.model';
 import { UserService } from 'src/features/users/user.service';
 import { PickUpAppointment } from '../model/pickup-appointment.model';
+import { Reservation } from 'src/features/users/model/reservation';
 
 @Component({
   selector: 'app-company-profile',
@@ -32,6 +33,14 @@ export class CompanyProfileComponent implements OnInit {
   availableAppointments: boolean = false;
   selectedAppointment?: PickUpAppointment;
   selectedDate?:Date;
+  reservation: Reservation = {
+    id: 0,
+    company: undefined!,
+    customer: undefined!,
+    pickUpAppointment: undefined!,
+    status: '',
+    equipment: undefined!
+  };
   
   constructor(private companyService: CompanyService, private userService: UserService, private activatedRoute : ActivatedRoute, private router: Router) {
     this.activatedRoute.params.subscribe(params=>{
@@ -69,13 +78,28 @@ export class CompanyProfileComponent implements OnInit {
   }
 
   selectAppointment(a: PickUpAppointment){
-    this.companyService.addAppointment(a).subscribe(
+    this.reservation.company = this.company!;
+    this.reservation.equipment = this.company!.equipment;
+    this.reservation.status = "PENDING";
+    
+    this.userService.getCustomer(this.user.id).subscribe(
       (result)=>{
-        console.log("Pickup appointment added.");
-        this.router.navigate(['/my-reservations']);
+        this.reservation.customer = result;
+        this.reservation.pickUpAppointment = a;
+        this.userService.makeReservation(this.reservation).subscribe(
+          (result)=>{
+            if(result){
+              console.log("Pickup appointment added.");
+              this.router.navigate(['/my-reservations']);
+            }
+          },
+          (error)=>{
+            console.log("Error while making reservation: " + error);
+          }
+        )
       },
       (error)=>{
-        console.log("Error while adding cart: " + error);
+        console.log('Error: ' + error);
       }
     )
   }
