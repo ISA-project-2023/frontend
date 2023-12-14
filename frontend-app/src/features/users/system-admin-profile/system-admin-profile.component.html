@@ -1,0 +1,38 @@
+<div>
+    <h1>System administrator profile</h1>
+    <div class="button-container">
+        <button type="submit" (click)="addCompanyComponent()">Add company</button>
+        <button type="submit" (click)="addSystemAdmin()">Add system administrator</button>
+    </div>
+    <div class="complaint-container">
+        <div class="register">
+            <div class="center">
+                <div>
+                <h2>Company complaints:</h2>
+                </div>
+                <div class="single-complaint" *ngFor="let cc of companyComplaints">
+                    <span>{{cc.text}}</span>
+                    <button type="submit" (click)="selectComplaint(cc)">Select</button>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="register" *ngIf="selectedComplaint">
+                <div class="column">
+                    <span>Response to: {{selectedComplaint.customer.firstName}}</span><br>
+                    <textarea name="responseToAdmin" id="response" cols="40" rows="3"></textarea>
+                    <button type="submit" (click)="sendResponse()">Send response</button>
+                </div>
+            </div>
+        </div>
+        <div class="register">
+            <div class="center">
+                <h2>Company administrator complaints:</h2>
+                <div class="single-complaint" *ngFor="let cac of companyAdminComplaints">
+                    <span>{{cac.text}}</span>
+                    <button type="submit" (click)="selectComplaint(cac)">Select</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

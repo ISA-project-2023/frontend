@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { FullCalendarModule } from '@fullcalendar/angular';
 
 import { UserComponent } from './user/user.component';
@@ -13,6 +14,8 @@ import { ConfirmRegistrationComponent } from './confirm-registration/confirm-reg
 import { CompanyAdminProfileComponent } from './company-admin-profile/company-admin-profile.component';
 import { CompanyAdminProfileFormComponent } from './company-admin-profile-form/company-admin-profile-form.component';
 import { MyReservationsComponent } from './my-reservations/my-reservations.component';
+import { SystemAdminProfileComponent } from './system-admin-profile/system-admin-profile.component';
+import { SystemAdminRegistrationComponent } from './system-admin-registration/system-admin-registration.component';
 
 
 
@@ -24,13 +27,16 @@ import { MyReservationsComponent } from './my-reservations/my-reservations.compo
     ConfirmRegistrationComponent, 
     CompanyAdminProfileComponent,
     CompanyAdminProfileFormComponent,
-    MyReservationsComponent
+    MyReservationsComponent,
+    SystemAdminProfileComponent,
+    SystemAdminRegistrationComponent
   ],
   imports: [
     FormsModule,
     CommonModule, 
     MatFormFieldModule, 
     MatInputModule,
+    MatButtonModule,
     ReactiveFormsModule,
     FullCalendarModule
   ]

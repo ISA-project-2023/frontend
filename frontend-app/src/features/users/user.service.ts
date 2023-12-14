@@ -6,6 +6,8 @@ import { Company } from '../companies/model/company.model';
 import { User } from './model/user.model';
 import { Customer } from './model/customer.model';
 import { Reservation } from './model/reservation';
+import { CompanyComplaint } from './model/company-complaint.model';
+import { CompanyAdminComplaint } from './model/company-admin-complaint';
 
 @Injectable({
   providedIn: 'root'
@@ -62,7 +64,7 @@ export class UserService {
     const params = { password };
     const options = { params: new HttpParams({ fromObject: params }) };
 
-    return this.http.post(`${this.apiUrl}/api/users`, customer, options);
+    return this.http.post(`${this.apiUrl}/api/users/store`, customer, options);
   }
 
   activateUser(token: string) {
@@ -102,5 +104,13 @@ export class UserService {
 
   makeReservation(reservation: Reservation) {
     return this.http.post<Reservation>(`${this.apiUrl}/api/reservations`, reservation);
+  }
+  
+  getAllCompanyComplaints() : Observable<CompanyComplaint[]> {
+    return this.http.get<CompanyComplaint[]>(`${this.apiUrl}/api/complaints/allCompanyComplaints`);
+  }
+
+  getAllCompanyAdminComplaints() : Observable<CompanyAdminComplaint[]> {
+    return this.http.get<CompanyAdminComplaint[]>(`${this.apiUrl}/api/complaints/allCompanyAdminComplaints`);
   }
 }

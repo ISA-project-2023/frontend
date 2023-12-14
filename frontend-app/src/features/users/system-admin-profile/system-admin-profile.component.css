@@ -1,0 +1,63 @@
+h1{
+    margin-left: 20px;
+}
+
+.button-container{
+    display: flex;
+    flex-direction: row;
+}
+
+button {
+    background-color: #007bff;
+    margin-left: 20px;
+    color: #fff;
+    font-size: large;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.complaint-container{
+    display: flex;
+    justify-content: space-evenly;
+    height: 600px;
+}
+
+.register{
+    display: flex;
+    justify-content: center;
+    width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.center{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.column{
+    display: flex;
+    flex-direction: column;
+}
+
+.single-complaint{
+    display: flex;
+    justify-content: center;
+    background-color: #ddd;
+    width: 360px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
