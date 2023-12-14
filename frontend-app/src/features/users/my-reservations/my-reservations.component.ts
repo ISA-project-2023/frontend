@@ -21,6 +21,7 @@ export class MyReservationsComponent implements OnInit{
         this.userService.getCustomersReservations(this.user.id).subscribe(
           (result: Reservation[])=>{
             this.reservations = result;
+            console.log(this.reservations[0].pickUpAppointment.date);
           },
           (error)=>{
             console.log('Error occured while fetching reservations: ' + error);
@@ -32,5 +33,12 @@ export class MyReservationsComponent implements OnInit{
       }
     );
   }
-
+  
+  convertToDate(dateArray: number[]): Date | null {
+    if (dateArray && dateArray.length === 7) {
+      return new Date(dateArray[0], dateArray[1] - 1, dateArray[2], dateArray[3], dateArray[4], dateArray[5], dateArray[6]);
+    } else {
+      return null;
+    }
+  }
 }
