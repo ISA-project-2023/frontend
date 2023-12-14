@@ -87,6 +87,8 @@ export class PickupAppointmentFormComponent implements OnInit {
           },
           (error) => {
             console.error('Error! Cant add new appointment:', error);
+            alert(error.error);
+            this.appointmentForm.reset();
           }
         );
       } else {
