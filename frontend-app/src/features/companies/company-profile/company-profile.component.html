@@ -83,7 +83,7 @@
         <div *ngIf="user.role==='CUSTOMER' && availableAppointments" style="display: flex; flex-direction: row; justify-content: space-around; margin-bottom: 20px; margin-top: 20px; background-color: bisque; border-radius: 5px;">
             <label style="margin-right: 10px; width: fit-content;">Choose custome date for your appointment</label>
             <input type="date" placeholder="Date" [(ngModel)]="selectedDate">
-            <button style="margin-left: 10px;">Apply</button>
+            <button style="margin-left: 10px;" (click)="findCustomAppointments()">Apply</button>
         </div>
         <h2 *ngIf="user.role==='COMPANY_ADMIN'">PickUp Appointments</h2>
         <h2 *ngIf="user.role==='CUSTOMER' && availableAppointments">Available PickUp Appointments</h2>
@@ -94,13 +94,8 @@
                 <th>Duration (in hours)</th>
                 <th *ngIf="user.role==='CUSTOMER'">Select</th>
             </tr>
-            <tr *ngFor="let a of filterAppointments()">
-                <!-- TODO - companyAdmin full name insted of id -->
-                <!-- <td>{{a.companyAdmin.user?.firstName }} {{a.companyAdmin.user?.lastName }} </td> -->
-                <td>{{ a.companyAdmin.id }} </td>
-                <!-- TODO - format date  -->
-                <!-- <td>{{ a.date | date: 'dd.MM.yyyy HH:mm' }}</td>  -->
-                <!-- <td>{{ a.date | date: "dd.MM.yyyy HH:mm"}}</td>  -->
+            <tr *ngFor="let a of appointments">
+                <td>{{ a.companyAdmin }} </td>
                 <td>{{ a.date }}</td> 
                 <td>{{ a.duration }}</td> 
                 <td *ngIf="user.role==='CUSTOMER'"><button style="width: 90px; height: 30px;" (click)="selectAppointment(a)">Select</button></td>

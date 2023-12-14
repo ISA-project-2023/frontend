@@ -62,4 +62,7 @@ export class CompanyService {
   getByCompany(company: Company): Observable<PickUpAppointment[]> {
     return this.http.post<PickUpAppointment[]>(`${this.apiUrlAppointments}/findByCompany`, company);
   }
+  getCustomAppointmentsOnDate(date:Date, companyId: number){
+    return this.http.get<PickUpAppointment[]>(`${this.apiUrlAppointments}/custom/${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}/${companyId}`)
+  }
 }

@@ -32,7 +32,7 @@ export class CompanyProfileComponent implements OnInit {
   cart: Equipment[] = [];
   availableAppointments: boolean = false;
   selectedAppointment?: PickUpAppointment;
-  selectedDate?:Date;
+  selectedDate:Date|undefined;
   reservation: Reservation = {
     id: 0,
     company: undefined!,
@@ -70,11 +70,11 @@ export class CompanyProfileComponent implements OnInit {
     this.getCompany();
   }
 
-  filterAppointments(): PickUpAppointment[] {
+  filterAppointments(data: PickUpAppointment[]): PickUpAppointment[] {
     if(this.user.role==='CUSTOMER')
-      return this.appointments.filter(ap => ap.free);
+      return data.filter(ap => ap.free);
     else
-      return this.appointments;
+      return data;
   }
 
   selectAppointment(a: PickUpAppointment){
@@ -125,6 +125,19 @@ export class CompanyProfileComponent implements OnInit {
     this.scrollToElement();
   }
 
+  findCustomAppointments(){
+    if(!this.selectedDate || !this.company){
+      return;
+    }
+    this.companyService.getCustomAppointmentsOnDate(new Date(this.selectedDate), this.company.id).subscribe({
+      next: (result)=>{
+        this.appointments = result;
+      },
+      error: (err)=>{
+        alert(err);
+      }
+    });
+  }
   filter(){
     if(this.search==='' && this.company){
       this.equipment = this.company?.equipment;
@@ -180,7 +193,7 @@ export class CompanyProfileComponent implements OnInit {
     if (this.company !== undefined){
       this.companyService.getByCompany(this.company).subscribe(
         (data) => {
-          this.appointments = data;
+          this.appointments = this.filterAppointments(data);
         },
         (error) => {
           console.error('Unable to load appointments.');
