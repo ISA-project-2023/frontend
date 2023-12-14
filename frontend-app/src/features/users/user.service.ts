@@ -8,6 +8,7 @@ import { Customer } from './model/customer.model';
 import { Reservation } from './model/reservation';
 import { CompanyComplaint } from './model/company-complaint.model';
 import { CompanyAdminComplaint } from './model/company-admin-complaint';
+import { SystemAdmin } from './model/system-admin.model';
 
 @Injectable({
   providedIn: 'root'
@@ -64,7 +65,14 @@ export class UserService {
     const params = { password };
     const options = { params: new HttpParams({ fromObject: params }) };
 
-    return this.http.post(`${this.apiUrl}/api/users/store`, customer, options);
+    return this.http.post(`${this.apiUrl}/api/users`, customer, options);
+  }
+
+  saveSystemAdmin(systemAdmin: any, password: string): Observable<any> {
+    const params = { password };
+    const options = { params: new HttpParams({ fromObject: params }) };
+
+    return this.http.post(`${this.apiUrl}/api/users/saveSystemAdmin`, systemAdmin, options);
   }
 
   activateUser(token: string) {

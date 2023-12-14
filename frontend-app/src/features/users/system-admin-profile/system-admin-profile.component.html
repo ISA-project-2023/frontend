@@ -6,33 +6,29 @@
     </div>
     <div class="complaint-container">
         <div class="register">
-            <div class="center">
-                <div>
-                <h2>Company complaints:</h2>
-                </div>
+            <h2>Company complaints:</h2>
                 <div class="single-complaint" *ngFor="let cc of companyComplaints">
-                    <span>{{cc.text}}</span>
-                    <button type="submit" (click)="selectComplaint(cc)">Select</button>
+                    <span><b>Creator:</b> {{cc.customer.firstName}} {{cc.customer.lastName}}</span><br>
+                    <span>{{cc.text}}</span><br>
+                    <button class="select-button" type="submit" (click)="selectComplaint(cc)">Select</button>
                 </div>
-            </div>
         </div>
         <div class="column">
             <div class="register" *ngIf="selectedComplaint">
                 <div class="column">
-                    <span>Response to: {{selectedComplaint.customer.firstName}}</span><br>
-                    <textarea name="responseToAdmin" id="response" cols="40" rows="3"></textarea>
+                    <span>Response to: {{selectedComplaint.customer.firstName}} {{selectedComplaint.customer.lastName}}</span><br>
+                    <textarea name="responseToAdmin" id="response" cols="40" rows="3"></textarea><br>
                     <button type="submit" (click)="sendResponse()">Send response</button>
                 </div>
             </div>
         </div>
         <div class="register">
-            <div class="center">
                 <h2>Company administrator complaints:</h2>
                 <div class="single-complaint" *ngFor="let cac of companyAdminComplaints">
-                    <span>{{cac.text}}</span>
-                    <button type="submit" (click)="selectComplaint(cac)">Select</button>
+                    <span><b>Creator:</b> {{cac.customer.firstName}} {{cac.customer.lastName}}</span><br>
+                    <span>{{cac.text}}</span><br>
+                    <button class="select-button" type="submit" (click)="selectComplaint(cac)">Select</button>
                 </div>
-            </div>
         </div>
     </div>
 </div>
