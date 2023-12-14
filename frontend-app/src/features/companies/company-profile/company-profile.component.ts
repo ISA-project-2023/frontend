@@ -78,8 +78,11 @@ export class CompanyProfileComponent implements OnInit {
   }
 
   selectAppointment(a: PickUpAppointment){
+    if(!confirm('Are you sure you want to create reservation?')){
+      return;
+    }
     this.reservation.company = this.company!;
-    this.reservation.equipment = this.company!.equipment;
+    this.reservation.equipment = this.cart;
     this.reservation.status = "PENDING";
     
     this.userService.getCustomer(this.user.id).subscribe(
