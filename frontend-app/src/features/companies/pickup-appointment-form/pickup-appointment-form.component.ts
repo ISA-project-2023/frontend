@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { PickUpAppointment } from '../model/pickup-appointment.model';
 import { CompanyService } from '../company.service';
 import { CompanyAdmin } from 'src/features/users/model/company-admin.model';
@@ -17,31 +17,28 @@ export class PickupAppointmentFormComponent implements OnInit {
     private router: Router) {}
   
   user!: User;
-  newAppointment!: PickUpAppointment;
 
   appointment?: PickUpAppointment;
   companyAdmin?: CompanyAdmin;
   shouldEdit: boolean = false;
 
-  //dateString: any = '';  
-  // customDateValidator = Validators.pattern('^[0-9]{2}-[01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12]-[0-9]{4}[T]{1}[0-2]{1}[0-9]{1}:[0-9]{2}:[0-9]{2}$');
-  // appointmentForm = new FormGroup({
-  //   date: new FormControl('', [Validators.required, this.customDateValidator]),
-  //   duration: new FormControl(0, [Validators.required]),
-  // });
-
-  customDateValidator = Validators.pattern('^[0-9]{2}-[01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12]-[0-9]{4}[T]{1}[0-2]{1}[0-9]{1}:[0-9]{2}:[0-9]{2}$');
   appointmentForm = new FormGroup({
-    date: new FormControl('', [Validators.required, this.customDateValidator]),
+    date: new FormControl(new Date(), [Validators.required, this.futureDateValidator]),
     duration: new FormControl(0, [Validators.required]),
   });
 
+  // Custom validator function for future date
+  futureDateValidator(control: AbstractControl): { [key: string]: any } | null {
+    const selectedDate = new Date(control.value);
+    const currentDate = new Date();
+    return selectedDate > currentDate ? null : { 'futureDate': true };
+  }
 
   ngOnInit(): void {
     this.appointmentForm.reset();
     if(this.shouldEdit) {
       this.appointmentForm.patchValue({
-        date: this.appointment?.date.toDateString(),
+        date: this.appointment?.date,
         duration: this.appointment?.duration
       });  
     }
@@ -75,38 +72,27 @@ export class PickupAppointmentFormComponent implements OnInit {
     if( this.appointmentForm.value.date !== undefined || this.appointmentForm.value.date !== null ||
         this.appointmentForm.value.duration !== undefined || this.appointmentForm.value.duration !== null) {
         const newAppointment = {
-          //id: null,
-          //date: this.appointmentForm.value.date,
-          date: new Date(),
+          date: this.appointmentForm.value.date,
           duration: this.appointmentForm.value.duration,
           isFree: true,
           companyAdmin: this.companyAdmin
         }
         
         console.log(newAppointment);
-        // this.dateString = this.appointmentForm.value.date;
-        // console.log(this.dateString);
-        // this.companyService.addAppointment(newAppointment, this.dateString).subscribe(
-        //   response => {
-        //     console.log('Appointment saved successfully', response);
-        //     this.seeCompanyDetails(this.companyAdmin?.company.id);
-        //   },
-        //   error => {
-        //     console.error('Error! Cant add new appointment:', error);
-        //     alert('There was an error while saving the data! Please try again.');
-        //   }
+        
         this.companyService.addAppointment(newAppointment).subscribe(
           (appointment: any) => {
-            this.newAppointment = appointment;
-            console.log(this.newAppointment);
+            alert('new pickup appointment created!');
             this.seeCompanyDetails(appointment.companyAdmin.company.id);
           },
           (error) => {
             console.error('Error! Cant add new appointment:', error);
+            alert(error.error);
+            this.appointmentForm.reset();
           }
         );
       } else {
-        alert('please fill in form properly!');
+        alert('please fill in form properly! You cant inpit old date!');
     }
   }
 

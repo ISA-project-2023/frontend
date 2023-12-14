@@ -45,11 +45,6 @@ export class CompanyService {
   addAppointment(appointment: PickUpAppointment | any): Observable<PickUpAppointment> {
     return this.http.post<PickUpAppointment>(`${this.apiUrlAppointments}/addNew`, appointment);
   }
-  // addAppointment(appointment: any, date: any): Observable<any> {
-  //   const params = { date };
-  //   const options = { params: new HttpParams({ fromObject: params }) };
-  //   return this.http.post(`${this.apiUrlAppointments}`, appointment, options);
-  // }
   updateAppointment(appointment: PickUpAppointment): Observable<PickUpAppointment> {
     return this.http.put<PickUpAppointment>(`${this.apiUrlAppointments}`, appointment);
   }
