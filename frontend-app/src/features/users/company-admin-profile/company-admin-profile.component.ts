@@ -17,7 +17,6 @@ import { CompanyService } from 'src/features/companies/company.service';
 })
 export class CompanyAdminProfileComponent implements OnInit, OnChanges {
   companyAdmin!: CompanyAdmin; 
-  updatedCompanyAdmin!: CompanyAdmin; 
   companyId: number = 0;
   shouldEdit: boolean = false;
   shouldRenderEditForm: boolean = false; 
@@ -42,28 +41,11 @@ export class CompanyAdminProfileComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.getUser()
-    //this.getCompanyAdmin(this.user);
   }
 
   ngOnChanges(): void {
     this.getUser();
-    //this.getCompanyAdmin(this.user);
   }
-
-
-  // TODO why this doesnt work?
-  // getCurrentCompanyAdmin(): void{
-  //   this.userService.getCurrentCompanyAdmin().subscribe(
-  //     (user: CompanyAdmin) => {
-  //       this.companyAdmin = user;
-  //       this.updatedCompanyAdmin = user;
-  //       console.log(this.companyAdmin);
-  //     },
-  //     (error) => {
-  //       console.error('Error fetching current user:', error);
-  //     }
-  //   );
-  // }
 
   getUser(): void{
     this.userService.getCurrentUser().subscribe(
@@ -71,7 +53,6 @@ export class CompanyAdminProfileComponent implements OnInit, OnChanges {
         this.user = user;
         this.updatedUser = user;
         this.getCompanyAdmin(user);
-        //console.log(this.companyAdmin)
       },
       (error) => {
         console.error('Error fetching current user:', error);
@@ -84,19 +65,15 @@ export class CompanyAdminProfileComponent implements OnInit, OnChanges {
       (compAdmin : CompanyAdmin) => {
         this.companyAdmin = compAdmin;
         this.companyAdmin.username = user.username;
-        this.companyAdmin.firstName = user.firstName;
-        this.companyAdmin.lastName = user.lastName;
+        this.companyAdmin.firstName = this.updatedUser.firstName;
+        this.companyAdmin.lastName = this.updatedUser.lastName;
         this.companyAdmin.email = user.email;
         this.companyAdmin.role = user.role;
         this.companyAdmin.penaltyPoints = user.penaltyPoints;
         this.companyAdmin.category = user.category;
         
-        this.updatedCompanyAdmin = this.companyAdmin;
         this.companyId = compAdmin.company.id;
         
-        console.log(this.companyAdmin)
-        console.log(this.updatedCompanyAdmin)
-
         this.getReservationsForCompanyAdmin()
       },
       (error) => {
@@ -126,8 +103,8 @@ export class CompanyAdminProfileComponent implements OnInit, OnChanges {
 
   onCompanyAdminUpdated(): void{
     this.shouldEdit = false;
-    this. shouldRenderEditForm = false;
-    this.getUser();
+    this.shouldRenderEditForm = false;
+    this.getCompanyAdmin(this.updatedUser);
   }
 
   addNewAppointment(): void {
