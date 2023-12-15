@@ -66,7 +66,7 @@ export class CompanyAdminProfileComponent implements OnInit, OnChanges {
   // }
 
   getUser(): void{
-    this.userService.getUser(1).subscribe(
+    this.userService.getCurrentUser().subscribe(
       (user: User) => {
         this.user = user;
         this.updatedUser = user;
