@@ -142,21 +142,8 @@ export class CompanyAdminProfileComponent implements OnInit, OnChanges {
     if(this.reservations != undefined){
       return this.reservations.map(reservation => ({
         title: `${reservation.customer.firstName} ${reservation.customer.lastName}`,
-        start: this.formatDate(reservation.pickUpAppointment.date),
-        //start: new Date('2023-12-12 09:10:00'),
-        end: new Date('2023-12-12 11:10:00')
-        //end: this.calculateEndDate(reservation)
+        start: reservation.pickUpAppointment.date
       }));
     }
-  }
-
-  calculateEndDate(reservation: Reservation) : number {
-    const datum = new Date();
-    return datum.setTime(reservation.pickUpAppointment.date.getTime() + reservation.pickUpAppointment.duration * 60 * 60 * 1000)
-  }
-
-  formatDate(date: Date) : string {
-    
-    return 'sisa'
   }
 }
