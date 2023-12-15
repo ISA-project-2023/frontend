@@ -4,6 +4,7 @@ import { CompanyService } from '../company.service';
 import { Company } from '../model/company.model';
 import { UserService } from 'src/features/users/user.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CompanyAdmin } from 'src/features/users/model/company-admin.model';
 
 
 @Component({
@@ -33,7 +34,7 @@ export class CompanyRegistrationComponent {
   repassword: string = '';
   email: string = '';
 
-  user!: User;
+  companyAdmin!: CompanyAdmin;
   company!: Company;
 
   save() : void {
@@ -63,7 +64,7 @@ export class CompanyRegistrationComponent {
         equipment: []
       };
       
-      this.user = {
+      this.companyAdmin = {
         id: 0,
         username: this.username,
         email: this.email,
@@ -71,7 +72,9 @@ export class CompanyRegistrationComponent {
         role: 'COMPANY_ADMIN', 
         firstName: this.nameAdmin,
         lastName: this.surnameAdmin,
-        category: 'REGULAR'
+        category: 'REGULAR',
+        jobDescription: '',
+        company: this.company
       };
 
     console.log(this.company)
@@ -83,7 +86,7 @@ export class CompanyRegistrationComponent {
       }
     });
 
-    this.userService.saveUser(this.user, this.password).subscribe({
+    this.userService.saveCompanyAdmin(this.companyAdmin, this.password).subscribe({
       next: () => {
         this.registrationOk = true
         this.allEntered = false

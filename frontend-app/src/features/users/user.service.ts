@@ -6,6 +6,9 @@ import { Company } from '../companies/model/company.model';
 import { User } from './model/user.model';
 import { Customer } from './model/customer.model';
 import { Reservation } from './model/reservation';
+import { CompanyComplaint } from './model/company-complaint.model';
+import { CompanyAdminComplaint } from './model/company-admin-complaint';
+import { SystemAdmin } from './model/system-admin.model';
 
 @Injectable({
   providedIn: 'root'
@@ -65,6 +68,13 @@ export class UserService {
     return this.http.post(`${this.apiUrl}/api/users`, customer, options);
   }
 
+  saveSystemAdmin(systemAdmin: any, password: string): Observable<any> {
+    const params = { password };
+    const options = { params: new HttpParams({ fromObject: params }) };
+
+    return this.http.post(`${this.apiUrl}/api/users/saveSystemAdmin`, systemAdmin, options);
+  }
+
   activateUser(token: string) {
     return this.http.get(`${this.apiUrl}/api/users/activate/${token}`, { responseType: 'text' });
   }
@@ -102,5 +112,13 @@ export class UserService {
 
   makeReservation(reservation: Reservation) {
     return this.http.post<Reservation>(`${this.apiUrl}/api/reservations`, reservation);
+  }
+  
+  getAllCompanyComplaints() : Observable<CompanyComplaint[]> {
+    return this.http.get<CompanyComplaint[]>(`${this.apiUrl}/api/complaints/allCompanyComplaints`);
+  }
+
+  getAllCompanyAdminComplaints() : Observable<CompanyAdminComplaint[]> {
+    return this.http.get<CompanyAdminComplaint[]>(`${this.apiUrl}/api/complaints/allCompanyAdminComplaints`);
   }
 }

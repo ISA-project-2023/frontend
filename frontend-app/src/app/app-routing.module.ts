@@ -12,6 +12,8 @@ import { ConfirmRegistrationComponent } from 'src/features/users/confirm-registr
 import { CompanyRegistrationComponent } from 'src/features/companies/company-registration/company-registration.component';
 import { SearchEquipmentComponent } from 'src/features/companies/search-equipment/search-equipment.component';
 import { MyReservationsComponent } from 'src/features/users/my-reservations/my-reservations.component';
+import { SystemAdminProfileComponent } from 'src/features/users/system-admin-profile/system-admin-profile.component';
+import { SystemAdminRegistrationComponent } from 'src/features/users/system-admin-registration/system-admin-registration.component';
 
 const routes: Routes = [
   { path: 'companiesReview', component: CompanyComponent },
@@ -26,6 +28,8 @@ const routes: Routes = [
   { path: 'companyRegistration', component: CompanyRegistrationComponent},
   { path: 'searchEquipment', component: SearchEquipmentComponent},
   { path: 'my-reservations', component: MyReservationsComponent},
+  { path: 'system-admin-profile', component: SystemAdminProfileComponent},
+  { path: 'system-admin-registration', component: SystemAdminRegistrationComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 

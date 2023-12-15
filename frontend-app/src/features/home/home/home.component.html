@@ -39,6 +39,7 @@
     <button (click)="navigateToCompanies()">Companies</button>
     <button (click)="navigateToMyProfile()">My Profile</button>
     <button *ngIf="isLoggedIn()" (click)="navigateToCompanyAdminProfile()">CompanyAdmin Profile</button>
+    <button *ngIf="isLoggedIn()" (click)="navigateToSystemAdminProfile()">SystemAdmin Profile</button>
   </div>
 
   <footer>

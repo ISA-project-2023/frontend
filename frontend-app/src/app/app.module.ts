@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FullCalendarModule } from '@fullcalendar/angular'
 
 import { CompaniesModule } from 'src/features/companies/companies.module';
 import { HomeModule } from 'src/features/home/home.module';
@@ -28,7 +29,8 @@ import { UsersModule } from 'src/features/users/users.module';
     CompaniesModule,
     UsersModule,
     HomeModule,
-    UsersModule
+    UsersModule,
+    FullCalendarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

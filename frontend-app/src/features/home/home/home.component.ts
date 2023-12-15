@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { User } from 'src/features/users/model/user.model';
 import { UserService } from 'src/features/users/user.service';
 
 @Component({
@@ -10,6 +11,7 @@ import { UserService } from 'src/features/users/user.service';
 })
 export class HomeComponent {
   loginForm: FormGroup;
+  loggedUser: User | undefined;
   
   constructor(private router: Router, private userService: UserService, private fb: FormBuilder) {
     this.loginForm = this.fb.group({
@@ -50,6 +52,10 @@ export class HomeComponent {
 
   navigateToMyReservations(){
     this.router.navigate(['/my-reservations']);
+  }
+
+  navigateToSystemAdminProfile(){
+    this.router.navigate(['/system-admin-profile'])
   }
   
   logout() {
