@@ -50,7 +50,8 @@ export class SystemAdminRegistrationComponent implements OnInit {
         lastName: this.lastName,
         penaltyPoints: 0,
         category: 'kategorija',
-        role: 'SYSTEM_ADMIN'
+        role: 'SYSTEM_ADMIN',
+        isActivated: false
       };
 
       for(let user of this.users){
@@ -61,7 +62,7 @@ export class SystemAdminRegistrationComponent implements OnInit {
         }
       }
 
-      this.userService.saveUser(admin, this.password).subscribe(
+      this.userService.saveSystemAdmin(admin, this.password).subscribe(
         response => {
             console.log('Admin saved successfully', response);
             alert('Admin saved successfully!');
