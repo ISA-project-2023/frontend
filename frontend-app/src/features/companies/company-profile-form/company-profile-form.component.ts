@@ -35,8 +35,6 @@ export class CompanyProfileFormComponent implements OnChanges {
       this.companyProfileForm.patchValue({
         name: this.company?.name,
         location: this.company?.location,
-        startTime: this.company?.startTime,
-        endTime: this.company?.endTime,
         grade: this.company?.grade
       });  
     }
@@ -45,8 +43,6 @@ export class CompanyProfileFormComponent implements OnChanges {
   companyProfileForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     location: new FormControl('', [Validators.required]),
-    startTime: new FormControl('', [Validators.required]),
-    endTime: new FormControl('', [Validators.required]),
     grade: new FormControl(0, [Validators.required]),
     //equipment: new FormControl<Equipment>([], {nonNullable: false})
   });
@@ -62,20 +58,18 @@ export class CompanyProfileFormComponent implements OnChanges {
     );
   }
 
-  updateCompanyProfile(): void {
-    //TODO - format startTime and endTime input
-    console.log(this.companyProfileForm.value.startTime);
-    
-    // const comp: Company = {
-    //   name: this.companyProfileForm.value.name as string || "",
-    //   location: this.companyProfileForm.value.location as string || '',
-    //   grade: Number(this.companyProfileForm.value.grade) /*as number*/ || 0,
-    //   startTime: this.companyProfileForm.value.startTime ,
-    //   endTime: this.companyProfileForm.value.endTime
-    //   //equipment: this.companyProfileForm.equipment
-    // };
+  updateCompanyProfile(): void {    
     if (this.company !== undefined){
-      const comp = this.company;
+      const comp: Company = {
+        id: this.company?.id || 0,
+        startTime: this.company?.startTime || "",
+        endTime: this.company?.endTime || "",
+        equipment: this.company?.equipment || this.equipment,
+  
+        name: this.companyProfileForm.value.name as string || "",
+        location: this.companyProfileForm.value.location as string || '',
+        grade: Number(this.companyProfileForm.value.grade) || 0,
+      };
       this.companyService.updateCompany(comp).subscribe({
         next: () => {
           this.companyProfileUpdated.emit();

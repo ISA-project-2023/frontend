@@ -3,6 +3,7 @@
         <div>
 
             <table>
+                <th>Company Info</th>
                 <tr>
                     <td>
                         <mat-form-field class="content">
@@ -27,22 +28,20 @@
                         </mat-form-field>
                     </td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td>
                         <div class="shift-div">
                             <mat-form-field class="content">
                                 <mat-label>Start of shift</mat-label>
-                                 <!-- <input matInput formControlName="startTime" type="datetime" /> -->
-                                     <!--    [defaultValue]="07:00" -->                    
+                                 <input matInput formControlName="startTime" type="datetime" />
                             </mat-form-field>
                             <mat-form-field class="content">
                                 <mat-label>End of shift</mat-label>
-                                <!-- <input matInput formControlName="endTime" type="datetime" /> -->
-                                    <!--    [defaultValue]="07:00" -->
+                                <input matInput formControlName="endTime" type="datetime" />
                             </mat-form-field>
                         </div>
                     </td>
-                </tr>
+                </tr> -->
             </table>
 
             <!-- TODO - company available equipment update -->
@@ -50,7 +49,7 @@
             <!-- TODO - fix update -->
             <!-- Update -->
             <button *ngIf="shouldEdit" color="primary" type="submit" (click)="updateCompanyProfile()" mat-raised-button>
-                save changes
+                Save changes
             </button>
         </div>
     </form>
