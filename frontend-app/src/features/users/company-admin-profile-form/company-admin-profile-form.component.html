@@ -62,6 +62,15 @@
             <button *ngIf="shouldEdit" color="primary" type="submit" (click)="updateCompanyAdminProfile()" mat-raised-button>
                 Save changes
             </button>
+
+            <button *ngIf="shouldEdit" color="primary" (click)="onChangePassword()">
+                Change password
+            </button>
         </div>
     </form>
+    <div>
+        <xp-change-password 
+            *ngIf="changePasswordEdit" (passwordChanged)="onPasswordChanged()" [user]="user" 
+            [shouldEdit]="shouldEdit"  ></xp-change-password>
+    </div>
 </div>

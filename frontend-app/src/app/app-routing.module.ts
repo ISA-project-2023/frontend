@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CompanyComponent } from 'src/features/companies/company/company.component';
 import { HomeComponent } from 'src/features/home/home/home.component';
+import { ChangePasswordComponent } from 'src/features/users/change-password/change-password.component'
 import { MyProfileComponent } from 'src/features/users/my-profile/my-profile.component';
 import { CompanyProfileComponent } from 'src/features/companies/company-profile/company-profile.component';
 import { CompanyProfileFormComponent } from 'src/features/companies/company-profile-form/company-profile-form.component';
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'company-profile/edit/:id', component: CompanyProfileFormComponent },
   { path: 'company-admin-profile/add-appointment', component: PickupAppointmentFormComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'change-password', component: ChangePasswordComponent },
   { path: 'register', component: RegistrationComponent },
   { path: 'activate/:token', component: ConfirmRegistrationComponent },
   { path: 'companyRegistration', component: CompanyRegistrationComponent},

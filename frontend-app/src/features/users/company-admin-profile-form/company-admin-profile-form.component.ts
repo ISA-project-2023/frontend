@@ -20,6 +20,8 @@ export class CompanyAdminProfileFormComponent implements OnChanges {
   updatedCompanyAdmin!: CompanyAdmin;
   emptyString: String = '';
 
+  changePasswordEdit: boolean = false;
+
   constructor(private userService: UserService) { }
 
   companyAdminForm = new FormGroup({
@@ -81,7 +83,7 @@ export class CompanyAdminProfileFormComponent implements OnChanges {
           this.user.firstName = updatedCompanyAdmin.firstName;
           this.user.lastName = updatedCompanyAdmin.lastName;
 
-          alert('Profile updated successfully!');
+          console.error('Profile updated successfully!');
           this.companyAdminProfileUpdated.emit();
         },
         (error) => {
@@ -89,15 +91,6 @@ export class CompanyAdminProfileFormComponent implements OnChanges {
           return false;
         }
       );
-
-      //this.updatedUser.id = 
-
-      // if (this.updateUserAndCompanyAdmin(editedUser, editedCompanyAdmin)){
-      //   alert('Profile updated successfully!');
-      //   this.companyAdminProfileUpdated.emit();
-      // } else {
-      //   console.error('unknown update error: ');
-      // }
     } 
     else {
       alert('please fill in form properly!');
@@ -129,5 +122,12 @@ export class CompanyAdminProfileFormComponent implements OnChanges {
     );
     
     return true;
+  }
+
+  onChangePassword():void{
+    this.changePasswordEdit = true;
+  }
+  onPasswordChanged():void{
+    this.changePasswordEdit = false;
   }
 }

@@ -16,6 +16,7 @@ import { CompanyAdminProfileFormComponent } from './company-admin-profile-form/c
 import { MyReservationsComponent } from './my-reservations/my-reservations.component';
 import { SystemAdminProfileComponent } from './system-admin-profile/system-admin-profile.component';
 import { SystemAdminRegistrationComponent } from './system-admin-registration/system-admin-registration.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 
 
@@ -29,7 +30,8 @@ import { SystemAdminRegistrationComponent } from './system-admin-registration/sy
     CompanyAdminProfileFormComponent,
     MyReservationsComponent,
     SystemAdminProfileComponent,
-    SystemAdminRegistrationComponent
+    SystemAdminRegistrationComponent,
+    ChangePasswordComponent
   ],
   imports: [
     FormsModule,

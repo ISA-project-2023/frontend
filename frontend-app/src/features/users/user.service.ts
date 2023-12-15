@@ -36,6 +36,13 @@ export class UserService {
         );
   }  
 
+  changePassword(user: User, password: string): Observable<any> {
+    const params = { password };
+    const options = { params: new HttpParams({ fromObject: params }) };
+
+    return this.http.put(`${this.apiUrl}/api/users/change-password`, user, options);
+  }
+
   getCurrentUser(): Observable<User>{
     return this.http.get<User>(`${this.apiUrl}/api/users/current-user` );
   } 	
