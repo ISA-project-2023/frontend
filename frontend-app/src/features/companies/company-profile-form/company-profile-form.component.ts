@@ -18,6 +18,7 @@ export class CompanyProfileFormComponent implements OnChanges {
   
   companyId: number = 0;
   equipment: Equipment[] = [];
+  availableEquipment: Equipment[] = [];
   //TODO - company available equipment update
 
   constructor(private companyService: CompanyService,
@@ -26,6 +27,7 @@ export class CompanyProfileFormComponent implements OnChanges {
         this.companyId = params['id'];
         console.log(this.companyId);
         this.getCompany();
+        this.getAvailableEquipment();
       });
   }
 
@@ -51,10 +53,34 @@ export class CompanyProfileFormComponent implements OnChanges {
     this.companyService.getCompany(this.companyId).subscribe(
       (data) => {
         this.company = data;
+        this.equipment = this.company.equipment;
       },
       (error) => {
         alert('Unable to load company. Try again later.');
       }
+    );
+  }
+
+  getAvailableEquipment(): void {
+    this.companyService.getEquipment().subscribe(
+      (data) => {
+        this.availableEquipment = data;
+        
+        // Remove company equipment from available equipment
+        this.availableEquipment = this.availableEquipment.filter(
+          (equipment) => !this.isEquipmentInCompany(equipment)
+        );
+      },
+      (error) => {
+        alert('Unable to load equipment. Try again later.');
+      }
+    );
+  }
+
+  // Helper function to check if equipment is in the company
+  private isEquipmentInCompany(equipment: any): boolean {
+    return this.company!.equipment.some(
+      (companyEquipment) => companyEquipment.id === equipment.id
     );
   }
 

@@ -31,7 +31,7 @@ export class CompanyService {
     return this.http.delete<Company>(`${this.apiUrl}/${id}`);
   }
   getEquipment(): Observable<Equipment[]>{
-    return this.http.get<Equipment[]>(`${this.apiUrl}/all`);
+    return this.http.get<Equipment[]>(`http://localhost:8084/api/equipment/all`);
   }
 
   // PickUpAppointments
