@@ -55,7 +55,7 @@ export class CompanyRegistrationComponent {
     } else {
 
       this.company = {
-        id: 0,
+        id: 1,
         name: this.name,
         location: this.location,
         grade: 0,
@@ -65,7 +65,7 @@ export class CompanyRegistrationComponent {
       };
       
       this.companyAdmin = {
-        id: 0,
+        id: 1,
         username: this.username,
         email: this.email,
         penaltyPoints: 0,
@@ -78,7 +78,7 @@ export class CompanyRegistrationComponent {
       };
 
     console.log(this.company)
-
+    console.log(this.companyAdmin)
     this.service.addCompany(this.company).subscribe({
       next: () => {
       },

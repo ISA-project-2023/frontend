@@ -72,7 +72,7 @@ export class CompanyProfileComponent implements OnInit {
 
   filterAppointments(data: PickUpAppointment[]): PickUpAppointment[] {
     if(this.user.role==='CUSTOMER')
-      return data.filter(ap => ap.free);
+      return data.filter(ap => ap.isFree);
     else
       return data;
   }

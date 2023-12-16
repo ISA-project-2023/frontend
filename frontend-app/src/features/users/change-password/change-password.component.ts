@@ -21,7 +21,7 @@ export class ChangePasswordComponent implements OnChanges {
   password1: string = '';
   password2: string = '';
   
-  constructor(private userService: UserService, private fb: FormBuilder) {
+  constructor(private userService: UserService, private fb: FormBuilder, private router: Router) {
     this.passwordForm = this.fb.group({
       //oldPassword: ['', Validators.required],
       password: ['', Validators.required],
@@ -66,6 +66,10 @@ export class ChangePasswordComponent implements OnChanges {
             this.user = data;
             alert('password changed!')
             this.passwordChanged.emit();
+            if(this.user.role === 'SYSTEM_ADMIN'){
+              this.updateSystemAdmin();
+            }
+            this.router.navigate(['/home']);
           }, 
           (error) => {
             console.log(error);
@@ -78,4 +82,15 @@ export class ChangePasswordComponent implements OnChanges {
       alert("please fill the form properly! \nAll fields are necessary!");
     }    
   } 
+
+  updateSystemAdmin(): void {
+    this.userService.updateSystemAdmin(this.user.id).subscribe(
+      (data) => {
+
+      }, 
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 }
