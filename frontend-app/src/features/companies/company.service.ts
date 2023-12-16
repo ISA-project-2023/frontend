@@ -27,6 +27,9 @@ export class CompanyService {
   updateCompany(company: Company): Observable<Company> {
     return this.http.put<Company>(`${this.apiUrl}`, company);
   }
+  updateCompanyEquipment(company: Company): Observable<Company> {
+    return this.http.put<Company>(`${this.apiUrl}/equipment-update`, company);
+  }
   deleteCompany(id: number): Observable<Company> {
     return this.http.delete<Company>(`${this.apiUrl}/${id}`);
   }

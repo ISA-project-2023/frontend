@@ -17,9 +17,9 @@ export class CompanyProfileFormComponent implements OnChanges {
   @Input() shouldEdit: boolean = false;
   
   companyId: number = 0;
-  equipment: Equipment[] = [];
+  updatedEquipment: Equipment[] = [];
   availableEquipment: Equipment[] = [];
-  //TODO - company available equipment update
+  shouldEquipmentUpdate: boolean = false;
 
   constructor(private companyService: CompanyService,
     private route: ActivatedRoute){
@@ -40,25 +40,55 @@ export class CompanyProfileFormComponent implements OnChanges {
         grade: this.company?.grade
       });  
     }
+    this.getCompany();
+    this.getAvailableEquipment();
   }
 
   companyProfileForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     location: new FormControl('', [Validators.required]),
     grade: new FormControl(0, [Validators.required]),
-    //equipment: new FormControl<Equipment>([], {nonNullable: false})
   });
   
   getCompany(): void {
     this.companyService.getCompany(this.companyId).subscribe(
       (data) => {
         this.company = data;
-        this.equipment = this.company.equipment;
+        this.updatedEquipment = this.company.equipment;
       },
       (error) => {
         alert('Unable to load company. Try again later.');
       }
     );
+  }
+
+  updateCompanyProfile(): void {    
+    if (this.company !== undefined){
+      const comp: Company = {
+        id: this.company?.id || 0,
+        startTime: this.company?.startTime || "",
+        endTime: this.company?.endTime || "",
+        equipment: this.company?.equipment || this.updatedEquipment,
+  
+        name: this.companyProfileForm.value.name as string || "",
+        location: this.companyProfileForm.value.location as string || '',
+        grade: Number(this.companyProfileForm.value.grade) || 0,
+      };
+      this.companyService.updateCompany(comp).subscribe({
+        next: () => {
+          this.companyProfileUpdated.emit();
+          this.companyProfileForm.reset();
+        },
+        error: () => {}
+      });
+    } else {
+      alert('cant update company');
+    }
+  }
+
+  // company equipment update
+  openEquipmentUpdate(): void{
+    this.shouldEquipmentUpdate = true;
   }
 
   getAvailableEquipment(): void {
@@ -77,34 +107,53 @@ export class CompanyProfileFormComponent implements OnChanges {
     );
   }
 
-  // Helper function to check if equipment is in the company
   private isEquipmentInCompany(equipment: any): boolean {
     return this.company!.equipment.some(
       (companyEquipment) => companyEquipment.id === equipment.id
     );
   }
 
-  updateCompanyProfile(): void {    
+  removeEquipment(e: Equipment):void{
+    if (this.company !== undefined){
+      const indexToRemove = this.updatedEquipment.findIndex(item => item.id === e.id);
+      this.availableEquipment.push(e);
+      this.updatedEquipment.splice(indexToRemove);
+
+      this.getAvailableEquipment();
+    }
+  }
+
+  addEquipment(e: Equipment):void{
+    if (this.company !== undefined){
+      this.updatedEquipment.push(e);
+      const indexToRemove = this.availableEquipment.findIndex(item => item.id === e.id);
+      this.availableEquipment.splice(indexToRemove);
+
+      this.getAvailableEquipment();
+    }
+  }
+
+  updateCompanyEquipment(): void {    
     if (this.company !== undefined){
       const comp: Company = {
         id: this.company?.id || 0,
-        startTime: this.company?.startTime || "",
-        endTime: this.company?.endTime || "",
-        equipment: this.company?.equipment || this.equipment,
-  
         name: this.companyProfileForm.value.name as string || "",
         location: this.companyProfileForm.value.location as string || '',
         grade: Number(this.companyProfileForm.value.grade) || 0,
+        startTime: this.company?.startTime || "",
+        endTime: this.company?.endTime || "",
+        equipment: this.updatedEquipment,
       };
-      this.companyService.updateCompany(comp).subscribe({
+      this.companyService.updateCompanyEquipment(comp).subscribe({
         next: () => {
           this.companyProfileUpdated.emit();
           this.companyProfileForm.reset();
         },
         error: () => {}
       });
+      this.shouldEquipmentUpdate = false;
     } else {
-      alert('cant update company');
+      alert('cant update company equipment');
     }
   }
 }
