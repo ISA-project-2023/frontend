@@ -4,6 +4,6 @@ export interface PickUpAppointment{
     id: number;
     date: Date;
     duration: number;
-    free: boolean;
+    isFree: boolean;
     companyAdmin: CompanyAdmin
 }

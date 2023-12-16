@@ -49,11 +49,17 @@ export class UserService {
   getCurrentCustomer(): Observable<Customer>{
     return this.http.get<Customer>(`${this.apiUrl}/api/users/current-customer` );
   } 	
+  getCurrentSystemAdmin(): Observable<SystemAdmin>{
+    return this.http.get<SystemAdmin>(`${this.apiUrl}/api/users/current-systemAdmin` );
+  }
   updateUser(user: User): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/api/users`, user);
   }
   updateCustomer(user: Customer): Observable<Customer> {
     return this.http.put<Customer>(`${this.apiUrl}/api/users/customer`, user);
+  }
+  updateSystemAdmin(id: number): Observable<SystemAdmin> {
+    return this.http.put<SystemAdmin>(`${this.apiUrl}/api/users/updateSystemAdmin`, id);
   }
   getUser(id: number): Observable<User>{
     return this.http.get<User>(`${this.apiUrl}/api/users/${id}`);
@@ -62,7 +68,8 @@ export class UserService {
     return this.http.get<User[]>(`${this.apiUrl}/api/users/all`);
   }
   saveCompanyAdmin(admin: CompanyAdmin, password: string): Observable<CompanyAdmin>{
-    return this.http.post<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins/`+ password, admin)
+    console.log(password)
+    return this.http.post<CompanyAdmin>(`${this.apiUrl}/api/companyAdmins/${password}`, admin)
   }
   isAuthenticated(): boolean {
     return !!localStorage.getItem('sessionId');
@@ -89,22 +96,22 @@ export class UserService {
   //  CompanyAdmins 
   //  api/users/companyAdmins
   getCompanyAdmins(): Observable<CompanyAdmin[]> {
-    return this.http.get<CompanyAdmin[]>(`${this.apiUrl}/api/users/companyAdmins/all`);
+    return this.http.get<CompanyAdmin[]>(`${this.apiUrl}/api/companyAdmins/all`);
   }
   getCompanyAdmin(id: number): Observable<CompanyAdmin> {
-    return this.http.get<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins/${id}`);
+    return this.http.get<CompanyAdmin>(`${this.apiUrl}/api/companyAdmins/${id}`);
   }
   getCurrentCompanyAdmin(): Observable<CompanyAdmin>{
     return this.http.get<CompanyAdmin>(`${this.apiUrl}/api/users/current-companyAdmin`);
   }
   getCompanyAdminsByCompany(company: Company): Observable<CompanyAdmin[]> {
-    return this.http.post<CompanyAdmin[]>(`${this.apiUrl}/api/users/companyAdmins/findByCompany`, company);
+    return this.http.post<CompanyAdmin[]>(`${this.apiUrl}/api/companyAdmins/findByCompany`, company);
   }
   // addCompanyAdmin(company: CompanyAdmin):  Observable<CompanyAdmin> {
   //   return this.http.post<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins`, company);
   // }
   updateCompanyAdmin(companyAdmin: CompanyAdmin): Observable<CompanyAdmin> {
-    return this.http.put<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins`, companyAdmin);
+    return this.http.put<CompanyAdmin>(`${this.apiUrl}/api/companyAdmins`, companyAdmin);
   }
   // deleteCompanyAdmin(id: number): Observable<CompanyAdmin> {
   //   return this.http.delete<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins/${id}`);

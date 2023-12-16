@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SystemAdmin } from 'src/features/users/model/system-admin.model';
 import { User } from 'src/features/users/model/user.model';
 import { UserService } from 'src/features/users/user.service';
 
@@ -57,6 +58,10 @@ export class HomeComponent {
   navigateToSystemAdminProfile(){
     this.router.navigate(['/system-admin-profile'])
   }
+
+  navigateToPickUpAppointments(){
+    this.router.navigate(['/system-admin-profile'])
+  }
   
   logout() {
     this.userService.logout().subscribe(
@@ -95,7 +100,7 @@ export class HomeComponent {
       this.userService.login(credentials).subscribe(
         (sessionId) => {
           localStorage.setItem('sessionId', sessionId);
-          this.router.navigate(['/home']);
+          this.getLoggedUser()
         },
         (error) => {
           console.error('Login error:', error);
@@ -104,4 +109,36 @@ export class HomeComponent {
       );
     }
   } 
+
+  getLoggedUser() : void{
+    this.userService.getCurrentUser().subscribe(
+      (user: User) => {
+        this.loggedUser = user
+        if(user.role === 'SYSTEM_ADMIN'){
+          this.getSystemAdmin();
+        } else {
+          this.router.navigate(['/home']);
+        }
+      },
+      (error) => {
+        console.log('Nije dobavljen ulogovani korisnik')
+      }
+    )
+  }
+
+  getSystemAdmin(): void{
+    this.userService.getCurrentSystemAdmin().subscribe(
+      (admin: SystemAdmin) => {
+        if(admin.isActivated === false){
+          this.router.navigate(['change-password']);
+        } else {
+          this.router.navigate(['/home']);
+        }
+      },
+      (error) => {
+        console.log('Nije dobavljen ulogovani systemAdmin')
+        console.log(error)
+      }
+    )
+  }
 }
