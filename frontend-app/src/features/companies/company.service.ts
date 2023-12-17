@@ -5,7 +5,8 @@ import { Company } from './model/company.model';
 import { CompanyAdmin } from '../users/model/company-admin.model';
 import { PickUpAppointment } from './model/pickup-appointment.model';
 import { Equipment } from './model/equipment.model';
-import { Reservation } from './model/reservation.model';
+//import { Reservation } from './model/reservation.model';
+import { Reservation } from '../users/model/reservation';
 
 @Injectable({
   providedIn: 'root',
@@ -74,5 +75,8 @@ export class CompanyService {
 
   getReservationsForCompanyAdmin(id: number): Observable<Reservation[]>{
     return this.http.get<Reservation[]>(`${this.apiUrlReservations}/findByCompanyAdmin/` + id);
+  }
+  getReservationsByCompany(id: number): Observable<Reservation[]>{
+    return this.http.get<Reservation[]>(`${this.apiUrlReservations}/allByCompany/` + id);
   }
 }

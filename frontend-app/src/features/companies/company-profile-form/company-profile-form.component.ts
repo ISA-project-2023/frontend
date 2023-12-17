@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Company } from '../model/company.model';
 import { Equipment } from '../model/equipment.model';
 import { CompanyService } from '../company.service';
+import { Reservation } from 'src/features/users/model/reservation';
 
 @Component({
   selector: 'xp-company-profile-form',
@@ -20,6 +21,8 @@ export class CompanyProfileFormComponent implements OnChanges {
   updatedEquipment: Equipment[] = [];
   availableEquipment: Equipment[] = [];
   shouldEquipmentUpdate: boolean = false;
+
+  comapanyReservations: Reservation[] = [];
 
   constructor(private companyService: CompanyService,
     private route: ActivatedRoute){
@@ -55,11 +58,31 @@ export class CompanyProfileFormComponent implements OnChanges {
       (data) => {
         this.company = data;
         this.updatedEquipment = this.company.equipment;
+        this.getReservations();
       },
       (error) => {
         alert('Unable to load company. Try again later.');
       }
     );
+  }
+
+  getReservations(): void{
+    if (this.company !== undefined){
+      this.companyService.getReservationsByCompany(this.company.id).subscribe(
+        (data) => {
+          this.comapanyReservations = this.filterReservations(data);
+        },
+        (error) => {
+          console.error('Unable to load reservations for company.');
+        }
+      );
+    } else {
+      console.error('Unable to load reservations for company. Company isnt loaded.');
+    } 
+  }
+  
+  filterReservations(data: Reservation[]): Reservation[]{
+      return data.filter(reservation => (reservation.status === "PENDING"));
   }
 
   updateCompanyProfile(): void {    
@@ -113,14 +136,29 @@ export class CompanyProfileFormComponent implements OnChanges {
     );
   }
 
-  removeEquipment(e: Equipment):void{
-    if (this.company !== undefined){
-      const indexToRemove = this.updatedEquipment.findIndex(item => item.id === e.id);
-      this.availableEquipment.push(e);
-      this.updatedEquipment.splice(indexToRemove);
+  private canRemoveEquipment(equipment: Equipment): boolean {
+    const result = this.comapanyReservations.every(reservation => {
+      const hasEquipment = reservation.equipment.some(reservedEquipment => reservedEquipment.id === equipment.id);
+      //console.log(`Reservation ${reservation.id}: Equipment present - ${hasEquipment}`);
+      return !hasEquipment;
+    });
+    //console.log('Can remove equipment:', result);
+    return result;
+  }
 
-      this.getAvailableEquipment();
-    }
+  removeEquipment(e: Equipment):void{
+    if (this.company !== undefined ){
+      if (this.canRemoveEquipment(e)){
+        const indexToRemove = this.updatedEquipment.findIndex(item => item.id === e.id);
+        this.availableEquipment.push(e);
+        this.updatedEquipment.splice(indexToRemove, 1);
+  
+        this.getAvailableEquipment();
+      }
+      else {
+        alert('cant remove this equipment because it is reserved already');
+      }
+    } 
   }
 
   addEquipment(e: Equipment):void{

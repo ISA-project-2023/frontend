@@ -7,7 +7,8 @@ import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import yearGridPlugin from '@fullcalendar/multimonth';
-import { Reservation } from 'src/features/companies/model/reservation.model';
+import { Reservation } from '../model/reservation';
+//import { Reservation } from 'src/features/companies/model/reservation.model';
 import { CompanyService } from 'src/features/companies/company.service';
 
 @Component({
