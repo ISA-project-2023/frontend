@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/features/users/model/user.model';
@@ -9,15 +9,22 @@ import { UserService } from 'src/features/users/user.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   loginForm: FormGroup;
   loggedUser: User | undefined;
+  isSystemAdmin: boolean = false;
+  isCustomer: boolean = false;
+  isCompanyAdmin: boolean = false;
   
   constructor(private router: Router, private userService: UserService, private fb: FormBuilder) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
     });
+  }
+
+  ngOnInit(): void {
+    this.getCurrentUser();
   }
 
   toggleSidebar() {
@@ -72,6 +79,8 @@ export class HomeComponent {
         console.error('Logout error:', error);
       }
     );
+    let user: User | undefined;
+    this.userRole(user!);
   }
 
   register(){
@@ -95,7 +104,7 @@ export class HomeComponent {
       this.userService.login(credentials).subscribe(
         (sessionId) => {
           localStorage.setItem('sessionId', sessionId);
-          this.router.navigate(['/home']);
+          this.getCurrentUser();
         },
         (error) => {
           console.error('Login error:', error);
@@ -104,4 +113,43 @@ export class HomeComponent {
       );
     }
   } 
+
+  getCurrentUser(): void{
+    if (!this.isCompanyAdmin && !this.isSystemAdmin && !this.isCustomer) {
+      this.userService.getCurrentUser().subscribe(
+        (data) => {
+          this.loggedUser = data;
+          this.userRole(data);
+          this.router.navigate(['/home']);
+        },
+        (error) => {
+          this.userRole(this.loggedUser!);
+          console.error('cant fetch current user');
+        }
+      );
+    }
+  }
+
+  userRole(user: User){
+    if (user === undefined){
+      this.isSystemAdmin = false;
+      this.isCustomer = false;
+      this.isCompanyAdmin = false;
+    }
+    else {
+      if (user.role === 'CUSTOMER'){
+        this.isSystemAdmin = false;
+        this.isCustomer = true;
+        this.isCompanyAdmin = false;
+      } else if (user.role === 'COMPANY_ADMIN'){
+        this.isSystemAdmin = false;
+        this.isCustomer = false;
+        this.isCompanyAdmin = true;
+      } else {
+        this.isSystemAdmin = true;
+        this.isCustomer = false;
+        this.isCompanyAdmin = false;
+      }
+    }
+  }
 }
