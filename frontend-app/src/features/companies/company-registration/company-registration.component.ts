@@ -74,7 +74,8 @@ export class CompanyRegistrationComponent {
         lastName: this.surnameAdmin,
         category: 'REGULAR',
         jobDescription: '',
-        company: this.company
+        company: this.company,
+        isVerified: false
       };
 
     console.log(this.company)

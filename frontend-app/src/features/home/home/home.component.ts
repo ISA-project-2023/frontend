@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CompanyAdmin } from 'src/features/users/model/company-admin.model';
 import { SystemAdmin } from 'src/features/users/model/system-admin.model';
 import { User } from 'src/features/users/model/user.model';
 import { UserService } from 'src/features/users/user.service';
@@ -127,9 +128,10 @@ export class HomeComponent implements OnInit {
           this.userRole(data);
           if(data.role === 'SYSTEM_ADMIN'){
             this.getSystemAdmin();
-          } else {
-            this.router.navigate(['/home']);
-          }
+          }  
+          if(data.role === 'COMPANY_ADMIN') {
+            this.getCompanyAdmin();
+          } 
           this.router.navigate(['/home']);
         },
         (error) => {
@@ -176,5 +178,23 @@ export class HomeComponent implements OnInit {
         console.log(error)
       }
     )
+  }
+
+  getCompanyAdmin(): void{
+    this.userService.getCurrentCompanyAdmin().subscribe(
+      (admin: CompanyAdmin) => {
+        if(admin.isVerified === false){
+          this.router.navigate(['change-password']);
+        } else {
+          this.router.navigate(['/home']);
+        }
+      },
+      (error) => {
+        console.error('Error fetching company admin:', error);
+        if (error.status === 500) {
+          console.log('Server error. Response body:', error.error);
+        }
+      }
+    );
   }
 }

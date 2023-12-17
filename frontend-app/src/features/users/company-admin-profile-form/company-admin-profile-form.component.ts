@@ -62,6 +62,7 @@ export class CompanyAdminProfileFormComponent implements OnChanges {
         jobDescription: editedjobDescription,
         company: this.updatedCompanyAdmin.company,
         
+        isVerified: true,
         username: this.updatedUser.username,
         email: this.updatedUser.email,
         penaltyPoints: this.updatedUser.penaltyPoints,

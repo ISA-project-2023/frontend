@@ -11,4 +11,5 @@ export interface CompanyAdmin{
 
     jobDescription: string;
     company: Company;
+    isVerified: boolean;
 }
