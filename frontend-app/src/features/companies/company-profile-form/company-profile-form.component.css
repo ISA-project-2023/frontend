@@ -1,5 +1,6 @@
 #company-profile-form {
   max-width: 80%;
+  height: fit-content;
   margin: auto;
   padding: 10px;
   border: 1px solid #ddd;
@@ -97,14 +98,6 @@ form button {
     padding: 2px;
 }
 
-.equipment-search{
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-    height: 30px;
-    margin-top: 15px;
-    margin-bottom: 5px;
-}
 .equipment-table{
     width: 100%;
     border-collapse: collapse;
@@ -146,4 +139,34 @@ form button {
     height: 25px;
     width: 80px;
     text-align: center;
+}
+
+/* search */
+.search-div{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    width: 100%;
+}
+.search-input{
+    width: 200px;
+    height: auto;
+    align-self: flex-start;
+    margin-top: 5px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.search-button{
+    margin-right: 5px;
+    width: 90px;
+    background-color: #3498db;
+    color: white;
+    padding: 4px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-self: center;
 }

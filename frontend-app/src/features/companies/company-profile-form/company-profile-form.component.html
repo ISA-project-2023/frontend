@@ -41,45 +41,47 @@
         Update Equipment in stock
     </button>
     
-    <!-- TODO - company available equipment update -->
+    <!-- company available equipment update -->
     <div class="equipment-div" *ngIf="shouldEquipmentUpdate" >
-        <div class="equipment-search">
-            <table class="equipment-table">
-                <tr>
-                    <th class="equipment-header-row">Equipment in stock</th>                    
-                </tr>
-                <tr>
-                    <!-- <input style=" height:auto" type="text" placeholder="Search" [(ngModel)]="search">
-                    <button style="margin-left: 5px;" (click)="filter()">Search</button> -->
-                </tr>
-            </table>
-        </div>
         <table class="equipment-table">
+            <tr>
+                <th colspan="4">
+                    <div class="search-div">
+                        Equipment in stock
+                        <input class="search-input" type="text" placeholder="Search" [(ngModel)]="search">
+                        <button class="search-button" (click)="searchInStock()">Search</button>
+                    </div>
+                </th>
+            </tr>
             <tr>
                 <th>Name</th>
                 <th>Type</th>
                 <th>Description</th>
                 <th></th>
             </tr>
-            <tr *ngFor="let e of company?.equipment">
+            <tr *ngFor="let e of companyEquipment">
                 <td>{{e.name}}</td>
                 <td>{{e.type}}</td>
                 <td>{{e.description}}</td>
-                <th><button class="equipment-table-buttons" (click)="removeEquipment(e)">Remove</button></th>
+                <th id="remove-th">
+                    <button class="equipment-table-buttons" 
+                        (click)="removeEquipment(e)" [disabled]="canRemoveEquipment(e)">
+                        Remove
+                    </button>
+                </th>
             </tr>
         </table>
 
-        <div class="equipment-search">
-            <table class="equipment-table">
-                <tr>
-                    <th class="equipment-header-row">Available equipment</th>
-                </tr>
-                <tr>
-                    <!-- <input style=" height:auto" type="text" placeholder="Search" [(ngModel)]="search">                        <button style="margin-left: 5px;" (click)="filter()">Search</button> -->
-                </tr>
-            </table>
-        </div>
         <table class="equipment-table">
+            <tr>
+                <th colspan="4">
+                    <div class="search-div">
+                        Available equipment
+                        <input class="search-input" type="text" placeholder="Search" [(ngModel)]="searchAvailable">
+                        <button class="search-button" (click)="searchAvailableEquipment()">Search</button>
+                    </div>
+                </th>
+            </tr>
             <tr>
                 <th>Name</th>
                 <th>Type</th>

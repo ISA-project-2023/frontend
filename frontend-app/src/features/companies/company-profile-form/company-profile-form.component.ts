@@ -18,6 +18,7 @@ export class CompanyProfileFormComponent implements OnChanges {
   @Input() shouldEdit: boolean = false;
   
   companyId: number = 0;
+  companyEquipment: Equipment[] = [];
   updatedEquipment: Equipment[] = [];
   availableEquipment: Equipment[] = [];
   shouldEquipmentUpdate: boolean = false;
@@ -57,6 +58,7 @@ export class CompanyProfileFormComponent implements OnChanges {
     this.companyService.getCompany(this.companyId).subscribe(
       (data) => {
         this.company = data;
+        this.companyEquipment = this.company.equipment;
         this.updatedEquipment = this.company.equipment;
         this.getReservations();
       },
@@ -136,7 +138,7 @@ export class CompanyProfileFormComponent implements OnChanges {
     );
   }
 
-  private canRemoveEquipment(equipment: Equipment): boolean {
+  canRemoveEquipment(equipment: Equipment): boolean {
     const result = this.comapanyReservations.every(reservation => {
       const hasEquipment = reservation.equipment.some(reservedEquipment => reservedEquipment.id === equipment.id);
       //console.log(`Reservation ${reservation.id}: Equipment present - ${hasEquipment}`);
@@ -193,5 +195,24 @@ export class CompanyProfileFormComponent implements OnChanges {
     } else {
       alert('cant update company equipment');
     }
+  }
+
+  search: string = '';
+  searchAvailable: string = '';
+  searchInStock(): void{
+    if(this.search==='' && this.company){
+      this.getCompany();
+      return;
+    }
+    this.companyEquipment = this.companyEquipment.filter((eq) =>
+    eq.name.toLowerCase().includes(this.search.toLowerCase()));
+  }
+  searchAvailableEquipment(): void{
+    if(this.searchAvailable==='' && this.company){
+      this.getAvailableEquipment();
+      return;
+    }
+    this.availableEquipment = this.availableEquipment.filter((eq) =>
+    eq.name.toLowerCase().includes(this.searchAvailable.toLowerCase()));
   }
 }
