@@ -59,7 +59,7 @@
         </table>
         
         <div>
-            <button *ngIf="shouldEdit" color="primary" type="submit" (click)="updateCompanyAdminProfile()" mat-raised-button>
+            <button *ngIf="shouldEdit" color="primary" (click)="updateCompanyAdminProfile()">
                 Save changes
             </button>
 
@@ -68,7 +68,8 @@
             </button>
         </div>
     </form>
-    <div>
+    
+    <div class="calendar-div">
         <xp-change-password 
             *ngIf="changePasswordEdit" (passwordChanged)="onPasswordChanged()" [user]="user" 
             [shouldEdit]="shouldEdit"  ></xp-change-password>
