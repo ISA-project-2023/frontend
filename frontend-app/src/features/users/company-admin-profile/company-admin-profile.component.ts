@@ -29,7 +29,7 @@ export class CompanyAdminProfileComponent implements OnInit, OnChanges {
   calendarOptions: CalendarOptions = {
     events: this.getEvents(),
     initialView: 'dayGridMonth',
-    eventColor: '#4caf50',
+    eventColor: '#3498db',
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
