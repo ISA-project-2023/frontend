@@ -65,7 +65,7 @@
                 <td>{{e.description}}</td>
                 <th id="remove-th">
                     <button class="equipment-table-buttons" 
-                        (click)="removeEquipment(e)" [disabled]="canRemoveEquipment(e)">
+                        (click)="removeEquipment(e)" [disabled]="!canRemoveEquipment(e)">
                         Remove
                     </button>
                 </th>

@@ -129,9 +129,9 @@ export class HomeComponent implements OnInit {
           if(data.role === 'SYSTEM_ADMIN'){
             this.getSystemAdmin();
           }  
-          if(data.role === 'COMPANY_ADMIN') {
-            this.getCompanyAdmin();
-          } 
+          // if(data.role === 'COMPANY_ADMIN') {
+          //   this.getCompanyAdmin();
+          // } 
           this.router.navigate(['/home']);
         },
         (error) => {
