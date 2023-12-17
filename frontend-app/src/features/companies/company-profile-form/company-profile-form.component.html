@@ -29,52 +29,74 @@
                     </td>
                 </tr>
             </table>
-
-            <!-- TODO - company available equipment update -->
-            <h2>Equipment in stock</h2>
-            <div class="equipment-div">
-                <div class="equipment-search">
-                    <!-- <input style=" height:auto" type="text" placeholder="Search" [(ngModel)]="search"> -->
-                    <!-- <button style="margin-left: 5px;" (click)="filter()">Search</button> -->
-                </div>
-            </div>
-            <table class="equipment-table">
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                    <th style="width: 90px;">Remove</th>
-                </tr>
-                <tr *ngFor="let e of company?.equipment">
-                    <td>{{e.name}}</td>
-                    <td>{{e.type}}</td>
-                    <td>{{e.description}}</td>
-                    <!-- <th><button style="width: 90px; height: 30px;" (click)="remove(e)">Remove</button></th> -->
-                </tr>
-            </table>
-
-            <table class="equipment-table">
-                <tr> 
-                    <th colspan="4">Available equipment</th>
-                </tr>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                    <th style="width: 90px;">Add</th>
-                </tr>
-                <tr *ngFor="let e of availableEquipment">
-                    <td>{{e.name}}</td>
-                    <td>{{e.type}}</td>
-                    <td>{{e.description}}</td>
-                    <!-- <th><button style="width: 90px; height: 30px;" (click)="add(e)">Add</button></th> -->
-                </tr>
-            </table>
-
-            <!-- Update -->
+            <!-- Update company info -->
             <button *ngIf="shouldEdit" color="primary" type="submit" (click)="updateCompanyProfile()" mat-raised-button>
-                Save changes
-            </button>
+                Save company info changes
+            </button>           
         </div>
     </form>
+
+    <!-- Update company  equipment -->
+    <button class="equipment-update-button" (click)="openEquipmentUpdate()" *ngIf="!shouldEquipmentUpdate">
+        Update Equipment in stock
+    </button>
+    
+    <!-- company available equipment update -->
+    <div class="equipment-div" *ngIf="shouldEquipmentUpdate" >
+        <table class="equipment-table">
+            <tr>
+                <th colspan="4">
+                    <div class="search-div">
+                        Equipment in stock
+                        <input class="search-input" type="text" placeholder="Search" [(ngModel)]="search">
+                        <button class="search-button" (click)="searchInStock()">Search</button>
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
+            <tr *ngFor="let e of companyEquipment">
+                <td>{{e.name}}</td>
+                <td>{{e.type}}</td>
+                <td>{{e.description}}</td>
+                <th id="remove-th">
+                    <button class="equipment-table-buttons" 
+                        (click)="removeEquipment(e)" [disabled]="canRemoveEquipment(e)">
+                        Remove
+                    </button>
+                </th>
+            </tr>
+        </table>
+
+        <table class="equipment-table">
+            <tr>
+                <th colspan="4">
+                    <div class="search-div">
+                        Available equipment
+                        <input class="search-input" type="text" placeholder="Search" [(ngModel)]="searchAvailable">
+                        <button class="search-button" (click)="searchAvailableEquipment()">Search</button>
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
+            <tr *ngFor="let e of availableEquipment">
+                <td>{{e.name}}</td>
+                <td>{{e.type}}</td>
+                <td>{{e.description}}</td>
+                <th><button class="equipment-table-buttons" (click)="addEquipment(e)">Add</button></th>
+            </tr>
+        </table>
+        <button class="equipment-update-button" color="primary" type="submit" (click)="updateCompanyEquipment()" mat-raised-button>
+            Save Equipment changes
+        </button>
+    </div>
 </div>

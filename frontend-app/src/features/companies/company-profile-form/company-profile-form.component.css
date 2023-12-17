@@ -1,5 +1,6 @@
 #company-profile-form {
   max-width: 80%;
+  height: fit-content;
   margin: auto;
   padding: 10px;
   border: 1px solid #ddd;
@@ -62,43 +63,6 @@ tr, td {
     height: fit-content;
 }
 
-/* equipment */
-.equipment-div{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.equipment-search{
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-    height: 30px;
-    margin-top: auto;
-    margin-bottom: 5px;
-}
-.equipment-table{
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-.equipment-table th{
-    background-color: #2c3e50;
-    color: white;
-    text-align: left;
-}
-.equipment-table td{
-    width: fit-content;
-}
-
-.equipment-table tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-
-
-/**/
 form button {
     background-color: #3498db;
     color: white;
@@ -106,4 +70,103 @@ form button {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+}
+
+/* equipment update */
+.equipment-update-button{
+    background-color: #3498db;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    display: flex;
+    align-self: center;
+}
+
+.equipment-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 2px;
+}
+
+.equipment-table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    padding: 2px;
+}
+.equipment-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    column-span: all;
+    background-color: #2c3e50;
+    color: white;
+}
+.equipment-table th{
+    background-color: #2c3e50;
+    color: white;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+.equipment-table td{
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    width: fit-content;
+}
+.equipment-table tr{
+    min-height: 35px;
+}
+.equipment-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+.equipment-table-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 25px;
+    width: 80px;
+    text-align: center;
+}
+
+/* search */
+.search-div{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    width: 100%;
+}
+.search-input{
+    width: 200px;
+    height: auto;
+    align-self: flex-start;
+    margin-top: 5px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.search-button{
+    margin-right: 5px;
+    width: 90px;
+    background-color: #3498db;
+    color: white;
+    padding: 4px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-self: center;
 }

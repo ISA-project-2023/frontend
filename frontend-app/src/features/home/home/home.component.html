@@ -5,11 +5,11 @@
   <nav class="navbar">
     <ul>
       <li><button (click)="navigateToCompanies()">Companies</button></li>
-      <li *ngIf="isLoggedIn()"><button (click)="navigateToMyProfile()">My Profile</button></li>
-      <li *ngIf="isLoggedIn()"><button (click)="navigateToCompanyAdminProfile()">CompanyAdmin Profile</button></li>
       <li *ngIf="isLoggedIn()"><button (click)="navigateToEquipmentSearch()">Equipment</button> </li>
-      <li *ngIf="isLoggedIn()"> <button (click)="navigateToCompanyRegistration()">Register new company</button></li>
-      <li *ngIf="isLoggedIn()"> <button (click)="navigateToMyReservations()">My reservations</button></li>
+      <li *ngIf="isLoggedIn() && isCustomer"><button (click)="navigateToMyProfile()">My Profile</button></li>
+      <li *ngIf="isLoggedIn() && isCustomer"> <button (click)="navigateToMyReservations()">My reservations</button></li>
+      <li *ngIf="isLoggedIn() && isCompanyAdmin"><button (click)="navigateToCompanyAdminProfile()">CompanyAdmin Profile</button></li>
+      <li *ngIf="isLoggedIn() && isSystemAdmin"> <button (click)="navigateToCompanyRegistration()">Register new company</button></li>
       <li *ngIf="isLoggedIn()"><button (click)="logout()">Log out</button></li>
       <li><img src="https://cdn-icons-png.flaticon.com/256/8166/8166558.png" alt="Sidebar Toggle" (click)="toggleSidebar()" style="cursor: pointer; width: 30px; height: 30px;"></li>
     </ul>
@@ -37,9 +37,10 @@
   <div id="sidebar">
     <img src="https://cdn-icons-png.flaticon.com/256/8166/8166558.png" alt="Sidebar Toggle" (click)="toggleSidebar()" style="cursor: pointer; width: 30px; height: 30px;"><br><br>
     <button (click)="navigateToCompanies()">Companies</button>
-    <button (click)="navigateToMyProfile()">My Profile</button>
-    <button *ngIf="isLoggedIn()" (click)="navigateToCompanyAdminProfile()">CompanyAdmin Profile</button>
-    <button *ngIf="isLoggedIn()" (click)="navigateToSystemAdminProfile()">SystemAdmin Profile</button>
+    <button *ngIf="isLoggedIn()" (click)="navigateToEquipmentSearch()">Equipment</button>
+    <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToMyProfile()">My Profile</button>
+    <button *ngIf="isLoggedIn() && isCompanyAdmin" (click)="navigateToCompanyAdminProfile()">CompanyAdmin Profile</button>
+    <button *ngIf="isLoggedIn() && isSystemAdmin" (click)="navigateToSystemAdminProfile()">SystemAdmin Profile</button>
   </div>
 
   <footer>

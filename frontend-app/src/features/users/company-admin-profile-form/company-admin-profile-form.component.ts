@@ -83,7 +83,7 @@ export class CompanyAdminProfileFormComponent implements OnChanges {
           this.user.firstName = updatedCompanyAdmin.firstName;
           this.user.lastName = updatedCompanyAdmin.lastName;
 
-          console.error('Profile updated successfully!');
+          console.log('Profile updated successfully!');
           this.companyAdminProfileUpdated.emit();
         },
         (error) => {

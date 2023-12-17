@@ -9,6 +9,7 @@ import { User } from 'src/features/users/model/user.model';
 import { UserService } from 'src/features/users/user.service';
 import { PickUpAppointment } from '../model/pickup-appointment.model';
 import { Reservation } from 'src/features/users/model/reservation';
+//import { Reservation } from '../model/reservation.model';
 
 @Component({
   selector: 'app-company-profile',
@@ -24,7 +25,7 @@ export class CompanyProfileComponent implements OnInit {
   admins: CompanyAdmin[] = [];
   appointments: PickUpAppointment[] = [];
   users: User[] = [];
-  canShow: boolean = false; // TODO - only admin can change
+  canShow: boolean = false;
   shouldEdit: boolean = false;
   shouldRenderEditForm: boolean = false; 
   user: User = {id:0, lastName:'', firstName:'',penaltyPoints:0, role:'', email:'', username:'', category:''};
@@ -41,6 +42,7 @@ export class CompanyProfileComponent implements OnInit {
     status: '',
     equipment: undefined!
   };
+  comapanyReservations: Reservation[] = [];
   
   constructor(private companyService: CompanyService, private userService: UserService, private activatedRoute : ActivatedRoute, private router: Router) {
     this.activatedRoute.params.subscribe(params=>{
@@ -157,6 +159,7 @@ export class CompanyProfileComponent implements OnInit {
         this.equipment = this.company.equipment;
         this.getCompanyAdmins(this.company);
         this.getAppointments();
+        this.getReservations();
       },
       (error) => {
         console.error('Unable to load company. Try again later.');
@@ -205,6 +208,28 @@ export class CompanyProfileComponent implements OnInit {
     } else {
       console.error('Unable to load appointments. Company isnt loaded.');
     }    
+  }
+
+  getReservations(): void{
+    if (this.company !== undefined){
+      this.companyService.getReservationsByCompany(this.company.id).subscribe(
+        (data) => {
+          this.comapanyReservations = this.filterReservations(data);
+        },
+        (error) => {
+          console.error('Unable to load reservations for company.');
+        }
+      );
+    } else {
+      console.error('Unable to load reservations for company. Company isnt loaded.');
+    } 
+  }
+  
+  filterReservations(data: Reservation[]): Reservation[]{
+    if(this.user.role==='COMPANY_ADMIN')
+      return data.filter(reservation => (reservation.status === "PENDING"));
+    else
+      return data;
   }
 
   editCompany(): void{

@@ -5,7 +5,8 @@ import { Company } from './model/company.model';
 import { CompanyAdmin } from '../users/model/company-admin.model';
 import { PickUpAppointment } from './model/pickup-appointment.model';
 import { Equipment } from './model/equipment.model';
-import { Reservation } from './model/reservation.model';
+//import { Reservation } from './model/reservation.model';
+import { Reservation } from '../users/model/reservation';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +27,9 @@ export class CompanyService {
   }
   updateCompany(company: Company): Observable<Company> {
     return this.http.put<Company>(`${this.apiUrl}`, company);
+  }
+  updateCompanyEquipment(company: Company): Observable<Company> {
+    return this.http.post<Company>(`${this.apiUrl}/equipment-update`, company);
   }
   deleteCompany(id: number): Observable<Company> {
     return this.http.delete<Company>(`${this.apiUrl}/${id}`);
@@ -71,5 +75,8 @@ export class CompanyService {
 
   getReservationsForCompanyAdmin(id: number): Observable<Reservation[]>{
     return this.http.get<Reservation[]>(`${this.apiUrlReservations}/findByCompanyAdmin/` + id);
+  }
+  getReservationsByCompany(id: number): Observable<Reservation[]>{
+    return this.http.get<Reservation[]>(`${this.apiUrlReservations}/allByCompany/` + id);
   }
 }
