@@ -33,6 +33,29 @@ export class MyReservationsComponent implements OnInit {
     );
   }
 
+  cancelReservation(r: Reservation): void {
+    const isConfirmed = window.confirm('Are you sure you want to cancel this reservation?');
+  
+    if (isConfirmed) {
+      this.userService.cancelReservation(r.id).subscribe(
+        (result: Reservation) => {
+          console.log('You have canceled your reservation.');
+          this.ngOnInit();
+        },
+        (error) => {
+          console.error('Error canceling reservation.');
+        }
+      );
+    } else {
+      console.log('Cancellation canceled by user.');
+    }
+  }
+  
+
+  isReservationCanceled(reservation: Reservation): boolean {
+    return reservation.status === 'CANCELED';
+  }
+
   formatDate(date: Date | number[]): string {
     const convertedDate = Array.isArray(date) ? this.convertToDate(date) : date;
     
@@ -41,18 +64,6 @@ export class MyReservationsComponent implements OnInit {
     }
   
     return '';
-  }
-  
-  cancelReservation(r: Reservation){
-    this.userService.cancelReservation(r.id).subscribe(
-      (result: Reservation) => {
-        console.log('You have canceled your reservation.');
-        this.ngOnInit();
-      },
-      (error) => {
-        console.error('Error canceling resevraion.');
-      }
-    );
   }
 
   convertToDate(dateArray: number[]): Date | null {

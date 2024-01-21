@@ -242,6 +242,24 @@ export class CompanyProfileComponent implements OnInit {
     this.shouldEdit = false;
     this. shouldRenderEditForm = false;
   }
+
+  formatDate(date: Date | number[]): string {
+    const convertedDate = Array.isArray(date) ? this.convertToDate(date) : date;
+    
+    if (convertedDate instanceof Date) {
+      return convertedDate.toDateString() + ' ' + convertedDate.toLocaleTimeString();
+    }
+  
+    return '';
+  }
+
+  convertToDate(dateArray: number[]): Date | null {
+    if (dateArray && dateArray.length === 5) {
+      return new Date(dateArray[0], dateArray[1] - 1, dateArray[2], dateArray[3], dateArray[4]);
+    } else {
+      return null;
+    }
+  }
   
   // deleteCompanyProfile(): void {
   //   this.companyService.deleteCompany(this.companyId).subscribe();
