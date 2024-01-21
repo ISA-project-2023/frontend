@@ -8,7 +8,7 @@ import { User } from '../model/user.model';
   templateUrl: './my-reservations.component.html',
   styleUrls: ['./my-reservations.component.css']
 })
-export class MyReservationsComponent implements OnInit{
+export class MyReservationsComponent implements OnInit {
   reservations: Reservation[] = [];
   user!: User;
 
@@ -19,26 +19,37 @@ export class MyReservationsComponent implements OnInit{
       (result: User) => {
         this.user = result;
         this.userService.getCustomersReservations(this.user.id).subscribe(
-          (result: Reservation[])=>{
+          (result: Reservation[]) => {
             this.reservations = result;
-            console.log(this.reservations[0].pickUpAppointment.date);
           },
-          (error)=>{
-            console.log('Error occured while fetching reservations: ' + error);
+          (error) => {
+            console.log('Error occurred while fetching reservations: ' + error);
           }
-        )
+        );
       },
       (error) => {
         console.error('Error fetching current user:', error);
       }
     );
   }
+
+  formatDate(date: Date | number[]): string {
+    const convertedDate = Array.isArray(date) ? this.convertToDate(date) : date;
+    
+    if (convertedDate instanceof Date) {
+      return convertedDate.toDateString() + ' ' + convertedDate.toLocaleTimeString();
+    }
   
+    return '';
+  }
+  
+
   convertToDate(dateArray: number[]): Date | null {
-    if (dateArray && dateArray.length === 7) {
-      return new Date(dateArray[0], dateArray[1] - 1, dateArray[2], dateArray[3], dateArray[4], dateArray[5], dateArray[6]);
+    if (dateArray && dateArray.length === 5) {
+      return new Date(dateArray[0], dateArray[1] - 1, dateArray[2], dateArray[3], dateArray[4]);
     } else {
       return null;
     }
   }
+  
 }

@@ -8,10 +8,10 @@
     <th>Equipment</th>
   </tr>
   <tr *ngFor="let r of reservations">
-    <td>{{r.pickUpAppointment.companyAdmin.firstName}} {{r.pickUpAppointment.companyAdmin.lastName}}</td>
-    <td>{{r.company.name}}</td>
-    <td>{{r.pickUpAppointment.date}}</td>
-    <td>{{r.status}}</td>
-    <td><span *ngFor="let e of r.equipment">{{e.name}}, </span></td>
+    <td>{{ r.pickUpAppointment.companyAdmin.firstName }} {{ r.pickUpAppointment.companyAdmin.lastName }}</td>
+    <td>{{ r.company.name }}</td>
+    <td>{{ formatDate(r.pickUpAppointment.date) }}</td>
+    <td>{{ r.status }}</td>
+    <td><span *ngFor="let e of r.equipment">{{ e.name }}, </span></td>
   </tr>
 </table>
