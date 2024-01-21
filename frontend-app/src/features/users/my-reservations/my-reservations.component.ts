@@ -43,6 +43,17 @@ export class MyReservationsComponent implements OnInit {
     return '';
   }
   
+  cancelReservation(r: Reservation){
+    this.userService.cancelReservation(r.id).subscribe(
+      (result: Reservation) => {
+        console.log('You have canceled your reservation.');
+        this.ngOnInit();
+      },
+      (error) => {
+        console.error('Error canceling resevraion.');
+      }
+    );
+  }
 
   convertToDate(dateArray: number[]): Date | null {
     if (dateArray && dateArray.length === 5) {

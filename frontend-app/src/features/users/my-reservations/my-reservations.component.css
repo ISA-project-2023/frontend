@@ -1,6 +1,6 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #ecf0f1; /* Set a light background color for better contrast */
+    background-color: #ecf0f1;
     margin: 0;
     padding: 0;
   }
@@ -17,7 +17,7 @@ body {
     border-collapse: collapse;
     margin: 20px auto;
     background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box-shadow for depth */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
   th, td {
@@ -38,4 +38,14 @@ body {
 
   td span:last-child::after {
     content: ''; /* Remove the trailing comma for the last equipment item */
+  }
+
+  .cancel{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: brown;
+    color: white;
+    border-radius: 10px;
+    height: 3.5vh;
   }

@@ -1,6 +1,7 @@
 <p>My reservations</p>
 <table style="border: 1px solid black;">
   <tr>
+    <th>Cancel reservation</th>
     <th>Admin</th>
     <th>Company</th>
     <th>Appointment</th>
@@ -8,6 +9,7 @@
     <th>Equipment</th>
   </tr>
   <tr *ngFor="let r of reservations">
+    <td><input class="cancel" type="button" value="Cancel" (click)="cancelReservation(r)"></td>
     <td>{{ r.pickUpAppointment.companyAdmin.firstName }} {{ r.pickUpAppointment.companyAdmin.lastName }}</td>
     <td>{{ r.company.name }}</td>
     <td>{{ formatDate(r.pickUpAppointment.date) }}</td>

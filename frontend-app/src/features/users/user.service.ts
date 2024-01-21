@@ -120,6 +120,10 @@ export class UserService {
   getCustomersReservations(id: number): Observable<Reservation[]>{
     return this.http.get<Reservation[]>(`${this.apiUrl}/api/reservations/allByCustomer/${id}`);
   }
+
+  cancelReservation(id: number): Observable<Reservation>{
+    return this.http.put<Reservation>(`${this.apiUrl}/api/reservations/cancel/${id}`, null);
+  }
   getCustomer(id: number): Observable<Customer> {
     return this.http.get<Customer>(`${this.apiUrl}/api/customers/${id}`);
   }
