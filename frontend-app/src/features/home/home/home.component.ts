@@ -47,6 +47,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/companyRegistration']);
   }
 
+  navigateToReservationAccept() {
+    this.router.navigate(['/accept-reservations']);
+  }
+
   navigateToEquipmentSearch() {
     this.router.navigate(['/searchEquipment']);
   }

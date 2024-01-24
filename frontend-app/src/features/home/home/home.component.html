@@ -9,6 +9,7 @@
       <li *ngIf="isLoggedIn() && isCustomer"><button (click)="navigateToMyProfile()">My Profile</button></li>
       <li *ngIf="isLoggedIn() && isCustomer"> <button (click)="navigateToMyReservations()">My reservations</button></li>
       <li *ngIf="isLoggedIn() && isCompanyAdmin"><button (click)="navigateToCompanyAdminProfile()">CompanyAdmin Profile</button></li>
+      <li *ngIf="isLoggedIn() && isCompanyAdmin"><button (click)="navigateToReservationAccept()">Accept reservation</button></li>
       <li *ngIf="isLoggedIn() && isSystemAdmin"> <button (click)="navigateToCompanyRegistration()">Register new company</button></li>
       <li *ngIf="isLoggedIn()"><button (click)="logout()">Log out</button></li>
       <li><img src="https://cdn-icons-png.flaticon.com/256/8166/8166558.png" alt="Sidebar Toggle" (click)="toggleSidebar()" style="cursor: pointer; width: 30px; height: 30px;"></li>
