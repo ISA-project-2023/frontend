@@ -1,0 +1,13 @@
+<div>
+    <h1 class="center">QR scanner:</h1>
+    <div class="all-reservations">
+        <div class="single-reservation">
+            <div class="column-direction">
+                <ngx-scanner-qrcode #action="scanner" [config]="config" (event)="onEvent($event, action)"></ngx-scanner-qrcode>
+                <p *ngIf="action.isLoading">⌛ Loading...</p><br>
+                <p>{{ output }}</p>
+                <button type="submit" (click)="accept()">Accept</button>
+            </div>
+        </div>
+    </div>
+</div>

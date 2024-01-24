@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { QRCodeModule } from 'angularx-qrcode';
 import { CompanyComponent } from 'src/features/companies/company/company.component';
 import { HomeComponent } from 'src/features/home/home/home.component';
 import { ChangePasswordComponent } from 'src/features/users/change-password/change-password.component'
@@ -15,6 +16,7 @@ import { SearchEquipmentComponent } from 'src/features/companies/search-equipmen
 import { MyReservationsComponent } from 'src/features/users/my-reservations/my-reservations.component';
 import { SystemAdminProfileComponent } from 'src/features/users/system-admin-profile/system-admin-profile.component';
 import { SystemAdminRegistrationComponent } from 'src/features/users/system-admin-registration/system-admin-registration.component';
+import { AcceptReservationsComponent } from 'src/features/companies/accept-reservations/accept-reservations.component';
 
 const routes: Routes = [
   { path: 'companiesReview', component: CompanyComponent },
@@ -32,6 +34,7 @@ const routes: Routes = [
   { path: 'my-reservations', component: MyReservationsComponent},
   { path: 'system-admin-profile', component: SystemAdminProfileComponent},
   { path: 'system-admin-registration', component: SystemAdminRegistrationComponent},
+  { path: 'accept-reservations', component: AcceptReservationsComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 

@@ -8,11 +8,14 @@ import { MatInputModule } from '@angular/material/input';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FullCalendarModule } from '@fullcalendar/angular'
+import { QRCodeModule } from 'angularx-qrcode';
+import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
 
 import { CompaniesModule } from 'src/features/companies/companies.module';
 import { HomeModule } from 'src/features/home/home.module';
 import { UsersModule } from 'src/features/users/users.module';
 
+LOAD_WASM().subscribe();
 
 @NgModule({
   declarations: [
@@ -30,7 +33,9 @@ import { UsersModule } from 'src/features/users/users.module';
     UsersModule,
     HomeModule,
     UsersModule,
-    FullCalendarModule
+    FullCalendarModule,
+    QRCodeModule,
+    NgxScannerQrcodeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
