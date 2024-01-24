@@ -79,7 +79,10 @@ export class CompanyService {
   getReservationsByCompany(id: number): Observable<Reservation[]>{
     return this.http.get<Reservation[]>(`${this.apiUrlReservations}/allByCompany/` + id);
   }
-  markAsPicked(reservation: Reservation) : Observable<Reservation>{
-    return this.http.put<Reservation>(`${this.apiUrlAppointments}/markAsPicked`, reservation);
+  markAsPicked(id: number, reservation: Reservation) : Observable<Reservation>{
+    return this.http.put<Reservation>(`${this.apiUrlReservations}/markAsPicked/${id}`, reservation);
+  } 
+  markAsExpired(id: number) : Observable<Reservation>{
+    return this.http.put<Reservation>(`${this.apiUrlReservations}/markAsExpired/${id}`, null);
   } 
 }

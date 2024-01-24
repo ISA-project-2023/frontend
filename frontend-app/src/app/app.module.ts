@@ -8,7 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FullCalendarModule } from '@fullcalendar/angular'
-import { QRCodeModule } from 'angularx-qrcode';
 import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
 
 import { CompaniesModule } from 'src/features/companies/companies.module';
@@ -34,7 +33,6 @@ LOAD_WASM().subscribe();
     HomeModule,
     UsersModule,
     FullCalendarModule,
-    QRCodeModule,
     NgxScannerQrcodeModule
   ],
   providers: [],

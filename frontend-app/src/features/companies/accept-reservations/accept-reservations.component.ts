@@ -1,12 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { QRCodeModule } from 'angularx-qrcode';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NgxScannerQrcodeModule, LOAD_WASM, ScannerQRCodeResult, ScannerQRCodeConfig, NgxScannerQrcodeComponent } from 'ngx-scanner-qrcode';
 import { CompanyService } from '../company.service';
 import { UserService } from 'src/features/users/user.service';
 import { CompanyAdmin } from 'src/features/users/model/company-admin.model';
 import { User } from 'src/features/users/model/user.model';
 import { Reservation } from '../model/reservation.model';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-accept-reservations',
@@ -14,7 +12,7 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./accept-reservations.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class AcceptReservationsComponent implements AfterViewInit {
+export class AcceptReservationsComponent implements AfterViewInit, OnDestroy {
 
   companyAdmin!: CompanyAdmin
   user!: User
@@ -29,8 +27,13 @@ export class AcceptReservationsComponent implements AfterViewInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.handle(this.action, 'stop');
+  }
+
   isScannerActive: boolean = true; 
   output!: string;
+  isAcceptButtonAllowed: boolean = false;
 
   @ViewChild('action') action!: NgxScannerQrcodeComponent;
 
@@ -41,21 +44,7 @@ export class AcceptReservationsComponent implements AfterViewInit {
         height: 400
       },
     },
-    // canvasStyles: [
-    //   { /* layer */
-    //     lineWidth: 1,
-    //     fillStyle: '#00950685',
-    //     strokeStyle: '#00950685',
-    //   },
-    //   { /* text */
-    //     font: '17px serif',
-    //     fillStyle: '#ff0000',
-    //     strokeStyle: '#ff0000',
-    //   }
-    // ],
   };
-
-
 
   getUser(): void{
     this.userService.getCurrentUser().subscribe(
@@ -103,7 +92,6 @@ export class AcceptReservationsComponent implements AfterViewInit {
   }
 
   accept() : void {
-
     let dividedString = this.divideString()
     let company = dividedString[0]
     let customer = dividedString[1]
@@ -111,33 +99,45 @@ export class AcceptReservationsComponent implements AfterViewInit {
 
     for(let r of this.reservations){
       if(r.company.name === company && (r.customer.firstName + ' ' + r.customer.lastName) === customer && this.formatDate(r.pickUpAppointment.date) === this.formatDate(appointment)){
-        const reserved = {
-          id: r.id,
-          pickUpAppointment: r.pickUpAppointment,
-          company: r.company,
-          status: 'PICKED_UP',
-          customer: r.customer,
-          equipment: r.equipment
+        if(r.status === 'PENDING'){
+          this.changeToPickedUp(r.id, r)
+          return
+        } else {
+          alert('Reservation has already been delivered.')
+          return
         }
-        console.log(r.customer.firstName + ' ' + r.customer.lastName)
-        console.log(this.formatDate(r.pickUpAppointment.date))
-        console.log(appointment)
-        console.log(reserved)
-        break
       }
     }
+  }
 
-    // console.log(reserved)
-    // this.companyService.markAsPicked(reserved).subscribe(
-    //   response => {
-    //     console.log('Reservation accepted', response);
-    //     alert('Reservation accepted!');
-    //   },
-    //   error => {
-    //     console.error('Error accepting reservation', error);
-    //     alert('There was an error while accepting reservation!');
-    // }
-    // )
+  changeToPickedUp(id: number, reservation: Reservation) : void {
+    console.log(id)
+    this.companyService.markAsPicked(id, reservation).subscribe(
+      response => {
+        this.output = ''
+        this.isAcceptButtonAllowed = false
+        console.log('Reservation delivered', response);
+        alert('Reservation delivered!');
+      },
+      error => {
+        console.error('Error delivering reservation', error);
+        alert('There was an error while delivering reservation!');
+    }
+    )
+  }
+
+  changeToExpired(id: number) : void {
+    this.companyService.markAsExpired(id).subscribe(
+      response => {
+        this.output = ''
+        console.log('Reservation expired', response);
+        alert('Reservation expired!');
+      },
+      error => {
+        console.error('Error expiring reservation', error);
+        alert('There was an error while expiring reservation!');
+    }
+    )
   }
 
   public onEvent(e: ScannerQRCodeResult[], action?: any): void {
@@ -146,42 +146,10 @@ export class AcceptReservationsComponent implements AfterViewInit {
       console.log(e[0].value);
       this.output = e[0].value;
       this.isScannerActive = false;
+      this.checkIfExpired()
       setTimeout(() => {
         this.isScannerActive = true;
       }, 5000);
-    }
-  }
-
-  /*addNonExpired(reservations: Reservation[]) : void {
-    const currentDate = new Date()
-    this.reservations = []
-    for(let r of reservations){
-      const reservationDate = new Date(this.formatDate(r.pickUpAppointment.date));
-      console.log('Current Date:', currentDate);
-      console.log('Reservation Date:', reservationDate);
-      console.log('Pauza');
-      if((reservationDate > currentDate) && r.status === 'PENDING'){
-        this.reservations.push(r)
-        console.log(this.reservations);
-      }
-    }
-  }*/
-
-  formatDate(date: Date | number[]): string {
-    const convertedDate = Array.isArray(date) ? this.convertToDate(date) : date;
-    
-    if (convertedDate instanceof Date) {
-      return convertedDate.toDateString() + ' ' + convertedDate.toLocaleTimeString();
-    }
-  
-    return '';
-  }
-
-  convertToDate(dateArray: number[]): Date | null {
-    if (dateArray && dateArray.length === 5) {
-      return new Date(dateArray[0], dateArray[1] - 1, dateArray[2], dateArray[3], dateArray[4]);
-    } else {
-      return null;
     }
   }
 
@@ -208,7 +176,6 @@ export class AcceptReservationsComponent implements AfterViewInit {
     customer = customer.trim()
     i = 0
     for(let s of dividedString[4].split(' ')){
-      console.log(s)
       if(i !== 0){
         appointment += s + ' '
       } 
@@ -225,6 +192,30 @@ export class AcceptReservationsComponent implements AfterViewInit {
 
     return result
   }
+
+  checkIfExpired() : void {
+    let dividedString = this.divideString()
+    let company = dividedString[0]
+    let customer = dividedString[1]
+    let appointment = new Date(dividedString[2])
+    let now = new Date()
+
+    for(let r of this.reservations){
+      if(r.company.name === company && (r.customer.firstName + ' ' + r.customer.lastName) === customer && this.formatDate(r.pickUpAppointment.date) === this.formatDate(appointment)){
+        let appointmentDate = new Date(this.formatDate(r.pickUpAppointment.date))
+        if(appointmentDate < now && r.status === 'PENDING'){
+          this.isAcceptButtonAllowed = false
+          this.changeToExpired(r.id)
+          return
+        } else if (appointmentDate < now) {
+          this.isAcceptButtonAllowed = false
+          alert('Reservation has already been marked as expired.')
+          return
+        }
+      }
+    }
+    this.isAcceptButtonAllowed = true
+  }
   
   public handle(action: any, fn: string): void {
     const playDeviceFacingBack = (devices: any[]) => {
@@ -240,4 +231,21 @@ export class AcceptReservationsComponent implements AfterViewInit {
     }
   }
 
+  formatDate(date: Date | number[]): string {
+    const convertedDate = Array.isArray(date) ? this.convertToDate(date) : date;
+    
+    if (convertedDate instanceof Date) {
+      return convertedDate.toDateString() + ' ' + convertedDate.toLocaleTimeString();
+    }
+  
+    return '';
+  }
+
+  convertToDate(dateArray: number[]): Date | null {
+    if (dateArray && dateArray.length === 5) {
+      return new Date(dateArray[0], dateArray[1] - 1, dateArray[2], dateArray[3], dateArray[4]);
+    } else {
+      return null;
+    }
+  }
 }

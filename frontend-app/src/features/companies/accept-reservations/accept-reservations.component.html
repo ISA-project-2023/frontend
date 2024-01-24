@@ -6,7 +6,7 @@
                 <ngx-scanner-qrcode #action="scanner" [config]="config" (event)="onEvent($event, action)"></ngx-scanner-qrcode>
                 <p *ngIf="action.isLoading">⌛ Loading...</p><br>
                 <p>{{ output }}</p>
-                <button type="submit" (click)="accept()">Accept</button>
+                <button type="submit" (click)="accept()" *ngIf="isAcceptButtonAllowed">Accept</button>
             </div>
         </div>
     </div>
