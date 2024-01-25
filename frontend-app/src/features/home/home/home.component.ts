@@ -59,6 +59,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/my-profile']);
   }
 
+  navigateToPenaltyPoints(){
+    this.router.navigate(['/penalty-points']);
+  }
+
   navigateToCompanyAdminProfile(){
     this.router.navigate(['/company-admin-profile']);
   }

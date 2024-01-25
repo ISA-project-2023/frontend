@@ -41,6 +41,11 @@ export class MyReservationsComponent implements OnInit {
         (result: Reservation) => {
           console.log('You have canceled your reservation.');
           this.ngOnInit();
+          this.userService.getCurrentUser().subscribe(
+            (result: User)=>{
+              this.user = result;
+            }
+          );
         },
         (error) => {
           console.error('Error canceling reservation.');
@@ -53,6 +58,14 @@ export class MyReservationsComponent implements OnInit {
   
 
   isReservationCanceled(reservation: Reservation): boolean {
+    // const convertedDate = Array.isArray(reservation.pickUpAppointment.date) ? this.convertToDate(reservation.pickUpAppointment.date) : reservation.pickUpAppointment.date;
+    // let tomorrow = new Date();
+    // if(convertedDate!=null){
+    //   tomorrow.setDate(tomorrow.getDate() + 1);
+    //   if(convertedDate <= tomorrow){
+    //     return true;
+    //   }
+    // }
     return reservation.status === 'CANCELED';
   }
 

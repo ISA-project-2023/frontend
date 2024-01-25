@@ -89,6 +89,10 @@ export class CompanyProfileComponent implements OnInit {
     
     this.userService.getCustomer(this.user.id).subscribe(
       (result)=>{
+        if(result.penaltyPoints>=3){
+          alert('You cannot finish this reservation because you have 3 or more penalty points.');
+          return;
+        }
         this.reservation.customer = result;
         this.reservation.pickUpAppointment = a;
         this.userService.makeReservation(this.reservation).subscribe(

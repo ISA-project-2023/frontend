@@ -17,6 +17,7 @@ import { MyReservationsComponent } from 'src/features/users/my-reservations/my-r
 import { SystemAdminProfileComponent } from 'src/features/users/system-admin-profile/system-admin-profile.component';
 import { SystemAdminRegistrationComponent } from 'src/features/users/system-admin-registration/system-admin-registration.component';
 import { AcceptReservationsComponent } from 'src/features/companies/accept-reservations/accept-reservations.component';
+import { PenaltyPointsComponent } from 'src/features/users/penalty-points/penalty-points.component';
 
 const routes: Routes = [
   { path: 'companiesReview', component: CompanyComponent },
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'system-admin-profile', component: SystemAdminProfileComponent},
   { path: 'system-admin-registration', component: SystemAdminRegistrationComponent},
   { path: 'accept-reservations', component: AcceptReservationsComponent},
+  { path: 'penalty-points', component: PenaltyPointsComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 

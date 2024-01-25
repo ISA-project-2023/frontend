@@ -17,6 +17,7 @@ import { MyReservationsComponent } from './my-reservations/my-reservations.compo
 import { SystemAdminProfileComponent } from './system-admin-profile/system-admin-profile.component';
 import { SystemAdminRegistrationComponent } from './system-admin-registration/system-admin-registration.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { PenaltyPointsComponent } from './penalty-points/penalty-points.component';
 
 
 
@@ -31,7 +32,8 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     MyReservationsComponent,
     SystemAdminProfileComponent,
     SystemAdminRegistrationComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    PenaltyPointsComponent
   ],
   imports: [
     FormsModule,

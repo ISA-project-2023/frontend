@@ -13,6 +13,7 @@ import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
 import { CompaniesModule } from 'src/features/companies/companies.module';
 import { HomeModule } from 'src/features/home/home.module';
 import { UsersModule } from 'src/features/users/users.module';
+import { PenaltyPointsComponent } from 'src/features/users/penalty-points/penalty-points.component';
 
 LOAD_WASM().subscribe();
 
