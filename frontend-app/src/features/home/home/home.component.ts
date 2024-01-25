@@ -60,6 +60,9 @@ export class HomeComponent implements OnInit {
   navigateToMyProfile(){
     this.router.navigate(['/my-profile']);
   }
+  navigateToQrCodes(){
+    this.router.navigate(['/qrCodes']);
+  }
 
   navigateToPenaltyPoints(){
     this.router.navigate(['/penalty-points']);

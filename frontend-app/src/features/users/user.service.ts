@@ -120,6 +120,9 @@ export class UserService {
   getCustomersReservations(id: number): Observable<Reservation[]>{
     return this.http.get<Reservation[]>(`${this.apiUrl}/api/reservations/allByCustomer/${id}`);
   }
+  getCustomersQrCodes(id: number): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/api/reservations/allQRCodesByCustomer/${id}`);
+  }
 
   getPreviousCustomersReservations(id: number): Observable<Reservation[]>{
     return this.http.get<Reservation[]>(`${this.apiUrl}/api/reservations/allPreviousByCustomer/${id}`);

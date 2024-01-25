@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { QRCodeModule } from 'angularx-qrcode';
 import { CompanyComponent } from 'src/features/companies/company/company.component';
 import { HomeComponent } from 'src/features/home/home/home.component';
 import { ChangePasswordComponent } from 'src/features/users/change-password/change-password.component'
@@ -19,6 +18,7 @@ import { SystemAdminRegistrationComponent } from 'src/features/users/system-admi
 import { AcceptReservationsComponent } from 'src/features/companies/accept-reservations/accept-reservations.component';
 import { PenaltyPointsComponent } from 'src/features/users/penalty-points/penalty-points.component';
 import { PickupHistoryComponent } from 'src/features/users/pickup-history/pickup-history.component';
+import { QrCodesComponent } from 'src/features/users/qr-codes/qr-codes.component';
 
 const routes: Routes = [
   { path: 'companiesReview', component: CompanyComponent },
@@ -39,6 +39,7 @@ const routes: Routes = [
   { path: 'accept-reservations', component: AcceptReservationsComponent},
   { path: 'penalty-points', component: PenaltyPointsComponent},
   { path: 'pickupHistory', component: PickupHistoryComponent},
+  { path: 'qrCodes', component: QrCodesComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 
