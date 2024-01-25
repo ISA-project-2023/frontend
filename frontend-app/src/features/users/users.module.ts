@@ -18,6 +18,7 @@ import { SystemAdminProfileComponent } from './system-admin-profile/system-admin
 import { SystemAdminRegistrationComponent } from './system-admin-registration/system-admin-registration.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { PenaltyPointsComponent } from './penalty-points/penalty-points.component';
+import { PickupHistoryComponent } from './pickup-history/pickup-history.component';
 
 
 
@@ -33,7 +34,8 @@ import { PenaltyPointsComponent } from './penalty-points/penalty-points.componen
     SystemAdminProfileComponent,
     SystemAdminRegistrationComponent,
     ChangePasswordComponent,
-    PenaltyPointsComponent
+    PenaltyPointsComponent,
+    PickupHistoryComponent
   ],
   imports: [
     FormsModule,

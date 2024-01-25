@@ -54,7 +54,9 @@ export class HomeComponent implements OnInit {
   navigateToEquipmentSearch() {
     this.router.navigate(['/searchEquipment']);
   }
-  
+  navigateToPickupHistory() {
+    this.router.navigate(['/pickupHistory']);
+  }
   navigateToMyProfile(){
     this.router.navigate(['/my-profile']);
   }

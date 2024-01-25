@@ -18,6 +18,7 @@ import { SystemAdminProfileComponent } from 'src/features/users/system-admin-pro
 import { SystemAdminRegistrationComponent } from 'src/features/users/system-admin-registration/system-admin-registration.component';
 import { AcceptReservationsComponent } from 'src/features/companies/accept-reservations/accept-reservations.component';
 import { PenaltyPointsComponent } from 'src/features/users/penalty-points/penalty-points.component';
+import { PickupHistoryComponent } from 'src/features/users/pickup-history/pickup-history.component';
 
 const routes: Routes = [
   { path: 'companiesReview', component: CompanyComponent },
@@ -37,6 +38,7 @@ const routes: Routes = [
   { path: 'system-admin-registration', component: SystemAdminRegistrationComponent},
   { path: 'accept-reservations', component: AcceptReservationsComponent},
   { path: 'penalty-points', component: PenaltyPointsComponent},
+  { path: 'pickupHistory', component: PickupHistoryComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 

@@ -121,6 +121,9 @@ export class UserService {
     return this.http.get<Reservation[]>(`${this.apiUrl}/api/reservations/allByCustomer/${id}`);
   }
 
+  getPreviousCustomersReservations(id: number): Observable<Reservation[]>{
+    return this.http.get<Reservation[]>(`${this.apiUrl}/api/reservations/allPreviousByCustomer/${id}`);
+  }
   cancelReservation(id: number): Observable<Reservation>{
     return this.http.put<Reservation>(`${this.apiUrl}/api/reservations/cancel/${id}`, null);
   }

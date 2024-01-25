@@ -42,7 +42,7 @@
     <button *ngIf="isLoggedIn() && isCompanyAdmin" (click)="navigateToCompanyAdminProfile()">CompanyAdmin Profile</button>
     <button *ngIf="isLoggedIn() && isSystemAdmin" (click)="navigateToSystemAdminProfile()">SystemAdmin Profile</button>
     <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToMyProfile()">My Profile</button>
-    <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToMyProfile()">Pickup history</button>
+    <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToPickupHistory()">Pickup history</button>
     <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToMyReservations()">My reservations</button>
     <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToMyProfile()">QR codes</button>
     <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToPenaltyPoints()">Penalty points</button>
