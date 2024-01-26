@@ -42,4 +42,31 @@ export class QrCodesComponent implements OnInit{
       }
     );
   }
+
+
+  formatDate(date: Date | number[]): string {
+    const convertedDate = Array.isArray(date) ? this.convertToDate(date) : date;
+    
+    if (convertedDate instanceof Date) {
+      return convertedDate.toDateString() + ' ' + convertedDate.toLocaleTimeString();
+    }
+  
+    return '';
+  }
+
+  convertToDate(dateArray: number[]): Date | null {
+    if (dateArray && dateArray.length === 5) {
+      return new Date(dateArray[0], dateArray[1] - 1, dateArray[2], dateArray[3], dateArray[4]);
+    } else {
+      return null;
+    }
+  }
+
+  getEq(res:Reservation):string{
+    let ret = "";
+    for(let e of res.equipment){
+      ret = ret+e.name+"("+e.description+"), ";
+    }
+    return ret;
+  }
 }
