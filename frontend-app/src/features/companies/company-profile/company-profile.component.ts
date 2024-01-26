@@ -9,7 +9,6 @@ import { User } from 'src/features/users/model/user.model';
 import { UserService } from 'src/features/users/user.service';
 import { PickUpAppointment } from '../model/pickup-appointment.model';
 import { Reservation } from 'src/features/users/model/reservation';
-//import { Reservation } from '../model/reservation.model';
 
 @Component({
   selector: 'app-company-profile',
@@ -268,4 +267,41 @@ export class CompanyProfileComponent implements OnInit {
   // deleteCompanyProfile(): void {
   //   this.companyService.deleteCompany(this.companyId).subscribe();
   // }
+
+  isReservationPickupPossible(r: Reservation): boolean{
+    if (r.status === 'PENDING' && this.isFutureDate(r.pickUpAppointment.date)
+    && this.user.id === r.pickUpAppointment.companyAdmin.id) {
+      return true;
+    } else {
+      return false;
+    }
+    return false;
+  }
+
+  isFutureDate(date: Date): boolean {
+    const convertedDate = Array.isArray(date) ? this.convertToDate(date) : date;
+    const currentDate = new Date();
+    if (convertedDate! > currentDate){
+      return true;
+    }
+    return false;
+  }
+
+  markAsPickedUp(r: Reservation): void{
+    const isConfirmed = window.confirm('Are you sure you want to mark this reservation as picked up?');
+    
+    if (isConfirmed) {
+      this.userService.markAsPicked(r.id, r).subscribe(
+        (result: Reservation) => {
+          console.log('You have marked reservation as picked up.');
+          this.ngOnInit();
+        },
+        (error) => {
+          console.error('Error picking up your reservation.');
+        }
+      );
+    } else {
+      console.log('Picking up of reservation canceled.');
+    }
+  }
 }

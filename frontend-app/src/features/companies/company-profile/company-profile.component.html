@@ -110,14 +110,18 @@
         <h2 *ngIf="user.role==='COMPANY_ADMIN'">Pending Reservations</h2>
         <table>
             <tr>
+                <th>Pick up reservation</th>
+                <th>Customer</th>
                 <th>Admin</th>
                 <th>Appointment</th>
                 <th>Status</th>
                 <th>Equipment</th>
             </tr>
             <tr *ngFor="let r of comapanyReservations">
+                <input class="pick-up-button" type="button" value="Pick Up" (click)="markAsPickedUp(r)" [ngClass]="{ 'disabled-button': !isReservationPickupPossible(r) }" [disabled]="!isReservationPickupPossible(r)">
+                <td>{{ r.customer.firstName }} {{ r.customer.lastName }}</td>
                 <td>{{r.pickUpAppointment.companyAdmin.firstName}} {{r.pickUpAppointment.companyAdmin.lastName}}</td>
-                <td>{{r.pickUpAppointment.date}}</td>
+                <td>{{formatDate(r.pickUpAppointment.date)}}</td>
                 <td>{{r.status}}</td>
                 <td><span *ngFor="let e of r.equipment">{{e.name}}, </span></td>
             </tr>

@@ -116,29 +116,37 @@ export class UserService {
   // deleteCompanyAdmin(id: number): Observable<CompanyAdmin> {
   //   return this.http.delete<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins/${id}`);
   // }
+  getCustomer(id: number): Observable<Customer> {
+    return this.http.get<Customer>(`${this.apiUrl}/api/customers/${id}`);
+  }
 
+  // RESERVATIONS
   getCustomersReservations(id: number): Observable<Reservation[]>{
     return this.http.get<Reservation[]>(`${this.apiUrl}/api/reservations/allByCustomer/${id}`);
   }
-
   getPreviousCustomersReservations(id: number): Observable<Reservation[]>{
     return this.http.get<Reservation[]>(`${this.apiUrl}/api/reservations/allPreviousByCustomer/${id}`);
   }
   cancelReservation(id: number): Observable<Reservation>{
     return this.http.put<Reservation>(`${this.apiUrl}/api/reservations/cancel/${id}`, null);
   }
-  getCustomer(id: number): Observable<Customer> {
-    return this.http.get<Customer>(`${this.apiUrl}/api/customers/${id}`);
-  }
-
   makeReservation(reservation: Reservation) {
     return this.http.post<Reservation>(`${this.apiUrl}/api/reservations`, reservation);
   }
+  getReservationsByCompanyAdmin(id: number): Observable<Reservation[]>{
+    return this.http.get<Reservation[]>(`${this.apiUrl}/api/reservations/findByCompanyAdmin/` + id);
+  }
+  getReservationsByCompany(id: number): Observable<Reservation[]>{
+    return this.http.get<Reservation[]>(`${this.apiUrl}/api/reservations/allByCompany/` + id);
+  }
+  markAsPicked(id: number, reservation: Reservation) : Observable<Reservation>{
+    return this.http.put<Reservation>(`${this.apiUrl}/api/reservations/markAsPicked/${id}`, reservation);
+  }
   
+  // COMPLAINTS
   getAllCompanyComplaints() : Observable<CompanyComplaint[]> {
     return this.http.get<CompanyComplaint[]>(`${this.apiUrl}/api/complaints/allCompanyComplaints`);
   }
-
   getAllCompanyAdminComplaints() : Observable<CompanyAdminComplaint[]> {
     return this.http.get<CompanyAdminComplaint[]>(`${this.apiUrl}/api/complaints/allCompanyAdminComplaints`);
   }
