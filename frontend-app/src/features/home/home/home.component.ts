@@ -51,6 +51,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/accept-reservations']);
   }
 
+  navigateToMapSimulator(){
+    this.router.navigate(['/map']);
+  }
+
   navigateToEquipmentSearch() {
     this.router.navigate(['/searchEquipment']);
   }
