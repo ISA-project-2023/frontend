@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Contract } from '../model/contract.model';
 import { CompanyService } from '../company.service';
+import { User } from 'src/features/users/model/user.model';
+import { UserService } from 'src/features/users/user.service';
+import { CompanyAdmin } from 'src/features/users/model/company-admin.model';
 
 @Component({
   selector: 'app-contracts',
@@ -9,15 +12,40 @@ import { CompanyService } from '../company.service';
 })
 export class ContractsComponent implements OnInit{
   contracts: Contract[] = [];
-  companyName: string= 'Medicine Solution';
-  constructor(private service: CompanyService){
+  user!:User;
+  companyAdmin!:CompanyAdmin;
+  constructor(private service: CompanyService, private userService: UserService){
 
   }
 
   ngOnInit(): void {
-    this.service.getContracts(this.companyName).subscribe(
-      (result: Contract[])=>{
-        this.contracts = result;
+    this.getUser();
+  }
+
+  getUser(): void{
+    this.userService.getCurrentUser().subscribe(
+      (user: User) => {
+        this.user = user;
+        this.getCompanyAdmin(user);
+      },
+      (error) => {
+        console.error('Error fetching current user:', error);
+      }
+    );
+  }
+
+  getCompanyAdmin(user: User): void{
+    this.userService.getCompanyAdmin(user.id).subscribe(
+      (compAdmin : CompanyAdmin) => {
+        this.companyAdmin = compAdmin;
+        this.service.getContracts(this.companyAdmin.company.name).subscribe(
+          (result: Contract[])=>{
+            this.contracts = result;
+          }
+        );
+      },
+      (error) => {
+        console.error('Error fetching current logged in company administrator:', error);
       }
     );
   }
@@ -40,7 +68,7 @@ export class ContractsComponent implements OnInit{
   cancelContract(contract: Contract):void{
     this.service.cancelContract(contract).subscribe(
       (result:Contract)=>{
-        this.service.getContracts(this.companyName).subscribe(
+        this.service.getContracts(this.companyAdmin.company.name).subscribe(
           (res:Contract[])=>{
             this.contracts = res;
           }

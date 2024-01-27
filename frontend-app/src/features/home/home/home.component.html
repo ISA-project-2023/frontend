@@ -41,6 +41,7 @@
     <!-- <button (click)="navigateToCompanies()">Companies</button>
     <button *ngIf="isLoggedIn()" (click)="navigateToEquipmentSearch()">Equipment</button> -->
     <button *ngIf="isLoggedIn() && isCompanyAdmin" (click)="navigateToCompanyAdminProfile()">CompanyAdmin Profile</button>
+    <button *ngIf="isLoggedIn() && isCompanyAdmin" (click)="navigateToContracts()">Contracts</button>
     <button *ngIf="isLoggedIn() && isSystemAdmin" (click)="navigateToSystemAdminProfile()">SystemAdmin Profile</button>
     <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToMyProfile()">My Profile</button>
     <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToPickupHistory()">Pickup history</button>

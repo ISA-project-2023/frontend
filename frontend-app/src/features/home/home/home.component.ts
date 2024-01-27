@@ -75,6 +75,9 @@ export class HomeComponent implements OnInit {
   navigateToCompanyAdminProfile(){
     this.router.navigate(['/company-admin-profile']);
   }
+  navigateToContracts(){
+    this.router.navigate(['/contracts']);
+  }
 
   navigateToMyReservations(){
     this.router.navigate(['/my-reservations']);
