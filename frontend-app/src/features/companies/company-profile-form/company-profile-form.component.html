@@ -45,7 +45,7 @@
     <div class="equipment-div" *ngIf="shouldEquipmentUpdate" >
         <table class="equipment-table">
             <tr>
-                <th colspan="4">
+                <th colspan="5">
                     <div class="search-div">
                         Equipment in stock
                         <input class="search-input" type="text" placeholder="Search" [(ngModel)]="search">
@@ -57,15 +57,19 @@
                 <th>Name</th>
                 <th>Type</th>
                 <th>Description</th>
+                <th>Amount</th>
                 <th></th>
             </tr>
             <tr *ngFor="let e of companyEquipment">
-                <td>{{e.name}}</td>
-                <td>{{e.type}}</td>
-                <td>{{e.description}}</td>
+                <td>{{e.equipment.name}}</td>
+                <td>{{e.equipment.type}}</td>
+                <td>{{e.equipment.description}}</td>
+                <td>
+                    <input style="width: 45px;" type="number" [(ngModel)]="e.quantity" min="1">
+                </td>
                 <th id="remove-th">
                     <button class="equipment-table-buttons" 
-                        (click)="removeEquipment(e)" [disabled]="!canRemoveEquipment(e)">
+                        (click)="removeEquipment(e.equipment)" [disabled]="!canRemoveEquipment(e.equipment)">
                         Remove
                     </button>
                 </th>

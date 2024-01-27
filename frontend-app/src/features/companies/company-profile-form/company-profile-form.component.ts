@@ -5,6 +5,7 @@ import { Company } from '../model/company.model';
 import { Equipment } from '../model/equipment.model';
 import { CompanyService } from '../company.service';
 import { Reservation } from 'src/features/users/model/reservation';
+import { EquipmentAmount } from '../model/equipment-amount.model';
 
 @Component({
   selector: 'xp-company-profile-form',
@@ -18,8 +19,9 @@ export class CompanyProfileFormComponent implements OnChanges {
   @Input() shouldEdit: boolean = false;
   
   companyId: number = 0;
-  companyEquipment: Equipment[] = [];
-  updatedEquipment: Equipment[] = [];
+  companyEquipment: EquipmentAmount[] = [];
+  updatedEquipment: EquipmentAmount[] = [];
+  //updatedEquipment: Equipment[] = [];
   availableEquipment: Equipment[] = [];
   shouldEquipmentUpdate: boolean = false;
 
@@ -58,8 +60,8 @@ export class CompanyProfileFormComponent implements OnChanges {
     this.companyService.getCompany(this.companyId).subscribe(
       (data) => {
         this.company = data;
-        this.companyEquipment = this.company.equipment;
-        this.updatedEquipment = this.company.equipment;
+        this.companyEquipment = this.company.equipmentAmountInStock;
+        this.updatedEquipment = this.company.equipmentAmountInStock;
         this.getReservations();
       },
       (error) => {
@@ -94,7 +96,6 @@ export class CompanyProfileFormComponent implements OnChanges {
         startTime: this.company?.startTime || "",
         endTime: this.company?.endTime || "",
         equipment: this.company?.equipment || this.updatedEquipment,
-        //TODO
         equipmentAmountInStock: this.company?.equipmentAmountInStock,
   
         name: this.companyProfileForm.value.name as string || "",
@@ -153,7 +154,7 @@ export class CompanyProfileFormComponent implements OnChanges {
   removeEquipment(e: Equipment):void{
     if (this.company !== undefined ){
       if (this.canRemoveEquipment(e)){
-        const indexToRemove = this.updatedEquipment.findIndex(item => item.id === e.id);
+        const indexToRemove = this.updatedEquipment.findIndex(item => item.equipment.id === e.id);
         this.availableEquipment.push(e);
         this.updatedEquipment.splice(indexToRemove, 1);
   
@@ -167,7 +168,11 @@ export class CompanyProfileFormComponent implements OnChanges {
 
   addEquipment(e: Equipment):void{
     if (this.company !== undefined){
-      this.updatedEquipment.push(e);
+      const equipmentAmount = {
+        equipment: e,
+        quantity: 5
+      }
+      this.updatedEquipment.push(equipmentAmount);
       const indexToRemove = this.availableEquipment.findIndex(item => item.id === e.id);
       this.availableEquipment.splice(indexToRemove);
 
@@ -184,10 +189,11 @@ export class CompanyProfileFormComponent implements OnChanges {
         grade: Number(this.companyProfileForm.value.grade) || 0,
         startTime: this.company?.startTime || "",
         endTime: this.company?.endTime || "",
-        equipment: this.updatedEquipment,
+        equipment: this.company?.equipment,
         //TODO
         equipmentAmountInStock: this.company?.equipmentAmountInStock
       };
+      console.log(comp);
       this.companyService.updateCompanyEquipment(comp).subscribe({
         next: () => {
           this.companyProfileUpdated.emit();
@@ -209,7 +215,7 @@ export class CompanyProfileFormComponent implements OnChanges {
       return;
     }
     this.companyEquipment = this.companyEquipment.filter((eq) =>
-    eq.name.toLowerCase().includes(this.search.toLowerCase()));
+    eq.equipment.name.toLowerCase().includes(this.search.toLowerCase()));
   }
   searchAvailableEquipment(): void{
     if(this.searchAvailable==='' && this.company){
