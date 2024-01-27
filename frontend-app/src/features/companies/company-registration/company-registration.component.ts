@@ -61,7 +61,8 @@ export class CompanyRegistrationComponent {
         grade: 0,
         startTime: (this.startTime + ':00'),
         endTime: (this.endTime + ':00'),
-        equipment: []
+        equipment: [],
+        equipmentAmountInStock: []
       };
       
       this.companyAdmin = {

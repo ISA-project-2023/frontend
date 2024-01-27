@@ -1,4 +1,5 @@
 import { Equipment } from '../model/equipment.model';
+import { EquipmentAmount } from './equipment-amount.model';
 
 export interface Company{
     id: number;
@@ -8,4 +9,5 @@ export interface Company{
     startTime: string;
     endTime: string;
     equipment: Equipment[];
+    equipmentAmountInStock: EquipmentAmount[];
 }

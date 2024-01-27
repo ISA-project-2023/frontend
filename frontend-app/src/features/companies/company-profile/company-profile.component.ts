@@ -9,6 +9,7 @@ import { User } from 'src/features/users/model/user.model';
 import { UserService } from 'src/features/users/user.service';
 import { PickUpAppointment } from '../model/pickup-appointment.model';
 import { Reservation } from 'src/features/users/model/reservation';
+import { EquipmentAmount } from '../model/equipment-amount.model';
 
 @Component({
   selector: 'app-company-profile',
@@ -20,14 +21,15 @@ export class CompanyProfileComponent implements OnInit {
   @ViewChild('pickup') companyProfile!: ElementRef;
   companyId: number = 0;
   company: Company | undefined;
-  equipment: Equipment[] = [];
+  equipment: EquipmentAmount[] = [];
   admins: CompanyAdmin[] = [];
   appointments: PickUpAppointment[] = [];
   users: User[] = [];
   canShow: boolean = false;
   shouldEdit: boolean = false;
   shouldRenderEditForm: boolean = false; 
-  user: User = {id:0, lastName:'', firstName:'',penaltyPoints:0, role:'', email:'', username:'', category:''};
+  user: User|undefined; 
+  companyAdmin: CompanyAdmin|undefined;
   search: string = '';
   cart: Equipment[] = [];
   availableAppointments: boolean = false;
@@ -45,18 +47,18 @@ export class CompanyProfileComponent implements OnInit {
   
   constructor(private companyService: CompanyService, private userService: UserService, private activatedRoute : ActivatedRoute, private router: Router) {
     this.activatedRoute.params.subscribe(params=>{
-      this.companyId=params['id'];
-      userService.getCurrentUser().subscribe({
-          next:(result)=>{
-            this.user = result;
-          }
-      });
+      this.companyId=params['id'];  
+    });
+    userService.getCurrentUser().subscribe({
+      next:(result)=>{
+        this.user = result;
+        this.getCompany();
+      }
     });
 
     if (this.companyId !== undefined){
       this.canShow = true;
     }
-    this.getCompany();
   }
 
   scrollToElement() {
@@ -71,8 +73,18 @@ export class CompanyProfileComponent implements OnInit {
     this.getCompany();
   }
 
+  canCompanyAdminSee(): boolean{
+    if (this.user?.role === 'COMPANY_ADMIN'){
+      const compAdmin = this.admins.find(admin=> admin.id===this.user!.id);
+      if (compAdmin === undefined){
+        return false;
+      }
+    }
+    return true;
+  }
+
   filterAppointments(data: PickUpAppointment[]): PickUpAppointment[] {
-    if(this.user.role==='CUSTOMER')
+    if(this.user?.role==='CUSTOMER')
       return data.filter(ap => ap.isFree);
     else
       return data;
@@ -86,7 +98,7 @@ export class CompanyProfileComponent implements OnInit {
     this.reservation.equipment = this.cart;
     this.reservation.status = "PENDING";
     
-    this.userService.getCustomer(this.user.id).subscribe(
+    this.userService.getCustomer(this.user!.id).subscribe(
       (result)=>{
         if(result.penaltyPoints>=3){
           alert('You cannot finish this reservation because you have 3 or more penalty points.');
@@ -148,18 +160,18 @@ export class CompanyProfileComponent implements OnInit {
   }
   filter(){
     if(this.search==='' && this.company){
-      this.equipment = this.company?.equipment;
+      this.equipment = this.company?.equipmentAmountInStock;
       return;
     }
     this.equipment = this.equipment.filter((eq) =>
-    eq.name.toLowerCase().includes(this.search.toLowerCase()));
+    eq.equipment.name.toLowerCase().includes(this.search.toLowerCase()));
   }
 
   getCompany(): void {
     this.companyService.getCompany(this.companyId).subscribe(
       (data) => {
         this.company = data;
-        this.equipment = this.company.equipment;
+        this.equipment = this.company.equipmentAmountInStock;
         this.getCompanyAdmins(this.company);
         this.getAppointments();
         this.getReservations();
@@ -175,6 +187,7 @@ export class CompanyProfileComponent implements OnInit {
       (data) => {
         this.admins = data;
         this.getUsers(this.admins);
+        this.canCompanyAdminSee();
       },
       (error) => {
         console.error('Unable to load company administrators. Try again later.');
@@ -229,7 +242,7 @@ export class CompanyProfileComponent implements OnInit {
   }
   
   filterReservations(data: Reservation[]): Reservation[]{
-    if(this.user.role==='COMPANY_ADMIN')
+    if(this.user?.role==='COMPANY_ADMIN')
       return data.filter(reservation => (reservation.status === "PENDING"));
     else
       return data;
@@ -270,7 +283,7 @@ export class CompanyProfileComponent implements OnInit {
 
   isReservationPickupPossible(r: Reservation): boolean{
     if (r.status === 'PENDING' && this.isFutureDate(r.pickUpAppointment.date)
-    && this.user.id === r.pickUpAppointment.companyAdmin.id) {
+    && this.user?.id === r.pickUpAppointment.companyAdmin.id) {
       return true;
     } else {
       return false;

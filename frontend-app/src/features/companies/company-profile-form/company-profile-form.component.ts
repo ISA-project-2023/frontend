@@ -94,6 +94,8 @@ export class CompanyProfileFormComponent implements OnChanges {
         startTime: this.company?.startTime || "",
         endTime: this.company?.endTime || "",
         equipment: this.company?.equipment || this.updatedEquipment,
+        //TODO
+        equipmentAmountInStock: this.company?.equipmentAmountInStock,
   
         name: this.companyProfileForm.value.name as string || "",
         location: this.companyProfileForm.value.location as string || '',
@@ -183,6 +185,8 @@ export class CompanyProfileFormComponent implements OnChanges {
         startTime: this.company?.startTime || "",
         endTime: this.company?.endTime || "",
         equipment: this.updatedEquipment,
+        //TODO
+        equipmentAmountInStock: this.company?.equipmentAmountInStock
       };
       this.companyService.updateCompanyEquipment(comp).subscribe({
         next: () => {

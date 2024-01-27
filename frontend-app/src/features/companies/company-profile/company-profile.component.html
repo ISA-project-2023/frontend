@@ -21,7 +21,7 @@
     </table>
     <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
         <h2>Equipment in stock</h2>
-        <div *ngIf="user.role==='CUSTOMER'" style="display: flex; flex-direction: row; justify-content: end; height:30px; margin-top: auto; margin-bottom: 5px;">
+        <div *ngIf="user?.role==='CUSTOMER'" style="display: flex; flex-direction: row; justify-content: end; height:30px; margin-top: auto; margin-bottom: 5px;">
             <input style=" height:auto" type="text" placeholder="Search" [(ngModel)]="search">
             <button style="margin-left: 5px;" (click)="filter()">Search</button>
         </div>
@@ -30,29 +30,31 @@
         <tr>
             <th>Name</th>
             <th>Description</th>
-            <th *ngIf="user.role==='CUSTOMER'" style="width: 90px;">Add to cart</th>
+            <th *ngIf="user?.role==='CUSTOMER'" style="width: 90px;">Add to cart</th>
+            <th *ngIf="user?.role==='COMPANY_ADMIN' && canCompanyAdminSee()">Amount in Stock</th>
         </tr>
         <tr *ngFor="let e of equipment">
-            <td>{{e.name}}</td>
-            <td>{{e.description}}</td>
-            <th *ngIf="user.role==='CUSTOMER'"><button style="width: 90px; height: 30px;" (click)="AddToCart(e)">Add</button></th>
+            <td>{{e.equipment.name}}</td>
+            <td>{{e.equipment.description}}</td>
+            <th *ngIf="user?.role==='CUSTOMER'"><button style="width: 90px; height: 30px;" (click)="AddToCart(e.equipment)">Add</button></th>
+            <td *ngIf="user?.role==='COMPANY_ADMIN' && canCompanyAdminSee()">{{e.quantity}}</td>
         </tr>
     </table>
-    <div *ngIf="user.role==='CUSTOMER' && cart && cart.length>0">
+    <div *ngIf="user?.role==='CUSTOMER' && cart && cart.length>0">
         <h2>Equipment in your cart</h2>
         <table>
             <thead>
               <tr>
                 <th>Name</th>
                 <th>Description</th>
-                <th *ngIf="user.role==='CUSTOMER'" style="width: 90px;">Remove</th>
+                <th *ngIf="user?.role==='CUSTOMER'" style="width: 90px;">Remove</th>
               </tr>
             </thead>
             <tbody style="max-height: 100px;overflow-y: auto; width: 100%;">
               <tr *ngFor="let e of cart">
                 <td>{{ e.name }}</td>
                 <td>{{ e.description }}</td>
-                <th *ngIf="user.role==='CUSTOMER'">
+                <th *ngIf="user?.role==='CUSTOMER'">
                   <button style="width: 90px; height: 30px;" (click)="RemoveFromCart(e)">Remove</button>
                 </th>
               </tr>
@@ -60,7 +62,7 @@
           </table>
             <button class="reserveButton" (click)="showAppointments()">Reserve a pickup appointment</button>
     </div>
-    <div *ngIf="user.role==='COMPANY_ADMIN'">
+    <div *ngIf="user?.role==='COMPANY_ADMIN' && canCompanyAdminSee()">
         <h2>Company administrators</h2>
         <table>
             <tr>
@@ -80,34 +82,31 @@
         </table>
     </div>
     <div #pickup>
-        <div *ngIf="user.role==='CUSTOMER' && availableAppointments" style="display: flex; flex-direction: row; justify-content: space-around; margin-bottom: 20px; margin-top: 20px; background-color: bisque; border-radius: 5px;">
+        <div *ngIf="user?.role==='CUSTOMER' && availableAppointments" style="display: flex; flex-direction: row; justify-content: space-around; margin-bottom: 20px; margin-top: 20px; background-color: bisque; border-radius: 5px;">
             <label style="margin-right: 10px; width: fit-content;">Choose custome date for your appointment</label>
             <input type="date" placeholder="Date" [(ngModel)]="selectedDate">
             <button style="margin-left: 10px;" (click)="findCustomAppointments()">Apply</button>
         </div>
-        <h2 *ngIf="user.role==='COMPANY_ADMIN'">PickUp Appointments</h2>
-        <h2 *ngIf="user.role==='CUSTOMER' && availableAppointments">Available PickUp Appointments</h2>
-        <table *ngIf="user.role==='COMPANY_ADMIN' || availableAppointments">
+        <h2 *ngIf="user?.role==='COMPANY_ADMIN' && canCompanyAdminSee()">PickUp Appointments</h2>
+        <h2 *ngIf="user?.role==='CUSTOMER' && availableAppointments">Available PickUp Appointments</h2>
+        <table *ngIf="(user?.role==='COMPANY_ADMIN' && canCompanyAdminSee()) || availableAppointments">
             <tr>
                 <th>Administrator</th>
                 <th>Starts at</th>
                 <th>Duration (in hours)</th>
-                <th *ngIf="user.role==='CUSTOMER'">Select</th>
+                <th *ngIf="user?.role==='CUSTOMER'">Select</th>
             </tr>
             <tr *ngFor="let a of appointments">
                 <td>{{ a.companyAdmin.firstName }} {{ a.companyAdmin.lastName }}</td>
-                <!-- TODO - format date  -->
-                <!-- <td>{{ a.date | date: 'dd.MM.yyyy HH:mm' }}</td>  -->
-                <!-- <td>{{ a.date | date: "dd.MM.yyyy HH:mm"}}</td>  -->
                 <td>{{ formatDate(a.date) }}</td> 
                 <td>{{ a.duration }}</td> 
-                <td *ngIf="user.role==='CUSTOMER'"><button style="width: 90px; height: 30px;" (click)="selectAppointment(a)">Select</button></td>
+                <td *ngIf="user?.role==='CUSTOMER'"><button style="width: 90px; height: 30px;" (click)="selectAppointment(a)">Select</button></td>
             </tr>
         </table>
     </div>
 
-    <div *ngIf="user.role==='COMPANY_ADMIN'">
-        <h2 *ngIf="user.role==='COMPANY_ADMIN'">Pending Reservations</h2>
+    <div *ngIf="user?.role==='COMPANY_ADMIN' && canCompanyAdminSee()">
+        <h2 *ngIf="user?.role==='COMPANY_ADMIN' && canCompanyAdminSee()">Pending Reservations</h2>
         <table>
             <tr>
                 <th>Pick up reservation</th>
@@ -128,7 +127,7 @@
           </table>
     </div>
     
-    <button *ngIf="!shouldEdit && user.role==='COMPANY_ADMIN'" type="submit" (click)="editCompany()">
+    <button *ngIf="!shouldEdit && user?.role==='COMPANY_ADMIN' && canCompanyAdminSee()" type="submit" (click)="editCompany()">
         Edit profile
     </button>
 
