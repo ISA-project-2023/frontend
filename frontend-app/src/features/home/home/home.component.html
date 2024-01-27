@@ -6,8 +6,7 @@
     <ul>
       <li><button (click)="navigateToCompanies()">Companies</button></li>
       <li *ngIf="isLoggedIn()"><button (click)="navigateToEquipmentSearch()">Equipment</button> </li>
-      <!-- <li *ngIf="isLoggedIn() && isCustomer"><button (click)="navigateToMyProfile()">My Profile</button></li>
-      <li *ngIf="isLoggedIn() && isCustomer"> <button (click)="navigateToMyReservations()">My reservations</button></li> -->
+      <li><button (click)="navigateToMapSimulator()">Map</button></li>
       <li *ngIf="isLoggedIn() && isCompanyAdmin"><button (click)="navigateToCompanyAdminProfile()">CompanyAdmin Profile</button></li>
       <li *ngIf="isLoggedIn() && isCompanyAdmin"><button (click)="navigateToReservationAccept()">Accept reservation</button></li>
       <li *ngIf="isLoggedIn() && isCompanyAdmin"><button (click)="navigateToMyReservations()">My reservations</button></li>
@@ -43,11 +42,12 @@
     <button *ngIf="isLoggedIn() && isSystemAdmin" (click)="navigateToSystemAdminProfile()">SystemAdmin Profile</button>
     <button *ngIf="isLoggedIn() && isSystemAdmin" (click)="navigateToCompanyRegistration()">Register new company</button>
     <button *ngIf="isLoggedIn() && isCompanyAdmin" (click)="navigateToCompanyAdminProfile()">CompanyAdmin Profile</button>
+    <button *ngIf="isLoggedIn() && isCompanyAdmin" (click)="navigateToContracts()">Contracts</button>
     <button *ngIf="isLoggedIn() && isCompanyAdmin" (click)="navigateToReservationAccept()">Accept reservation</button>
     <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToMyProfile()">My Profile</button>
     <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToPickupHistory()">Pickup history</button>
     <button *ngIf="isLoggedIn() && (isCustomer || isCompanyAdmin)" (click)="navigateToMyReservations()">My reservations</button>
-    <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToMyProfile()">QR codes</button>
+    <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToQrCodes()">QR codes</button>
     <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToPenaltyPoints()">Penalty points</button>
     <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToMyProfile()">Complaints</button>
   </div>

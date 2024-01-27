@@ -19,6 +19,7 @@ import { SystemAdminRegistrationComponent } from './system-admin-registration/sy
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { PenaltyPointsComponent } from './penalty-points/penalty-points.component';
 import { PickupHistoryComponent } from './pickup-history/pickup-history.component';
+import { QrCodesComponent } from './qr-codes/qr-codes.component';
 
 
 
@@ -35,7 +36,8 @@ import { PickupHistoryComponent } from './pickup-history/pickup-history.componen
     SystemAdminRegistrationComponent,
     ChangePasswordComponent,
     PenaltyPointsComponent,
-    PickupHistoryComponent
+    PickupHistoryComponent,
+    QrCodesComponent
   ],
   imports: [
     FormsModule,

@@ -119,6 +119,10 @@ export class UserService {
   getCustomer(id: number): Observable<Customer> {
     return this.http.get<Customer>(`${this.apiUrl}/api/customers/${id}`);
   }
+  
+  getCustomersQrCodes(id: number): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/api/reservations/allQRCodesByCustomer/${id}`);
+  }
 
   // RESERVATIONS
   getCustomersReservations(id: number): Observable<Reservation[]>{

@@ -51,6 +51,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/accept-reservations']);
   }
 
+  navigateToMapSimulator(){
+    this.router.navigate(['/map']);
+  }
+
   navigateToEquipmentSearch() {
     this.router.navigate(['/searchEquipment']);
   }
@@ -60,6 +64,9 @@ export class HomeComponent implements OnInit {
   navigateToMyProfile(){
     this.router.navigate(['/my-profile']);
   }
+  navigateToQrCodes(){
+    this.router.navigate(['/qrCodes']);
+  }
 
   navigateToPenaltyPoints(){
     this.router.navigate(['/penalty-points']);
@@ -67,6 +74,9 @@ export class HomeComponent implements OnInit {
 
   navigateToCompanyAdminProfile(){
     this.router.navigate(['/company-admin-profile']);
+  }
+  navigateToContracts(){
+    this.router.navigate(['/contracts']);
   }
 
   navigateToMyReservations(){

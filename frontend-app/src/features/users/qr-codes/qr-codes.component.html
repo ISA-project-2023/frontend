@@ -1,0 +1,15 @@
+<h1 class="title">Your QR codes</h1>
+<div class="items">
+    <div class="item" *ngFor="let qrCode of qrCodes; let i = index">
+        <img class="qr" [src]="qrCode" alt="QR Code">
+        <div class="reservation-info">
+            <label class="reservation-info-title">Reservation info:</label>
+            <label class="info">Company: <b>{{reservations[i].company.name}}</b></label>
+            <label class="info">Company admin: <b>{{reservations[i].pickUpAppointment.companyAdmin.firstName}} {{reservations[i].pickUpAppointment.companyAdmin.lastName}}</b></label>
+            <label class="info">Pickup date: <b>{{formatDate(reservations[i].pickUpAppointment.date)}}</b></label>
+            <p class="info">
+                Equipment: <b>{{getEq(reservations[i])}}</b>
+            </p>
+        </div>
+    </div>
+</div>
