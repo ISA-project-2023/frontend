@@ -28,6 +28,7 @@
     "angularx-qrcode": "^16.0.0",
     "fullcalendar": "^6.1.10",
     "ngx-scanner-qrcode": "^1.6.8",
+    "ol": "^8.2.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"

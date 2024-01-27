@@ -1,0 +1,28 @@
+@import "node_modules/ol/ol.css";
+
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+#map {
+    margin-top: 10vh;
+    margin-left: auto;
+    margin-right: auto;
+    height: 80vh;
+    width: 100vh;
+}
+
+.map-marker {
+    background-color: red;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.marker-label {
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}

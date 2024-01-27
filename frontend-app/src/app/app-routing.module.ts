@@ -20,6 +20,7 @@ import { PenaltyPointsComponent } from 'src/features/users/penalty-points/penalt
 import { PickupHistoryComponent } from 'src/features/users/pickup-history/pickup-history.component';
 import { QrCodesComponent } from 'src/features/users/qr-codes/qr-codes.component';
 import { ContractsComponent } from 'src/features/companies/contracts/contracts.component';
+import { MapSimulatorComponent } from 'src/features/map/map-simulator/map-simulator.component';
 
 const routes: Routes = [
   { path: 'companiesReview', component: CompanyComponent },
@@ -42,6 +43,7 @@ const routes: Routes = [
   { path: 'pickupHistory', component: PickupHistoryComponent},
   { path: 'qrCodes', component: QrCodesComponent},
   { path: 'contracts', component: ContractsComponent},
+  { path: 'map', component: MapSimulatorComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 
