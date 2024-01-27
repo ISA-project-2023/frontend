@@ -1,0 +1,16 @@
+@import "node_modules/ol/ol.css";
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+#map {
+  /* display: flex; */
+  margin-top: 10vh;
+  margin-left: auto;
+  margin-right: auto;
+  height: 80vh;
+  width: 100vh;
+}
