@@ -13,6 +13,7 @@ import { PickupAppointmentFormComponent } from './pickup-appointment-form/pickup
 import { CompanyRegistrationComponent } from './company-registration/company-registration.component';
 import { SearchEquipmentComponent } from './search-equipment/search-equipment.component';
 import { AcceptReservationsComponent } from './accept-reservations/accept-reservations.component';
+import { ContractsComponent } from './contracts/contracts.component';
 
 LOAD_WASM().subscribe();
 
@@ -24,7 +25,8 @@ LOAD_WASM().subscribe();
     PickupAppointmentFormComponent,
     CompanyRegistrationComponent,
     SearchEquipmentComponent,
-    AcceptReservationsComponent
+    AcceptReservationsComponent,
+    ContractsComponent
   ],
   imports: [
     CommonModule,

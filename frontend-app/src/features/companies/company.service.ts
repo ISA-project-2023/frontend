@@ -7,6 +7,7 @@ import { PickUpAppointment } from './model/pickup-appointment.model';
 import { Equipment } from './model/equipment.model';
 //import { Reservation } from './model/reservation.model';
 import { Reservation } from '../users/model/reservation';
+import { Contract } from './model/contract.model';
 
 @Injectable({
   providedIn: 'root',
@@ -49,6 +50,13 @@ export class CompanyService {
   }
   addAppointment(appointment: PickUpAppointment | any): Observable<PickUpAppointment> {
     return this.http.post<PickUpAppointment>(`${this.apiUrlAppointments}/addNew`, appointment);
+  }
+  private apiUrlContracts = 'http://localhost:8084/api/contracts';
+  getContracts(company: String):Observable<Contract[]>{
+    return this.http.get<Contract[]>(`${this.apiUrlContracts}/${company}`);
+  }
+  cancelContract(contract: Contract): Observable<Contract>{
+    return this.http.put<Contract>(`${this.apiUrlContracts}/cancel`, contract);
   }
   
   // addAppointment(appointment: any, date: any): Observable<any> {
