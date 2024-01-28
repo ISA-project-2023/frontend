@@ -86,7 +86,7 @@ export class ContractsComponent implements OnInit{
   }
 
   convertToDate(dateArray: number[]): Date | null {
-    if (dateArray && dateArray.length === 7) {
+    if (dateArray && dateArray.length === 5) {
       return new Date(dateArray[0], dateArray[1]-1, dateArray[2], dateArray[3], dateArray[4]);
     } else {
       return null;
