@@ -55,14 +55,25 @@ export class MapSimulatorComponent implements OnInit {
 
   // Funkcija za otvaranje konekcije sa serverom
   initializeWebSocketConnection() { // serverUrl je vrednost koju smo definisali u registerStompEndpoints() metodi na serveru
-    let ws = new SockJS(this.serverUrl);
+    let ws = new SockJS('http://localhost:8084/socket');
     this.stompClient = Stomp.over(ws);
     let that = this;
 
-    this.stompClient.connect({}, function () {
-      that.isLoaded = true;
-      that.openGlobalSocket()
+    // this.stompClient.connect({}, function () {
+    //   that.isLoaded = true;
+    //   that.openGlobalSocket()
+    // });
+    this.stompClient.connect({}, (frame: any) => {
+        console.log('Connected to WebSocket:', frame);
+        this.stompClient.subscribe('/socket-publisher', (message: any) => {
+            console.log('Received message:', message.body);
+            this.updateMap(message.body);
+        }, (error: any) => {
+          console.error('Error connecting to WebSocket:', error);
+      });
+        
     });
+    
   }
 
   // Funkcija salje poruku na WebSockets endpoint na serveru
@@ -79,6 +90,11 @@ export class MapSimulatorComponent implements OnInit {
       //  - vrednost @MessageMapping anotacije iz kontrolera na serveru : /send/message
       this.stompClient.send("/socket-subscriber/send/message", {}, JSON.stringify(message));
     }
+  }
+
+  // Call this method to send a message to the server
+  sendMessageToServer(message: string) {
+    this.stompClient.send('/socket-subscriber/send/message', {}, message);
   }
 
   // Funckija salje poruku na REST endpoint na serveru
@@ -167,6 +183,8 @@ export class MapSimulatorComponent implements OnInit {
   }
 
   updateMap(message: string): void {
-
+    const coordinates = message.split(',').map(Number);
+    const [latitude, longitude] = coordinates;
+    this.addMarker([longitude, latitude], 'https://cdn-icons-png.flaticon.com/256/3855/3855480.png');
   }
 }
