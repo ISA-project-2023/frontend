@@ -30,16 +30,22 @@ export class MapSimulatorComponent implements OnInit {
   isCustomSocketOpened = false;
   messages: Message[] = [];
 
-  private serverUrl = 'http://localhost:8080/socket'
   private stompClient: any;
 
   latestMessage: string = '';
+
+  markerOverlay!: Overlay;
 
   constructor(private mapService: MapService) {}
 
   ngOnInit(): void {
     this.initializeMap();
-    this.addMarker([this.longitude, this.latitude], 'https://cdn-icons-png.flaticon.com/256/3855/3855480.png');
+    this.markerOverlay = new Overlay({
+      positioning: 'center-center',
+      element: this.createMarkerElement('https://cdn-icons-png.flaticon.com/256/3855/3855480.png'),
+      stopEvent: false,
+    });
+    this.map.addOverlay(this.markerOverlay);
 
     this.form = new FormGroup({
       message: new FormControl(null, [Validators.required]),
@@ -160,16 +166,7 @@ export class MapSimulatorComponent implements OnInit {
   }
   
 
-  addMarker(coordinates: [number, number], imageUrl: string) {
-    const marker = new Overlay({
-      position: fromLonLat(coordinates),
-      positioning: 'center-center',
-      element: this.createMarkerElement(imageUrl),
-      stopEvent: false,
-    });
 
-    this.map.addOverlay(marker);
-  }
 
   createMarkerElement(imageUrl: string): HTMLImageElement {
     const element = new Image();
@@ -180,6 +177,14 @@ export class MapSimulatorComponent implements OnInit {
 
     element.className = 'map-marker';
     return element;
+  }
+
+  addMarker(coordinates: [number, number], imageUrl: string) {
+    const [longitude, latitude] = coordinates;
+    const position = fromLonLat([longitude, latitude]);
+
+    // Update the existing marker's position
+    this.markerOverlay.setPosition(position);
   }
 
   updateMap(message: string): void {
