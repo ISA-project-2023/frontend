@@ -65,7 +65,7 @@ export class QrCodesComponent implements OnInit{
   getEq(res:Reservation):string{
     let ret = "";
     for(let e of res.equipment){
-      ret = ret+e.name+"("+e.description+"), ";
+      ret = ret+e.equipment.name+"("+e.equipment.description+"), ";
     }
     return ret;
   }

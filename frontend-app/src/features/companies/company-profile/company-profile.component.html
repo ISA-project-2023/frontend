@@ -47,15 +47,20 @@
               <tr>
                 <th>Name</th>
                 <th>Description</th>
+                <th *ngIf="user?.role==='CUSTOMER'">Amount</th>
                 <th *ngIf="user?.role==='CUSTOMER'" style="width: 90px;">Remove</th>
               </tr>
             </thead>
             <tbody style="max-height: 100px;overflow-y: auto; width: 100%;">
               <tr *ngFor="let e of cart">
-                <td>{{ e.name }}</td>
-                <td>{{ e.description }}</td>
+                <td>{{ e.equipment.name }}</td>
+                <td>{{ e.equipment.description }}</td>
                 <th *ngIf="user?.role==='CUSTOMER'">
-                  <button style="width: 90px; height: 30px;" (click)="RemoveFromCart(e)">Remove</button>
+                    <input style="width: 45px;" type="number" [(ngModel)]="e.quantity" min="1" [max]="findMaxAmount(e)"
+                    (input)="onQuantityInput($event, findMaxAmount(e))"> 
+                </th>
+                <th *ngIf="user?.role==='CUSTOMER'">
+                  <button style="width: 90px; height: 30px;" (click)="RemoveFromCart(e.equipment)">Remove</button>
                 </th>
               </tr>
             </tbody>
@@ -122,7 +127,7 @@
                 <td>{{r.pickUpAppointment.companyAdmin.firstName}} {{r.pickUpAppointment.companyAdmin.lastName}}</td>
                 <td>{{formatDate(r.pickUpAppointment.date)}}</td>
                 <td>{{r.status}}</td>
-                <td><span *ngFor="let e of r.equipment">{{e.name}}, </span></td>
+                <td><span *ngFor="let e of r.equipment">{{e.quantity}} &times; {{e.equipment.name}}, <br></span></td>
             </tr>
           </table>
     </div>

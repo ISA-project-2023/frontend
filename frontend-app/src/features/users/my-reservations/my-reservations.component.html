@@ -18,12 +18,12 @@
     <td>{{ r.company.name }}</td>
     <td>{{ formatDate(r.pickUpAppointment.date) }}</td>
     <td>{{ r.status }}</td>
-    <td><span *ngFor="let e of r.equipment">{{ e.name }}, </span></td>
+    <td><span *ngFor="let e of r.equipment">{{e.quantity}} &times; {{ e.equipment.name }}, <br></span></td>
   </tr>
 </table>
 
 <br><br>
-<p>My reservations history</p>
+<p *ngIf="user.role === 'COMPANY_ADMIN'">My reservations history</p>
 <table *ngIf="user.role === 'COMPANY_ADMIN'" style="border: 1px solid black;">
   <tr>
     <th>Customer</th>
@@ -39,6 +39,6 @@
     <td>{{ r.company.name }}</td>
     <td>{{ formatDate(r.pickUpAppointment.date) }}</td>
     <td>{{ r.status }}</td>
-    <td><span *ngFor="let e of r.equipment">{{ e.name }}, </span></td>
+    <td><span *ngFor="let e of r.equipment">{{e.quantity}} &times; {{ e.equipment.name }}, <br></span></td>
   </tr>
 </table>

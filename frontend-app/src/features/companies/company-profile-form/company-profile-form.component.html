@@ -65,7 +65,8 @@
                 <td>{{e.equipment.type}}</td>
                 <td>{{e.equipment.description}}</td>
                 <td>
-                    <input style="width: 45px;" type="number" [(ngModel)]="e.quantity" min="1">
+                    <input style="width: 45px;" type="number" [(ngModel)]="e.quantity" min="1"
+                    (input)="onQuantityInput($event)">
                 </td>
                 <th id="remove-th">
                     <button class="equipment-table-buttons" 

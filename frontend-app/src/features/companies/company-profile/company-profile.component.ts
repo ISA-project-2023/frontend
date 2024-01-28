@@ -31,7 +31,7 @@ export class CompanyProfileComponent implements OnInit {
   user: User|undefined; 
   companyAdmin: CompanyAdmin|undefined;
   search: string = '';
-  cart: Equipment[] = [];
+  cart: EquipmentAmount[] = [];
   availableAppointments: boolean = false;
   selectedAppointment?: PickUpAppointment;
   selectedDate:Date|undefined;
@@ -114,7 +114,7 @@ export class CompanyProfileComponent implements OnInit {
             }
           },
           (error)=>{
-            console.log("Error while making reservation: " + error);
+            console.error("Error while making reservation: " + error);
           }
         )
       },
@@ -125,15 +125,43 @@ export class CompanyProfileComponent implements OnInit {
   }
 
   AddToCart(e:Equipment){
-    const indexToRemove = this.cart.findIndex(item => item.id === e.id);
+    const equipmentAmount = {
+      equipment: e,
+      quantity: 5
+    }
+    const indexToRemove = this.cart.findIndex(item => item.equipment === e);
     if (indexToRemove === -1) {
-      this.cart.push(e);
+      this.cart.push(equipmentAmount);
       this.availableAppointments = false;
     }
   }
 
+  findMaxAmount(e:EquipmentAmount): number{
+    const index = this.equipment.findIndex(item => item.equipment === e.equipment);
+    if (index !== -1) {
+      const maxAmount = this.equipment.at(index);
+      //console.log(maxAmount?.quantity);
+      return maxAmount!.quantity;
+    }
+    else {
+      console.error("Can't find max amount for this company equipment!");
+    }
+    return 1;
+  }
+  
+  onQuantityInput(e: any, maxAmount: number): void {
+    const inputValue = parseInt(e.target.value, 10);
+    if (inputValue > maxAmount) {
+      e.target.value = maxAmount.toString();
+    }
+    const minAmount = 1;
+    if (inputValue <= minAmount){
+      e.target.value = minAmount.toString();
+    }
+  }
+
   RemoveFromCart(e:Equipment){
-    const indexToRemove = this.cart.findIndex(item => item.id === e.id);
+    const indexToRemove = this.cart.findIndex(item => item.equipment === e);
     if (indexToRemove !== -1) {
       this.cart.splice(indexToRemove, 1);
       this.availableAppointments = false;

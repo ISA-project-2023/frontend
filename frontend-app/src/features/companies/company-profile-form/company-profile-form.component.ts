@@ -21,7 +21,6 @@ export class CompanyProfileFormComponent implements OnChanges {
   companyId: number = 0;
   companyEquipment: EquipmentAmount[] = [];
   updatedEquipment: EquipmentAmount[] = [];
-  //updatedEquipment: Equipment[] = [];
   availableEquipment: Equipment[] = [];
   shouldEquipmentUpdate: boolean = false;
 
@@ -143,7 +142,7 @@ export class CompanyProfileFormComponent implements OnChanges {
 
   canRemoveEquipment(equipment: Equipment): boolean {
     const result = this.comapanyReservations.every(reservation => {
-      const hasEquipment = reservation.equipment.some(reservedEquipment => reservedEquipment.id === equipment.id);
+      const hasEquipment = reservation.equipment.some(reservedEquipment => reservedEquipment.equipment === equipment);
       //console.log(`Reservation ${reservation.id}: Equipment present - ${hasEquipment}`);
       return !hasEquipment;
     });
@@ -180,6 +179,14 @@ export class CompanyProfileFormComponent implements OnChanges {
     }
   }
 
+  onQuantityInput(e: any): void {
+    let minAmount = 1;
+    const inputValue = parseInt(e.target.value, 10);
+    if (inputValue <= minAmount) {
+      e.target.value = minAmount.toString();
+    }
+  }
+
   updateCompanyEquipment(): void {    
     if (this.company !== undefined){
       const comp: Company = {
@@ -190,10 +197,9 @@ export class CompanyProfileFormComponent implements OnChanges {
         startTime: this.company?.startTime || "",
         endTime: this.company?.endTime || "",
         equipment: this.company?.equipment,
-        //TODO
         equipmentAmountInStock: this.company?.equipmentAmountInStock
       };
-      console.log(comp);
+      this.updateCompanyProfile();
       this.companyService.updateCompanyEquipment(comp).subscribe({
         next: () => {
           this.companyProfileUpdated.emit();
