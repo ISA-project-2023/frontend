@@ -7,10 +7,11 @@ html, body {
 
 #map {
     margin-top: 10vh;
-    margin-left: auto;
+    margin-left: 90vh;
     margin-right: auto;
     height: 80vh;
     width: 100vh;
+    border: 2px solid #2c3e50;
 }
 
 .map-marker {
@@ -25,4 +26,26 @@ html, body {
     color: white;
     font-size: 12px;
     font-weight: bold;
+}
+
+button{
+    background-color: #2c3e50;
+    color: white;
+    padding: 1.5vh;
+    border-radius: 20px;
+    font-size: 30px;
+    display: flex;
+    margin-top: -25vh;
+    margin-left: 38vh;
+    box-shadow: 0px 3px 3px rgba(0.7, 0.8, 0.8, 0.2);
+}
+
+p{
+    font-size: 40px;
+    margin-top: -75vh;
+    color: #2c3e50;
+    background-color: #3498db;
+    padding: 10vh;
+    padding-bottom: 30vh;
+    width: 70vh;
 }

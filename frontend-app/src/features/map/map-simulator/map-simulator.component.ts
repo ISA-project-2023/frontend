@@ -12,6 +12,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Message } from 'src/features/companies/model/message.model';
 import { Stomp } from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-map-simulator',
@@ -22,21 +23,16 @@ export class MapSimulatorComponent implements OnInit {
   map!: Map;
   longitude: number = 19.8335; // Pozicije markera (naseg dostavljaca)
   latitude: number = 45.2671;
-
   form!: FormGroup;
   userForm!: FormGroup;
-
   isLoaded: boolean = false;
   isCustomSocketOpened = false;
   messages: Message[] = [];
-
   private stompClient: any;
-
   latestMessage: string = '';
-
   markerOverlay!: Overlay;
 
-  constructor(private mapService: MapService) {}
+  constructor(private mapService: MapService, private http: HttpClient) {}
 
   ngOnInit(): void {
     this.initializeMap();
@@ -80,6 +76,18 @@ export class MapSimulatorComponent implements OnInit {
         
     });
     
+  }
+
+  onStartMessageSendingClick(): void {
+    this.http.post('http://localhost:8082/api/location/start-message-sending', {})
+      .subscribe(
+        response => {
+          console.log('Message sending started successfully.');
+        },
+        error => {
+          console.error('Error starting message sending:', error);
+        }
+      );
   }
 
   // Funkcija salje poruku na WebSockets endpoint na serveru
