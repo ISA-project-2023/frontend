@@ -9,6 +9,7 @@ import { Reservation } from './model/reservation';
 import { CompanyComplaint } from './model/company-complaint.model';
 import { CompanyAdminComplaint } from './model/company-admin-complaint';
 import { SystemAdmin } from './model/system-admin.model';
+import { PickUpAppointment } from '../companies/model/pickup-appointment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -70,6 +71,9 @@ export class UserService {
   saveCompanyAdmin(admin: CompanyAdmin, password: string): Observable<CompanyAdmin>{
     console.log(password)
     return this.http.post<CompanyAdmin>(`${this.apiUrl}/api/companyAdmins/${password}`, admin)
+  }
+  addAdminToCompany(admin: CompanyAdmin): Observable<CompanyAdmin>{
+    return this.http.post<CompanyAdmin>(`${this.apiUrl}/api/companyAdmins/add-existing`, admin)
   }
   isAuthenticated(): boolean {
     return !!localStorage.getItem('sessionId');
