@@ -149,7 +149,7 @@ export class AcceptReservationsComponent implements AfterViewInit, OnDestroy {
       this.checkIfExpired()
       setTimeout(() => {
         this.isScannerActive = true;
-      }, 5000);
+      }, 3000);
     }
   }
 

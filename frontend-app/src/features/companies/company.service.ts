@@ -51,6 +51,9 @@ export class CompanyService {
   addAppointment(appointment: PickUpAppointment | any): Observable<PickUpAppointment> {
     return this.http.post<PickUpAppointment>(`${this.apiUrlAppointments}/addNew`, appointment);
   }
+  getPickUpAppointmentsForCompanyAdmin(companyAdmin: CompanyAdmin): Observable<PickUpAppointment[]>{
+    return this.http.post<PickUpAppointment[]>(`${this.apiUrlAppointments}/findByCompanyAdmin`, companyAdmin);
+  }
   private apiUrlContracts = 'http://localhost:8084/api/contracts';
   getContracts(company: String):Observable<Contract[]>{
     return this.http.get<Contract[]>(`${this.apiUrlContracts}/${company}`);
