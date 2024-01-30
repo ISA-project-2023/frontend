@@ -43,7 +43,7 @@ export class CompanyProfileComponent implements OnInit {
     status: '',
     equipment: undefined!
   };
-  comapanyReservations: Reservation[] = [];
+  companyReservations: Reservation[] = [];
   
   constructor(private companyService: CompanyService, private userService: UserService, private activatedRoute : ActivatedRoute, private router: Router) {
     this.activatedRoute.params.subscribe(params=>{
@@ -83,11 +83,13 @@ export class CompanyProfileComponent implements OnInit {
     return true;
   }
 
-  filterAppointments(data: PickUpAppointment[]): PickUpAppointment[] {
-    if(this.user?.role==='CUSTOMER')
-      return data.filter(ap => ap.isFree);
-    else
-      return data;
+  filterAppointments(): void {
+    const data:PickUpAppointment[] = this.appointments;
+    if (this.user?.role === 'CUSTOMER' && Array.isArray(data)) {
+      this.appointments = data.filter(ap => ap.free === true);
+    } else {
+      console.log("No filtering needed for this user role or invalid data.");
+    }
   }
 
   selectAppointment(a: PickUpAppointment){
@@ -97,6 +99,7 @@ export class CompanyProfileComponent implements OnInit {
     this.reservation.company = this.company!;
     this.reservation.equipment = this.cart;
     this.reservation.status = "PENDING";
+    this.reservation.pickUpAppointment = a;
     
     this.userService.getCustomer(this.user!.id).subscribe(
       (result)=>{
@@ -105,7 +108,7 @@ export class CompanyProfileComponent implements OnInit {
           return;
         }
         this.reservation.customer = result;
-        this.reservation.pickUpAppointment = a;
+
         this.userService.makeReservation(this.reservation).subscribe(
           (result)=>{
             if(result){
@@ -140,7 +143,6 @@ export class CompanyProfileComponent implements OnInit {
     const index = this.equipment.findIndex(item => item.equipment === e.equipment);
     if (index !== -1) {
       const maxAmount = this.equipment.at(index);
-      //console.log(maxAmount?.quantity);
       return maxAmount!.quantity;
     }
     else {
@@ -229,8 +231,6 @@ export class CompanyProfileComponent implements OnInit {
       this.userService.getUser(admin.id).subscribe(
         (data) => {
           user = data;
-          //admin.user = user;
-          //console.log(admin.user);
         },
         (error) => {
           console.error('Unable to load user. Try again later.');
@@ -243,7 +243,8 @@ export class CompanyProfileComponent implements OnInit {
     if (this.company !== undefined){
       this.companyService.getByCompany(this.company).subscribe(
         (data) => {
-          this.appointments = this.filterAppointments(data);
+          this.appointments = data;
+          this.filterAppointments();
         },
         (error) => {
           console.error('Unable to load appointments.');
@@ -258,7 +259,7 @@ export class CompanyProfileComponent implements OnInit {
     if (this.company !== undefined){
       this.companyService.getReservationsByCompany(this.company.id).subscribe(
         (data) => {
-          this.comapanyReservations = this.filterReservations(data);
+          this.companyReservations = this.filterReservations(data);
         },
         (error) => {
           console.error('Unable to load reservations for company.');

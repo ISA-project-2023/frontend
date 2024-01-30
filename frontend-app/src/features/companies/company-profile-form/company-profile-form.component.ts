@@ -24,13 +24,12 @@ export class CompanyProfileFormComponent implements OnChanges {
   availableEquipment: Equipment[] = [];
   shouldEquipmentUpdate: boolean = false;
 
-  comapanyReservations: Reservation[] = [];
+  companyReservations: Reservation[] = [];
 
   constructor(private companyService: CompanyService,
     private route: ActivatedRoute){
       this.route.params.subscribe(params => {
         this.companyId = params['id'];
-        console.log(this.companyId);
         this.getCompany();
         this.getAvailableEquipment();
       });
@@ -73,7 +72,7 @@ export class CompanyProfileFormComponent implements OnChanges {
     if (this.company !== undefined){
       this.companyService.getReservationsByCompany(this.company.id).subscribe(
         (data) => {
-          this.comapanyReservations = this.filterReservations(data);
+          this.companyReservations = this.filterReservations(data);
         },
         (error) => {
           console.error('Unable to load reservations for company.');
@@ -140,14 +139,26 @@ export class CompanyProfileFormComponent implements OnChanges {
     );
   }
 
-  canRemoveEquipment(equipment: Equipment): boolean {
-    const result = this.comapanyReservations.every(reservation => {
-      const hasEquipment = reservation.equipment.some(reservedEquipment => reservedEquipment.equipment === equipment);
-      //console.log(`Reservation ${reservation.id}: Equipment present - ${hasEquipment}`);
-      return !hasEquipment;
+  private getPendingEquipment(): Equipment[]{
+    let equipments: Equipment[] = [];
+    this.companyReservations.forEach(reservation => {
+      reservation.equipment.forEach(equipmentAmount => {
+        if (!equipments.some(e => e === equipmentAmount.equipment)) {
+          equipments.push(equipmentAmount.equipment);
+        }
+      });
     });
-    //console.log('Can remove equipment:', result);
-    return result;
+    return equipments;
+  }
+
+  canRemoveEquipment(equipment: Equipment): boolean {
+    let pendingEquipments = this.getPendingEquipment();
+    for (let i = 0; i < pendingEquipments.length; i++) {
+      if (equipment.id === pendingEquipments[i].id){
+        return false;
+      }
+    }
+    return true;
   }
 
   removeEquipment(e: Equipment):void{
