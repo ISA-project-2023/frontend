@@ -23,6 +23,8 @@ export class MapSimulatorComponent implements OnInit {
   map!: Map;
   longitude: number = 19.8335; // Pozicije markera (naseg dostavljaca)
   latitude: number = 45.2671;
+  estimatedTime: number = 0;
+  displayTime: string = '00:00:00';
   form!: FormGroup;
   userForm!: FormGroup;
   isLoaded: boolean = false;
@@ -68,9 +70,25 @@ export class MapSimulatorComponent implements OnInit {
     // });
     this.stompClient.connect({}, (frame: any) => {
         console.log('Connected to WebSocket:', frame);
+        let durationReceived = false
         this.stompClient.subscribe('/socket-publisher', (message: any) => {
             console.log('Received message:', message.body);
-            this.updateMap(message.body);
+            if(!durationReceived){
+              this.estimatedTime = message.body;
+            } else {
+                const hours = Math.floor(this.estimatedTime / 3600);
+                const minutes = Math.floor((this.estimatedTime % 3600) / 60);
+                const seconds = Math.floor(this.estimatedTime % 60);
+          
+                this.displayTime = `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                this.estimatedTime -= 4;
+          
+                if (this.estimatedTime < 0) {
+                  this.displayTime = 'Vehicle arrived!';
+                }
+              this.updateMap(message.body);
+            }
+            durationReceived = true
         }, (error: any) => {
           console.error('Error connecting to WebSocket:', error);
       });
