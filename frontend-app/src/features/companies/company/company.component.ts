@@ -29,6 +29,11 @@ export class CompanyComponent implements OnInit {
       }
     );
   }
+  profile(id: number): void {
+    event?.preventDefault();
+    this.router.navigate([`/company-profile/${id}`]);
+  }
+  
 
   search() {
     this.filteredCompanies = this.companies.filter((company) =>
