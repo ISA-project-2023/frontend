@@ -31,6 +31,7 @@ export class MapSimulatorComponent implements OnInit {
   private stompClient: any;
   latestMessage: string = '';
   markerOverlay!: Overlay;
+  buttonClicked: boolean = false;
 
   constructor(private mapService: MapService, private http: HttpClient) {}
 
@@ -79,6 +80,7 @@ export class MapSimulatorComponent implements OnInit {
   }
 
   onStartMessageSendingClick(): void {
+    this.buttonClicked = true; 
     this.http.post('http://localhost:8082/api/location/start-message-sending', {})
       .subscribe(
         response => {
