@@ -8,29 +8,40 @@ import { Reservation } from '../model/reservation';
   templateUrl: './qr-codes.component.html',
   styleUrls: ['./qr-codes.component.css']
 })
-export class QrCodesComponent implements OnInit{
+export class QrCodesComponent implements OnInit {
   customer!: Customer;
+  allReservations: Reservation[] = [];
+  allQrCodes: string[] = [];
   reservations: Reservation[] = [];
   qrCodes: string[] = [];
-  constructor(private service: UserService){}
+  pendingReservations: Reservation[] = [];
+  pendingQrCodes: string[] = [];
+  canceledReservations: Reservation[] = [];
+  canceledQrCodes: string[] = [];
+
+  constructor(private service: UserService) {}
+
   ngOnInit(): void {
     this.service.getCurrentCustomer().subscribe(
-      (result:Customer)=>{
+      (result: Customer) => {
         this.customer = result;
-        this.service.getCustomersReservations(this.customer.id).subscribe(
-          (result2:Reservation[])=>{
-            this.reservations = result2;
-            this.service.getCustomersQrCodes(this.customer.id).subscribe(
-              (data: any[]) => {
-                for(let s of data){
-                  this.qrCodes.push("data:image/png;base64," + s);
+        this.loadData();
+      },
+      (error) => {
+        console.error('Error fetching data:', error);
+      }
+    );
+  }
 
-                }
-              },
-              (error) => {
-                console.error('Error fetching data:', error);
-              }
-            );            
+  loadData(): void {
+    this.service.getCustomersReservations(this.customer.id).subscribe(
+      (result2: Reservation[]) => {
+        this.allReservations = result2;
+        this.reservations = [...this.allReservations];
+        this.service.getCustomersQrCodes(this.customer.id).subscribe(
+          (data: any[]) => {
+            this.allQrCodes = data.map((s) => "data:image/png;base64," + s);
+            this.qrCodes = [...this.allQrCodes];
           },
           (error) => {
             console.error('Error fetching data:', error);
@@ -41,6 +52,36 @@ export class QrCodesComponent implements OnInit{
         console.error('Error fetching data:', error);
       }
     );
+  }
+
+  showPending(): void {
+    this.pendingReservations = this.allReservations.filter((r) => r.status === 'PENDING');
+    this.pendingQrCodes = this.allQrCodes.slice(0, this.pendingReservations.length);
+    this.reservations = this.pendingReservations;
+    this.qrCodes = this.pendingQrCodes;
+  }
+
+  showCanceled(): void {
+    this.canceledReservations = this.allReservations.filter((r) => r.status === 'CANCELED');
+    this.canceledQrCodes = this.allQrCodes.slice(0, this.canceledReservations.length);
+    this.reservations = this.canceledReservations;
+    this.qrCodes = this.canceledQrCodes;
+  }
+
+  showAll(): void {
+    this.reservations = [...this.allReservations];
+    this.qrCodes = [...this.allQrCodes];
+  }
+  onSelectionChange(event: any) {
+    const selectedOption = event.target.value;
+  
+    if (selectedOption === 'All') {
+      this.showAll();
+    } else if (selectedOption === 'Pending') {
+      this.showPending();
+    } else if (selectedOption === 'Canceled') {
+      this.showCanceled();
+    }
   }
 
 

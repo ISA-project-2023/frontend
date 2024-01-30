@@ -1,5 +1,10 @@
 <h1 class="title">Your QR codes</h1>
 <div class="items">
+    <select (change)="onSelectionChange($event)">
+        <option selected="true">All</option>
+        <option>Pending</option>
+        <option>Canceled</option>
+      </select>      
     <div class="item" *ngFor="let qrCode of qrCodes; let i = index">
         <img class="qr" [src]="qrCode" alt="QR Code">
         <div class="reservation-info">
@@ -10,6 +15,9 @@
             <p class="info">
                 Equipment: <b>{{getEq(reservations[i])}}</b>
             </p>
+            <label class="info" >
+                Status: <span [ngStyle]="{'color': reservations[i].status === 'PENDING' ? 'orange' : reservations[i].status === 'CANCELED' ? 'red' : ''}"><b>{{ reservations[i].status }}</b></span>
+              </label>              
         </div>
     </div>
 </div>
