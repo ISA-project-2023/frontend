@@ -4,6 +4,7 @@
   </head>
   <body>
     <div id="map"></div>
+    <p class="time">Estimated time: {{displayTime}}s</p>
     <p>Do you want to start the delivery?</p>
     <button (click)="onStartMessageSendingClick()" [disabled]="buttonClicked" [class.clicked]="buttonClicked">Start</button>
     <script type="module" src="./main.js"></script>
