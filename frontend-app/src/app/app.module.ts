@@ -14,6 +14,7 @@ import { CompaniesModule } from 'src/features/companies/companies.module';
 import { HomeModule } from 'src/features/home/home.module';
 import { UsersModule } from 'src/features/users/users.module';
 import { PenaltyPointsComponent } from 'src/features/users/penalty-points/penalty-points.component';
+import { HomeComponent } from 'src/features/home/home/home.component';
 
 LOAD_WASM().subscribe();
 
@@ -32,10 +33,10 @@ LOAD_WASM().subscribe();
     CompaniesModule,
     UsersModule,
     HomeModule,
-    UsersModule,
     FullCalendarModule,
     NgxScannerQrcodeModule
   ],
+  exports:[AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent]
 })

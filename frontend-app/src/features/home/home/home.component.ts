@@ -95,7 +95,7 @@ export class HomeComponent implements OnInit {
     this.userService.logout().subscribe(
       (response) => {
         if(response === 'Logout successful'){
-          this.router.navigate(['/home']);
+          this.router.navigate(['']);
         }
         else {
           console.error('Unexpected response:', response);
@@ -110,7 +110,7 @@ export class HomeComponent implements OnInit {
   }
 
   register(){
-    this.router.navigate(['/register']);
+    this.router.navigate(['']);
   }
 
   isLoggedIn(): boolean {
@@ -129,6 +129,7 @@ export class HomeComponent implements OnInit {
   
       this.userService.login(credentials).subscribe(
         (sessionId) => {
+          this.router.navigate(['/home']);
           localStorage.setItem('sessionId', sessionId);
           this.getCurrentUser();
         },

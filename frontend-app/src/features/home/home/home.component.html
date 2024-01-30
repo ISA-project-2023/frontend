@@ -33,6 +33,9 @@
         </div>
       </div>
     </div>
+    <div *ngIf="isLoggedIn()">
+      <router-outlet></router-outlet>
+    </div>
   </main> 
 
   <div id="sidebar">
@@ -51,11 +54,7 @@
     <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToPenaltyPoints()">Penalty points</button>
     <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToMyProfile()">Complaints</button>
   </div>
-
-  <footer>
-    <section>
-      <p>Explore our centralized information system for medical equipment procurement.</p>
-    </section>
-    <p>&copy; 2023 Medical Equipment Reservation System</p>
-  </footer>
 </div>
+
+
+
