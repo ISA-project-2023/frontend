@@ -124,7 +124,11 @@ export class CompanyProfileFormComponent implements OnChanges {
         
         // Remove company equipment from available equipment
         this.availableEquipment = this.availableEquipment.filter(
-          (equipment) => !this.isEquipmentInCompany(equipment)
+          (equipment) => !this.isEquipmentInCompany(equipment, this.company!.equipment)
+        );
+
+        this.availableEquipment = this.availableEquipment.filter(
+          (equipment) => !this.isEquipmentAmountInCompany(equipment, this.updatedEquipment)
         );
       },
       (error) => {
@@ -133,9 +137,14 @@ export class CompanyProfileFormComponent implements OnChanges {
     );
   }
 
-  private isEquipmentInCompany(equipment: any): boolean {
-    return this.company!.equipment.some(
+  private isEquipmentInCompany(equipment: any, equipmentList: Equipment[]): boolean {
+    return equipmentList.some(
       (companyEquipment) => companyEquipment.id === equipment.id
+    );
+  }
+  private isEquipmentAmountInCompany(equipment: any, equipmentList: EquipmentAmount[]): boolean {
+    return equipmentList.some(
+      (companyEquipment) => companyEquipment.equipment.id === equipment.id
     );
   }
 
