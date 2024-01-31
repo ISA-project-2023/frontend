@@ -5,16 +5,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppModule } from 'src/app/app.module';
 import { AppRoutingModule } from 'src/app/app-routing.module';
-import { HomeeComponent } from './homee/homee.component';
 import { LoginComponent } from './login/login.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 
 
 @NgModule({
   declarations: [
     HomeComponent,
-    HomeeComponent,
-    LoginComponent
+    LoginComponent,
+    LandingPageComponent
   ],
   imports: [
     CommonModule,

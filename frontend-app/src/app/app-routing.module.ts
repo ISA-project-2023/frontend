@@ -22,7 +22,7 @@ import { PickupHistoryComponent } from 'src/features/users/pickup-history/pickup
 import { QrCodesComponent } from 'src/features/users/qr-codes/qr-codes.component';
 import { ContractsComponent } from 'src/features/companies/contracts/contracts.component';
 import { MapSimulatorComponent } from 'src/features/map/map-simulator/map-simulator.component';
-import { HomeeComponent } from 'src/features/home/homee/homee.component';
+import { LandingPageComponent } from 'src/features/home/landing-page/landing-page.component';
 import { LoginComponent } from 'src/features/home/login/login.component';
 
 const routes: Routes = [
@@ -33,7 +33,7 @@ const routes: Routes = [
   { path: 'company-profile/:id', component: CompanyProfileComponent },
   { path: 'company-profile/edit/:id', component: CompanyProfileFormComponent },
   { path: 'company-admin-profile/add-appointment', component: PickupAppointmentFormComponent },
-  { path: 'home', component: HomeeComponent },
+  { path: 'home', component: LandingPageComponent },
   { path: 'change-password', component: ChangePasswordComponent },
   { path: 'register', component: RegistrationComponent },
   { path: 'activate/:token', component: ConfirmRegistrationComponent },
