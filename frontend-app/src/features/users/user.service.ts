@@ -117,9 +117,9 @@ export class UserService {
   updateCompanyAdmin(companyAdmin: CompanyAdmin): Observable<CompanyAdmin> {
     return this.http.put<CompanyAdmin>(`${this.apiUrl}/api/companyAdmins`, companyAdmin);
   }
-  // deleteCompanyAdmin(id: number): Observable<CompanyAdmin> {
-  //   return this.http.delete<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins/${id}`);
-  // }
+  activateCompanyAdmin(token: string) {
+    return this.http.get(`${this.apiUrl}/api/companyAdmins/activate/${token}`, { responseType: 'text' });
+  }
   getCustomer(id: number): Observable<Customer> {
     return this.http.get<Customer>(`${this.apiUrl}/api/customers/${id}`);
   }

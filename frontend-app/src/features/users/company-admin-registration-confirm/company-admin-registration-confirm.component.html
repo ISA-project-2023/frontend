@@ -10,54 +10,45 @@
     <p>You have successfully registrated the company admin!</p><br>
     <p>Please change the password to successfully activate your comapnyAdmin profile! </p>
 
-    <form [formGroup]="passwordForm" (submit)="onSubmit()">
-        <table>
-            <th colspan="2">
-                <h2>Change password</h2>
-            </th>
-            <tr>
-                <td>
-                    <label for="username">Username:</label>
-                </td>
-                <td>
-                    <label>{{user.username}}</label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="password">Your old password:</label>
-                </td>
-                <td>
-                    <input type="password" id="oldPassword" formControlName="oldPassword">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="password">New password:</label>
-                </td>
-                <td>
-                    <input type="password" id="password" formControlName="password">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="password">Confirm new password:</label>
-                </td>
-                <td>
-                    <input type="password" id="confirm" formControlName="confirm">
-                </td>
-            </tr>
-            <tr >
-                <td colspan="2">
-                    <button type="submit" class="button">Save changes</button>
-                </td>
-            </tr>
-        </table>
-        
-    </form>
-
-
-
-    <p><a href="/home">Log into your account</a></p>
+    <div class="center-div">
+        <form [formGroup]="passwordForm" (submit)="onSubmit()">
+            <table>
+                <th colspan="2">
+                    <h2>Change password</h2>
+                </th>
+                <tr>
+                    <td>
+                        <label for="username">Username:</label>
+                    </td>
+                    <td>
+                        <label>{{user.username}}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="password">New password:</label>
+                    </td>
+                    <td>
+                        <input type="password" id="password" formControlName="password">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="password">Confirm new password:</label>
+                    </td>
+                    <td>
+                        <input type="password" id="confirm" formControlName="confirm">
+                    </td>
+                </tr>
+                <tr >
+                    <td colspan="2">
+                        <button type="submit" class="button">Save changes</button>
+                    </td>
+                </tr>
+            </table>
+            
+        </form>
+    </div>
+    <!-- <p><a href="/home">Log into your account</a></p> -->
 </body>
 </html>

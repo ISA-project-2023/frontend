@@ -29,7 +29,6 @@ export class CompanyAdminRegistrationConfirmComponent implements OnChanges {
     });
     this.getUser();
     this.passwordForm = this.fb.group({
-      //oldPassword: ['', Validators.required],
       password: ['', Validators.required],
       confirm: ['', Validators.required],
     });
@@ -54,28 +53,21 @@ export class CompanyAdminRegistrationConfirmComponent implements OnChanges {
     );
   }
 
-  old: string = '';
   password1: string = '';
   password2: string = '';
 
   ngOnChanges(): void {
     this.passwordForm.patchValue({
-      oldPassword: this.old,
       password: this.password1,
       confirm: this.password2
     });
   }
   
   onSubmit() {
-    this.old = this.passwordForm.value.oldPassword;
     this.password1 = this.passwordForm.value.password;
     this.password2 = this.passwordForm.value.confirm;
-
-    console.log(this.old);
-    console.log(this.password1);
-    console.log(this.password2);
     
-    if (/*this.old && */ this.password1 && this.password2) {
+    if (this.password1 && this.password2) {
       if ((this.password1 === this.password2)) {
         this.userService.changePassword(this.user, this.password1).subscribe(
           (data) => {
@@ -103,7 +95,7 @@ export class CompanyAdminRegistrationConfirmComponent implements OnChanges {
     this.userService.updateCompanyAdmin(this.companyAdmin).subscribe(
       (data) => {
         if(this.token){
-          this.userService.activateUser(this.token).subscribe(
+          this.userService.activateCompanyAdmin(this.token).subscribe(
             response => {
               console.log('Account activated successfully', response);
             },
