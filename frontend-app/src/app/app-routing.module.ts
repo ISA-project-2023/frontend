@@ -23,8 +23,10 @@ import { QrCodesComponent } from 'src/features/users/qr-codes/qr-codes.component
 import { ContractsComponent } from 'src/features/companies/contracts/contracts.component';
 import { MapSimulatorComponent } from 'src/features/map/map-simulator/map-simulator.component';
 import { HomeeComponent } from 'src/features/home/homee/homee.component';
+import { LoginComponent } from 'src/features/home/login/login.component';
 
 const routes: Routes = [
+  { path: 'login', component: LoginComponent},
   { path: 'companiesReview', component: CompanyComponent },
   { path: 'my-profile', component: MyProfileComponent },
   { path: 'company-admin-profile', component: CompanyAdminProfileComponent },

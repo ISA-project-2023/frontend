@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, Input} from '@angular/core';
 import { Router } from '@angular/router';
-import { CompanyAdmin } from 'src/features/users/model/company-admin.model';
 import { SystemAdmin } from 'src/features/users/model/system-admin.model';
 import { User } from 'src/features/users/model/user.model';
 import { UserService } from 'src/features/users/user.service';
@@ -12,21 +10,20 @@ import { UserService } from 'src/features/users/user.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  loginForm: FormGroup;
-  loggedUser: User | undefined;
+
+  @Input() shouldEdit: boolean = false;
+
+  loggedUser!: User;
   isSystemAdmin: boolean = false;
   isCustomer: boolean = false;
   isCompanyAdmin: boolean = false;
   
-  constructor(private router: Router, private userService: UserService, private fb: FormBuilder) {
-    this.loginForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-    });
-  }
+  constructor(private router: Router, private userService: UserService) {  }
 
   ngOnInit(): void {
-    this.getCurrentUser();
+    if (this.isLoggedIn()){
+      this.getCurrentUser();
+    }
   }
 
   toggleSidebar() {
@@ -39,6 +36,10 @@ export class HomeComponent implements OnInit {
     }
   }
   
+  navigateToLogin() {
+    this.router.navigate(['/login']);
+  }
+
   navigateToCompanies() {
     this.router.navigate(['/companiesReview']);
   }
@@ -95,7 +96,7 @@ export class HomeComponent implements OnInit {
     this.userService.logout().subscribe(
       (response) => {
         if(response === 'Logout successful'){
-          this.router.navigate(['']);
+          this.router.navigate(['/home']);
         }
         else {
           console.error('Unexpected response:', response);
@@ -117,29 +118,9 @@ export class HomeComponent implements OnInit {
     return this.userService.isAuthenticated();
   }
 
-  onSubmit() {
-    const usernameControl = this.loginForm.get('username');
-    const passwordControl = this.loginForm.get('password');
-  
-    if (usernameControl && passwordControl) {
-      const credentials = {
-        username: usernameControl.value,
-        password: passwordControl.value
-      };
-  
-      this.userService.login(credentials).subscribe(
-        (sessionId) => {
-          this.router.navigate(['/home']);
-          localStorage.setItem('sessionId', sessionId);
-          this.getCurrentUser();
-        },
-        (error) => {
-          console.error('Login error:', error);
-          alert("Wrong credentials. Please try again!");
-        }
-      );
-    }
-  } 
+  onLoginChanged():void{
+    this.getCurrentUser();
+  }
 
   getCurrentUser(): void{
     if (!this.isCompanyAdmin && !this.isSystemAdmin && !this.isCustomer) {
@@ -149,10 +130,7 @@ export class HomeComponent implements OnInit {
           this.userRole(data);
           if(data.role === 'SYSTEM_ADMIN'){
             this.getSystemAdmin();
-          }  
-          // if(data.role === 'COMPANY_ADMIN') {
-          //   this.getCompanyAdmin();
-          // } 
+          }
           this.router.navigate(['/home']);
         },
         (error) => {
@@ -199,23 +177,5 @@ export class HomeComponent implements OnInit {
         console.log(error)
       }
     )
-  }
-
-  getCompanyAdmin(): void{
-    this.userService.getCurrentCompanyAdmin().subscribe(
-      (admin: CompanyAdmin) => {
-        if(admin.isVerified === false){
-          this.router.navigate(['change-password']);
-        } else {
-          this.router.navigate(['/home']);
-        }
-      },
-      (error) => {
-        console.error('Error fetching company admin:', error);
-        if (error.status === 500) {
-          console.log('Server error. Response body:', error.error);
-        }
-      }
-    );
   }
 }
