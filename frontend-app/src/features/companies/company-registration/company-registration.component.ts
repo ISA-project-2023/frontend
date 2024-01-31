@@ -17,13 +17,13 @@ export class CompanyRegistrationComponent implements OnInit{
   constructor(private service: CompanyService, private userService: UserService) { }
 
   ngOnInit(): void {
-    this.userService.getCompanyAdmins().subscribe({
+    this.service.getCompanies().subscribe({
       next: (response: any) => {
-        this.allCompanyAdmins = response;
-        console.log(this.allCompanyAdmins)
+        this.allCompanies = response;
+        console.log(this.allCompanies)
       },
       error: () => {
-        console.log('Company admins failed to load!')
+        console.log('Companies failed to load!')
       }
     });
   }
@@ -47,10 +47,21 @@ export class CompanyRegistrationComponent implements OnInit{
   repassword: string = '';
   email: string = '';
 
-  allCompanyAdmins!: CompanyAdmin[]; 
+  
   companyAdmin!: CompanyAdmin;
   selectedCompanyAdmin!: CompanyAdmin | undefined;
   company!: Company;
+  allCompanies!: Company[];
+  selectedCompany!: Company | undefined;
+
+  onCompanySelected() {
+    console.log('Selected company:', this.company);
+    this.name = this.company.name;
+    this.location = this.company.location;
+    this.startTime = this.company.startTime;
+    this.endTime = this.company.endTime;
+    this.selectedCompany = this.company;
+  }
 
   save() : void {
     if(this.name === '' || this.location === '' || this.startTime === '' || this.endTime === '' || 
@@ -69,7 +80,7 @@ export class CompanyRegistrationComponent implements OnInit{
     } else {
 
       this.company = {
-        id: 1,
+        id: 0,
         name: this.name,
         location: this.location,
         grade: 0,
@@ -80,7 +91,7 @@ export class CompanyRegistrationComponent implements OnInit{
       };
       
       this.companyAdmin = {
-        id: 1,
+        id: -1,
         username: this.username,
         email: this.email,
         penaltyPoints: 0,
@@ -96,59 +107,54 @@ export class CompanyRegistrationComponent implements OnInit{
     console.log(this.company)
     console.log(this.companyAdmin)
     this.service.addCompany(this.company).subscribe({
-      next: () => {
+      next: (response: any) => {
+        this.company = response;
+        this.companyAdmin.company = response;
+        this.userService.saveCompanyAdmin(this.companyAdmin, this.password).subscribe({
+          next: () => {
+            this.registrationOk = true
+            this.allEntered = false
+            this.repassOk = false
+            this.timeOk = false
+            this.reset()
+          },
+          error: () => {
+            this.registrationOk = false
+            this.userExists = true
+            return
+          }
+        });
       },
       error: () => {
       }
     });
-
-    this.userService.saveCompanyAdmin(this.companyAdmin, this.password).subscribe({
-      next: () => {
-        this.registrationOk = true
-        this.allEntered = false
-        this.repassOk = false
-        this.timeOk = false
-        this.reset()
-      },
-      error: () => {
-        this.registrationOk = false
-        this.userExists = true
-        return
-      }
-    });
-
     }
   }
 
-  addAdmin() : void {
+  addCompanyAdmin() : void{
     this.registrationOk = false
-    if(this.selectedCompanyAdmin === undefined){
-      console.log("Admin nije selektovan")
+    if (this.selectedCompany === undefined){
+      console.log("Company not selected")
       this.isCompanyAdminSelected = true
     } else {
       this.isCompanyAdminSelected = false
-      if(this.name !== '' && this.location !== '' && this.startTime !== '' && this.endTime !== ''){
+      if(this.nameAdmin !== '' && this.surnameAdmin !== '' && this.username !== '' && this.password !== '' && this.repassword !== '' && this.email !== ''){
         this.allEntered = false
-        this.company = {
-          id: 1,
-          name: this.name,
-          location: this.location,
-          grade: 0,
-          startTime: (this.startTime + ':00'),
-          endTime: (this.endTime + ':00'),
-          equipment: [],
-          equipmentAmountInStock: []
+        this.companyAdmin = {
+          id: 0,
+          username: this.username,
+          email: this.email,
+          penaltyPoints: 0,
+          role: 'COMPANY_ADMIN', 
+          firstName: this.nameAdmin,
+          lastName: this.surnameAdmin,
+          category: 'REGULAR',
+          jobDescription: '',
+          company: this.company,
+          isVerified: false
         };
-        console.log("Dodavanje postojeceg admina")
-    
-        this.service.addCompany(this.company).subscribe({
-          next: () => {
-          },
-          error: () => {
-          }
-        });
-        console.log(this.selectedCompanyAdmin.firstName)
-        this.userService.addAdminToCompany(this.selectedCompanyAdmin).subscribe({
+        console.log("Add admin on existing company!")
+        this.userService.saveCompanyAdmin(this.companyAdmin, this.password).subscribe({
           next: () => {
             this.registrationOk = true
             this.allEntered = false
@@ -164,9 +170,9 @@ export class CompanyRegistrationComponent implements OnInit{
             return
           }
         });
-        } else {
-          this.allEntered = true
-        }
+      } else {
+        this.allEntered = true
+      }
     }
   }
 

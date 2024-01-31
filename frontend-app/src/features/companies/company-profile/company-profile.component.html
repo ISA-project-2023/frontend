@@ -121,7 +121,7 @@
                 <th>Status</th>
                 <th>Equipment</th>
             </tr>
-            <tr *ngFor="let r of comapanyReservations">
+            <tr *ngFor="let r of companyReservations">
                 <input class="pick-up-button" type="button" value="Pick Up" (click)="markAsPickedUp(r)" [ngClass]="{ 'disabled-button': !isReservationPickupPossible(r) }" [disabled]="!isReservationPickupPossible(r)">
                 <td>{{ r.customer.firstName }} {{ r.customer.lastName }}</td>
                 <td>{{r.pickUpAppointment.companyAdmin.firstName}} {{r.pickUpAppointment.companyAdmin.lastName}}</td>
