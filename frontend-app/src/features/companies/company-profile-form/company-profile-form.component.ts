@@ -167,8 +167,6 @@ export class CompanyProfileFormComponent implements OnChanges {
         const indexToRemove = this.updatedEquipment.findIndex(item => item.equipment.id === e.id);
         this.availableEquipment.push(e);
         this.updatedEquipment.splice(indexToRemove, 1);
-  
-        this.getAvailableEquipment();
       }
       else {
         alert('cant remove this equipment because it is reserved already');
