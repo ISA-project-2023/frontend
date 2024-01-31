@@ -20,6 +20,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { PenaltyPointsComponent } from './penalty-points/penalty-points.component';
 import { PickupHistoryComponent } from './pickup-history/pickup-history.component';
 import { QrCodesComponent } from './qr-codes/qr-codes.component';
+import { CompanyAdminRegistrationConfirmComponent } from './company-admin-registration-confirm/company-admin-registration-confirm.component';
 
 
 
@@ -37,7 +38,8 @@ import { QrCodesComponent } from './qr-codes/qr-codes.component';
     ChangePasswordComponent,
     PenaltyPointsComponent,
     PickupHistoryComponent,
-    QrCodesComponent
+    QrCodesComponent,
+    CompanyAdminRegistrationConfirmComponent
   ],
   imports: [
     FormsModule,
