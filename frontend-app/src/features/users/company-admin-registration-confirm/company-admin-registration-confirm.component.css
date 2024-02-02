@@ -1,0 +1,59 @@
+.center-div {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    align-items: center;
+    margin-left: 35%;
+    right: auto;
+    width: auto;
+}
+
+table {
+    border-collapse: collapse;
+    font-size: 0.9em;
+    font-family: 'Poppins', sans-serif;
+    min-width: 300px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border: 1px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    width: 100%;
+}
+
+thead tr {
+    background-color: #3498db;
+    color: #ffffff;
+    text-align: left;
+}
+
+th, td {
+    padding: 12px 15px;
+}
+.button {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 20px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 50px;
+}
+
+h1 {
+    color: #3498db;
+}
+
+p {
+    color: #333;
+}
+
+a {
+    color: #007BFF;
+    text-decoration: none;
+}

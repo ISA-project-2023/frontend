@@ -9,7 +9,7 @@ import { User } from 'src/features/users/model/user.model';
 import { UserService } from 'src/features/users/user.service';
 import { PickUpAppointment } from '../model/pickup-appointment.model';
 import { Reservation } from 'src/features/users/model/reservation';
-//import { Reservation } from '../model/reservation.model';
+import { EquipmentAmount } from '../model/equipment-amount.model';
 
 @Component({
   selector: 'app-company-profile',
@@ -21,16 +21,17 @@ export class CompanyProfileComponent implements OnInit {
   @ViewChild('pickup') companyProfile!: ElementRef;
   companyId: number = 0;
   company: Company | undefined;
-  equipment: Equipment[] = [];
+  equipment: EquipmentAmount[] = [];
   admins: CompanyAdmin[] = [];
   appointments: PickUpAppointment[] = [];
   users: User[] = [];
   canShow: boolean = false;
   shouldEdit: boolean = false;
   shouldRenderEditForm: boolean = false; 
-  user: User = {id:0, lastName:'', firstName:'',penaltyPoints:0, role:'', email:'', username:'', category:''};
+  user: User|undefined; 
+  companyAdmin: CompanyAdmin|undefined;
   search: string = '';
-  cart: Equipment[] = [];
+  cart: EquipmentAmount[] = [];
   availableAppointments: boolean = false;
   selectedAppointment?: PickUpAppointment;
   selectedDate:Date|undefined;
@@ -42,22 +43,22 @@ export class CompanyProfileComponent implements OnInit {
     status: '',
     equipment: undefined!
   };
-  comapanyReservations: Reservation[] = [];
+  companyReservations: Reservation[] = [];
   
   constructor(private companyService: CompanyService, private userService: UserService, private activatedRoute : ActivatedRoute, private router: Router) {
     this.activatedRoute.params.subscribe(params=>{
-      this.companyId=params['id'];
-      userService.getCurrentUser().subscribe({
-          next:(result)=>{
-            this.user = result;
-          }
-      });
+      this.companyId=params['id'];  
+    });
+    userService.getCurrentUser().subscribe({
+      next:(result)=>{
+        this.user = result;
+        this.getCompany();
+      }
     });
 
     if (this.companyId !== undefined){
       this.canShow = true;
     }
-    this.getCompany();
   }
 
   scrollToElement() {
@@ -72,11 +73,23 @@ export class CompanyProfileComponent implements OnInit {
     this.getCompany();
   }
 
-  filterAppointments(data: PickUpAppointment[]): PickUpAppointment[] {
-    if(this.user.role==='CUSTOMER')
-      return data.filter(ap => ap.isFree);
-    else
-      return data;
+  canCompanyAdminSee(): boolean{
+    if (this.user?.role === 'COMPANY_ADMIN'){
+      const compAdmin = this.admins.find(admin=> admin.id===this.user!.id);
+      if (compAdmin === undefined){
+        return false;
+      }
+    }
+    return true;
+  }
+
+  filterAppointments(): void {
+    const data:PickUpAppointment[] = this.appointments;
+    if (this.user?.role === 'CUSTOMER' && Array.isArray(data)) {
+      this.appointments = data.filter(ap => ap.free === true);
+    } else {
+      console.log("No filtering needed for this user role or invalid data.");
+    }
   }
 
   selectAppointment(a: PickUpAppointment){
@@ -86,11 +99,16 @@ export class CompanyProfileComponent implements OnInit {
     this.reservation.company = this.company!;
     this.reservation.equipment = this.cart;
     this.reservation.status = "PENDING";
+    this.reservation.pickUpAppointment = a;
     
-    this.userService.getCustomer(this.user.id).subscribe(
+    this.userService.getCustomer(this.user!.id).subscribe(
       (result)=>{
+        if(result.penaltyPoints>=3){
+          alert('You cannot finish this reservation because you have 3 or more penalty points.');
+          return;
+        }
         this.reservation.customer = result;
-        this.reservation.pickUpAppointment = a;
+
         this.userService.makeReservation(this.reservation).subscribe(
           (result)=>{
             if(result){
@@ -99,7 +117,7 @@ export class CompanyProfileComponent implements OnInit {
             }
           },
           (error)=>{
-            console.log("Error while making reservation: " + error);
+            console.error("Error while making reservation: " + error);
           }
         )
       },
@@ -110,15 +128,42 @@ export class CompanyProfileComponent implements OnInit {
   }
 
   AddToCart(e:Equipment){
-    const indexToRemove = this.cart.findIndex(item => item.id === e.id);
+    const equipmentAmount = {
+      equipment: e,
+      quantity: 5
+    }
+    const indexToRemove = this.cart.findIndex(item => item.equipment === e);
     if (indexToRemove === -1) {
-      this.cart.push(e);
+      this.cart.push(equipmentAmount);
       this.availableAppointments = false;
     }
   }
 
+  findMaxAmount(e:EquipmentAmount): number{
+    const index = this.equipment.findIndex(item => item.equipment === e.equipment);
+    if (index !== -1) {
+      const maxAmount = this.equipment.at(index);
+      return maxAmount!.quantity;
+    }
+    else {
+      console.error("Can't find max amount for this company equipment!");
+    }
+    return 1;
+  }
+  
+  onQuantityInput(e: any, maxAmount: number): void {
+    const inputValue = parseInt(e.target.value, 10);
+    if (inputValue > maxAmount) {
+      e.target.value = maxAmount.toString();
+    }
+    const minAmount = 1;
+    if (inputValue <= minAmount){
+      e.target.value = minAmount.toString();
+    }
+  }
+
   RemoveFromCart(e:Equipment){
-    const indexToRemove = this.cart.findIndex(item => item.id === e.id);
+    const indexToRemove = this.cart.findIndex(item => item.equipment === e);
     if (indexToRemove !== -1) {
       this.cart.splice(indexToRemove, 1);
       this.availableAppointments = false;
@@ -145,18 +190,18 @@ export class CompanyProfileComponent implements OnInit {
   }
   filter(){
     if(this.search==='' && this.company){
-      this.equipment = this.company?.equipment;
+      this.equipment = this.company?.equipmentAmountInStock;
       return;
     }
     this.equipment = this.equipment.filter((eq) =>
-    eq.name.toLowerCase().includes(this.search.toLowerCase()));
+    eq.equipment.name.toLowerCase().includes(this.search.toLowerCase()));
   }
 
   getCompany(): void {
     this.companyService.getCompany(this.companyId).subscribe(
       (data) => {
         this.company = data;
-        this.equipment = this.company.equipment;
+        this.equipment = this.company.equipmentAmountInStock;
         this.getCompanyAdmins(this.company);
         this.getAppointments();
         this.getReservations();
@@ -172,6 +217,7 @@ export class CompanyProfileComponent implements OnInit {
       (data) => {
         this.admins = data;
         this.getUsers(this.admins);
+        this.canCompanyAdminSee();
       },
       (error) => {
         console.error('Unable to load company administrators. Try again later.');
@@ -185,8 +231,6 @@ export class CompanyProfileComponent implements OnInit {
       this.userService.getUser(admin.id).subscribe(
         (data) => {
           user = data;
-          //admin.user = user;
-          //console.log(admin.user);
         },
         (error) => {
           console.error('Unable to load user. Try again later.');
@@ -199,7 +243,8 @@ export class CompanyProfileComponent implements OnInit {
     if (this.company !== undefined){
       this.companyService.getByCompany(this.company).subscribe(
         (data) => {
-          this.appointments = this.filterAppointments(data);
+          this.appointments = data;
+          this.filterAppointments();
         },
         (error) => {
           console.error('Unable to load appointments.');
@@ -214,7 +259,7 @@ export class CompanyProfileComponent implements OnInit {
     if (this.company !== undefined){
       this.companyService.getReservationsByCompany(this.company.id).subscribe(
         (data) => {
-          this.comapanyReservations = this.filterReservations(data);
+          this.companyReservations = this.filterReservations(data);
         },
         (error) => {
           console.error('Unable to load reservations for company.');
@@ -226,7 +271,7 @@ export class CompanyProfileComponent implements OnInit {
   }
   
   filterReservations(data: Reservation[]): Reservation[]{
-    if(this.user.role==='COMPANY_ADMIN')
+    if(this.user?.role==='COMPANY_ADMIN')
       return data.filter(reservation => (reservation.status === "PENDING"));
     else
       return data;
@@ -242,8 +287,63 @@ export class CompanyProfileComponent implements OnInit {
     this.shouldEdit = false;
     this. shouldRenderEditForm = false;
   }
+
+  formatDate(date: Date | number[]): string {
+    const convertedDate = Array.isArray(date) ? this.convertToDate(date) : date;
+    
+    if (convertedDate instanceof Date) {
+      return convertedDate.toDateString() + ' ' + convertedDate.toLocaleTimeString();
+    }
+  
+    return '';
+  }
+
+  convertToDate(dateArray: number[]): Date | null {
+    if (dateArray && dateArray.length === 5) {
+      return new Date(dateArray[0], dateArray[1] - 1, dateArray[2], dateArray[3], dateArray[4]);
+    } else {
+      return null;
+    }
+  }
   
   // deleteCompanyProfile(): void {
   //   this.companyService.deleteCompany(this.companyId).subscribe();
   // }
+
+  isReservationPickupPossible(r: Reservation): boolean{
+    if (r.status === 'PENDING' && this.isFutureDate(r.pickUpAppointment.date)
+    && this.user?.id === r.pickUpAppointment.companyAdmin.id) {
+      return true;
+    } else {
+      return false;
+    }
+    return false;
+  }
+
+  isFutureDate(date: Date): boolean {
+    const convertedDate = Array.isArray(date) ? this.convertToDate(date) : date;
+    const currentDate = new Date();
+    if (convertedDate! > currentDate){
+      return true;
+    }
+    return false;
+  }
+
+  markAsPickedUp(r: Reservation): void{
+    const isConfirmed = window.confirm('Are you sure you want to mark this reservation as picked up?');
+    
+    if (isConfirmed) {
+      this.userService.markAsPicked(r.id, r).subscribe(
+        (result: Reservation) => {
+          console.log('You have marked reservation as picked up.');
+          this.ngOnInit();
+        },
+        (error) => {
+          console.error('Error picking up your reservation.');
+        }
+      );
+    } else {
+      console.log('Picking up of reservation canceled.');
+    }
+  }
 }

@@ -16,9 +16,17 @@
                     <label for="name">End of working time:</label>
                     <input type="time" id="endTime" [(ngModel)]="endTime" name="endTime"> <br>
 
+                    <label>Choose existing company: </label>
+                    <select [(ngModel)]="company" name="company" (change)="onCompanySelected()">
+                        <option *ngFor="let ca of allCompanies" [ngValue]="ca">{{ ca.name }}</option>
+                    </select>
+                    <br>
+                    <button type="button" (click)="addCompanyAdmin()">Add admin to company</button><br>
+
                     <label for="name" *ngIf = "allEntered">Fill in all informations!</label>
+                    <label for="name" *ngIf = "isCompanyAdminSelected">Select company administrator!</label>
                     <label for="name" *ngIf = "repassOk">Password not entered correctly!</label>
-                    <label for="name" *ngIf = "registrationOk">Successfully registered company!</label>
+                    <label for="name" *ngIf = "registrationOk">Successfully registered company admin to company!</label>
                     <label for="name" *ngIf = "userExists">User already exists!</label>
                     <label for="name" *ngIf = "timeOk">Start time is bigger than end time!</label>
                 </div>

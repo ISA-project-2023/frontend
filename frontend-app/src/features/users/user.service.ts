@@ -9,6 +9,7 @@ import { Reservation } from './model/reservation';
 import { CompanyComplaint } from './model/company-complaint.model';
 import { CompanyAdminComplaint } from './model/company-admin-complaint';
 import { SystemAdmin } from './model/system-admin.model';
+import { PickUpAppointment } from '../companies/model/pickup-appointment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -71,6 +72,9 @@ export class UserService {
     console.log(password)
     return this.http.post<CompanyAdmin>(`${this.apiUrl}/api/companyAdmins/${password}`, admin)
   }
+  addAdminToCompany(admin: CompanyAdmin): Observable<CompanyAdmin>{
+    return this.http.post<CompanyAdmin>(`${this.apiUrl}/api/companyAdmins/add-existing`, admin)
+  }
   isAuthenticated(): boolean {
     return !!localStorage.getItem('sessionId');
   }
@@ -113,25 +117,44 @@ export class UserService {
   updateCompanyAdmin(companyAdmin: CompanyAdmin): Observable<CompanyAdmin> {
     return this.http.put<CompanyAdmin>(`${this.apiUrl}/api/companyAdmins`, companyAdmin);
   }
-  // deleteCompanyAdmin(id: number): Observable<CompanyAdmin> {
-  //   return this.http.delete<CompanyAdmin>(`${this.apiUrl}/api/users/companyAdmins/${id}`);
-  // }
-
-  getCustomersReservations(id: number): Observable<Reservation[]>{
-    return this.http.get<Reservation[]>(`${this.apiUrl}/api/reservations/allByCustomer/${id}`);
+  activateCompanyAdmin(token: string) {
+    return this.http.get(`${this.apiUrl}/api/companyAdmins/activate/${token}`, { responseType: 'text' });
   }
   getCustomer(id: number): Observable<Customer> {
     return this.http.get<Customer>(`${this.apiUrl}/api/customers/${id}`);
   }
+  
+  getCustomersQrCodes(id: number): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/api/reservations/allQRCodesByCustomer/${id}`);
+  }
 
+  // RESERVATIONS
+  getCustomersReservations(id: number): Observable<Reservation[]>{
+    return this.http.get<Reservation[]>(`${this.apiUrl}/api/reservations/allByCustomer/${id}`);
+  }
+  getPreviousCustomersReservations(id: number): Observable<Reservation[]>{
+    return this.http.get<Reservation[]>(`${this.apiUrl}/api/reservations/allPreviousByCustomer/${id}`);
+  }
+  cancelReservation(id: number): Observable<Reservation>{
+    return this.http.put<Reservation>(`${this.apiUrl}/api/reservations/cancel/${id}`, null);
+  }
   makeReservation(reservation: Reservation) {
     return this.http.post<Reservation>(`${this.apiUrl}/api/reservations`, reservation);
   }
+  getReservationsByCompanyAdmin(id: number): Observable<Reservation[]>{
+    return this.http.get<Reservation[]>(`${this.apiUrl}/api/reservations/findByCompanyAdmin/` + id);
+  }
+  getReservationsByCompany(id: number): Observable<Reservation[]>{
+    return this.http.get<Reservation[]>(`${this.apiUrl}/api/reservations/allByCompany/` + id);
+  }
+  markAsPicked(id: number, reservation: Reservation) : Observable<Reservation>{
+    return this.http.put<Reservation>(`${this.apiUrl}/api/reservations/markAsPicked/${id}`, reservation);
+  }
   
+  // COMPLAINTS
   getAllCompanyComplaints() : Observable<CompanyComplaint[]> {
     return this.http.get<CompanyComplaint[]>(`${this.apiUrl}/api/complaints/allCompanyComplaints`);
   }
-
   getAllCompanyAdminComplaints() : Observable<CompanyAdminComplaint[]> {
     return this.http.get<CompanyAdminComplaint[]>(`${this.apiUrl}/api/complaints/allCompanyAdminComplaints`);
   }

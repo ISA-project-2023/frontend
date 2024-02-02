@@ -1,0 +1,18 @@
+<h1>Contracts for your company</h1>
+<table>
+    <tr>
+        <th>Hospital</th>
+        <th>Next delivery appointment</th>
+        <th>Equipment</th>
+    </tr>
+    <tr *ngFor="let c of contracts">
+        <td>{{c.hospital}}, {{c.hospitalAddress}}</td>
+        <td style="display: flex; justify-content: space-between;">
+            <label>{{formatDate(c.date)}}</label>
+            <button class="cancel" (click)="cancelContract(c)" [ngClass]="{ 'disabled-button': isNotCancelable(c) }" [disabled]="isNotCancelable(c)">
+                Cancel
+            </button>
+        </td>
+        <td>{{c.equipment}} × {{c.amount}}</td>
+    </tr>
+</table>

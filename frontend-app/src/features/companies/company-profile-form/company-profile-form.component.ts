@@ -5,6 +5,7 @@ import { Company } from '../model/company.model';
 import { Equipment } from '../model/equipment.model';
 import { CompanyService } from '../company.service';
 import { Reservation } from 'src/features/users/model/reservation';
+import { EquipmentAmount } from '../model/equipment-amount.model';
 
 @Component({
   selector: 'xp-company-profile-form',
@@ -18,18 +19,17 @@ export class CompanyProfileFormComponent implements OnChanges {
   @Input() shouldEdit: boolean = false;
   
   companyId: number = 0;
-  companyEquipment: Equipment[] = [];
-  updatedEquipment: Equipment[] = [];
+  companyEquipment: EquipmentAmount[] = [];
+  updatedEquipment: EquipmentAmount[] = [];
   availableEquipment: Equipment[] = [];
   shouldEquipmentUpdate: boolean = false;
 
-  comapanyReservations: Reservation[] = [];
+  companyReservations: Reservation[] = [];
 
   constructor(private companyService: CompanyService,
     private route: ActivatedRoute){
       this.route.params.subscribe(params => {
         this.companyId = params['id'];
-        console.log(this.companyId);
         this.getCompany();
         this.getAvailableEquipment();
       });
@@ -58,8 +58,8 @@ export class CompanyProfileFormComponent implements OnChanges {
     this.companyService.getCompany(this.companyId).subscribe(
       (data) => {
         this.company = data;
-        this.companyEquipment = this.company.equipment;
-        this.updatedEquipment = this.company.equipment;
+        this.companyEquipment = this.company.equipmentAmountInStock;
+        this.updatedEquipment = this.company.equipmentAmountInStock;
         this.getReservations();
       },
       (error) => {
@@ -72,7 +72,7 @@ export class CompanyProfileFormComponent implements OnChanges {
     if (this.company !== undefined){
       this.companyService.getReservationsByCompany(this.company.id).subscribe(
         (data) => {
-          this.comapanyReservations = this.filterReservations(data);
+          this.companyReservations = this.filterReservations(data);
         },
         (error) => {
           console.error('Unable to load reservations for company.');
@@ -94,6 +94,7 @@ export class CompanyProfileFormComponent implements OnChanges {
         startTime: this.company?.startTime || "",
         endTime: this.company?.endTime || "",
         equipment: this.company?.equipment || this.updatedEquipment,
+        equipmentAmountInStock: this.company?.equipmentAmountInStock,
   
         name: this.companyProfileForm.value.name as string || "",
         location: this.companyProfileForm.value.location as string || '',
@@ -123,7 +124,11 @@ export class CompanyProfileFormComponent implements OnChanges {
         
         // Remove company equipment from available equipment
         this.availableEquipment = this.availableEquipment.filter(
-          (equipment) => !this.isEquipmentInCompany(equipment)
+          (equipment) => !this.isEquipmentInCompany(equipment, this.company!.equipment)
+        );
+
+        this.availableEquipment = this.availableEquipment.filter(
+          (equipment) => !this.isEquipmentAmountInCompany(equipment, this.updatedEquipment)
         );
       },
       (error) => {
@@ -132,30 +137,45 @@ export class CompanyProfileFormComponent implements OnChanges {
     );
   }
 
-  private isEquipmentInCompany(equipment: any): boolean {
-    return this.company!.equipment.some(
+  private isEquipmentInCompany(equipment: any, equipmentList: Equipment[]): boolean {
+    return equipmentList.some(
       (companyEquipment) => companyEquipment.id === equipment.id
     );
   }
+  private isEquipmentAmountInCompany(equipment: any, equipmentList: EquipmentAmount[]): boolean {
+    return equipmentList.some(
+      (companyEquipment) => companyEquipment.equipment.id === equipment.id
+    );
+  }
+
+  private getPendingEquipment(): Equipment[]{
+    let equipments: Equipment[] = [];
+    this.companyReservations.forEach(reservation => {
+      reservation.equipment.forEach(equipmentAmount => {
+        if (!equipments.some(e => e === equipmentAmount.equipment)) {
+          equipments.push(equipmentAmount.equipment);
+        }
+      });
+    });
+    return equipments;
+  }
 
   canRemoveEquipment(equipment: Equipment): boolean {
-    const result = this.comapanyReservations.every(reservation => {
-      const hasEquipment = reservation.equipment.some(reservedEquipment => reservedEquipment.id === equipment.id);
-      //console.log(`Reservation ${reservation.id}: Equipment present - ${hasEquipment}`);
-      return !hasEquipment;
-    });
-    //console.log('Can remove equipment:', result);
-    return result;
+    let pendingEquipments = this.getPendingEquipment();
+    for (let i = 0; i < pendingEquipments.length; i++) {
+      if (equipment.id === pendingEquipments[i].id){
+        return false;
+      }
+    }
+    return true;
   }
 
   removeEquipment(e: Equipment):void{
     if (this.company !== undefined ){
       if (this.canRemoveEquipment(e)){
-        const indexToRemove = this.updatedEquipment.findIndex(item => item.id === e.id);
+        const indexToRemove = this.updatedEquipment.findIndex(item => item.equipment.id === e.id);
         this.availableEquipment.push(e);
         this.updatedEquipment.splice(indexToRemove, 1);
-  
-        this.getAvailableEquipment();
       }
       else {
         alert('cant remove this equipment because it is reserved already');
@@ -165,11 +185,23 @@ export class CompanyProfileFormComponent implements OnChanges {
 
   addEquipment(e: Equipment):void{
     if (this.company !== undefined){
-      this.updatedEquipment.push(e);
+      const equipmentAmount = {
+        equipment: e,
+        quantity: 5
+      }
+      this.updatedEquipment.push(equipmentAmount);
       const indexToRemove = this.availableEquipment.findIndex(item => item.id === e.id);
       this.availableEquipment.splice(indexToRemove);
 
       this.getAvailableEquipment();
+    }
+  }
+
+  onQuantityInput(e: any): void {
+    let minAmount = 1;
+    const inputValue = parseInt(e.target.value, 10);
+    if (inputValue <= minAmount) {
+      e.target.value = minAmount.toString();
     }
   }
 
@@ -182,8 +214,10 @@ export class CompanyProfileFormComponent implements OnChanges {
         grade: Number(this.companyProfileForm.value.grade) || 0,
         startTime: this.company?.startTime || "",
         endTime: this.company?.endTime || "",
-        equipment: this.updatedEquipment,
+        equipment: this.company?.equipment,
+        equipmentAmountInStock: this.company?.equipmentAmountInStock
       };
+      this.updateCompanyProfile();
       this.companyService.updateCompanyEquipment(comp).subscribe({
         next: () => {
           this.companyProfileUpdated.emit();
@@ -205,7 +239,7 @@ export class CompanyProfileFormComponent implements OnChanges {
       return;
     }
     this.companyEquipment = this.companyEquipment.filter((eq) =>
-    eq.name.toLowerCase().includes(this.search.toLowerCase()));
+    eq.equipment.name.toLowerCase().includes(this.search.toLowerCase()));
   }
   searchAvailableEquipment(): void{
     if(this.searchAvailable==='' && this.company){

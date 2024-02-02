@@ -17,6 +17,10 @@ import { MyReservationsComponent } from './my-reservations/my-reservations.compo
 import { SystemAdminProfileComponent } from './system-admin-profile/system-admin-profile.component';
 import { SystemAdminRegistrationComponent } from './system-admin-registration/system-admin-registration.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { PenaltyPointsComponent } from './penalty-points/penalty-points.component';
+import { PickupHistoryComponent } from './pickup-history/pickup-history.component';
+import { QrCodesComponent } from './qr-codes/qr-codes.component';
+import { CompanyAdminRegistrationConfirmComponent } from './company-admin-registration-confirm/company-admin-registration-confirm.component';
 
 
 
@@ -31,7 +35,11 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     MyReservationsComponent,
     SystemAdminProfileComponent,
     SystemAdminRegistrationComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    PenaltyPointsComponent,
+    PickupHistoryComponent,
+    QrCodesComponent,
+    CompanyAdminRegistrationConfirmComponent
   ],
   imports: [
     FormsModule,

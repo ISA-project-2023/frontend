@@ -10,6 +10,7 @@ import yearGridPlugin from '@fullcalendar/multimonth';
 import { Reservation } from '../model/reservation';
 //import { Reservation } from 'src/features/companies/model/reservation.model';
 import { CompanyService } from 'src/features/companies/company.service';
+import { PickUpAppointment } from 'src/features/companies/model/pickup-appointment.model';
 
 @Component({
   selector: 'app-company-admin-profile',
@@ -26,6 +27,7 @@ export class CompanyAdminProfileComponent implements OnInit, OnChanges {
   updatedUser!:User; 
 
   reservations!: Reservation[];
+  pickUpAppointments!: PickUpAppointment[];
   calendarOptions: CalendarOptions = {
     events: this.getEvents(),
     initialView: 'dayGridMonth',
@@ -76,6 +78,7 @@ export class CompanyAdminProfileComponent implements OnInit, OnChanges {
         this.companyId = compAdmin.company.id;
         
         this.getReservationsForCompanyAdmin()
+        this.getPickUpAppointmentsForCompanyAdmin()
       },
       (error) => {
         console.error('Error fetching current logged in company administrator:', error);
@@ -83,18 +86,44 @@ export class CompanyAdminProfileComponent implements OnInit, OnChanges {
     );
   }
 
-  getReservationsForCompanyAdmin() : void{
+  getReservationsForCompanyAdmin() : void {
     this.companyService.getReservationsForCompanyAdmin(this.companyAdmin.id).subscribe(
       (data) => {
         this.reservations = data;
         console.log(this.reservations)
-        this.calendarOptions.events = this.getEvents()
       },
       (error) => {
         alert('Unable to load reservations. Try again later.');
         console.log(error);
       }
     )
+  }
+
+  getPickUpAppointmentsForCompanyAdmin() : void {
+    this.companyService.getPickUpAppointmentsForCompanyAdmin(this.companyAdmin).subscribe(
+      (data) => {
+        this.pickUpAppointments = data;
+        console.log(this.pickUpAppointments)
+        for(let r of this.reservations){
+          for(let p of this.pickUpAppointments){
+            if(this.formatDate(r.pickUpAppointment.date) === this.formatDate(p.date)){
+              const index = this.pickUpAppointments.indexOf(p);
+              console.log(index)
+              if (index !== -1) {
+                this.pickUpAppointments.splice(index, 1);
+              }
+            }
+          }
+        }
+        console.log(this.pickUpAppointments);
+        this.calendarOptions.events = this.getEvents()
+      },
+      (error) => {
+        alert('Unable to load pick up appointments. Try again later.');
+        console.log(error);
+      }
+    )
+
   }
 
   editProfile(): void{
@@ -118,10 +147,39 @@ export class CompanyAdminProfileComponent implements OnInit, OnChanges {
 
   getEvents() : any {
     if(this.reservations != undefined){
+      for(let r of this.reservations){
+        r.pickUpAppointment.date = new Date(this.formatDate(r.pickUpAppointment.date))
+      }
+      for(let p of this.pickUpAppointments){
+        p.date = new Date(this.formatDate(p.date))
+      }
       return this.reservations.map(reservation => ({
         title: `${reservation.customer.firstName} ${reservation.customer.lastName}`,
-        start: reservation.pickUpAppointment.date
-      }));
+        start: reservation.pickUpAppointment.date,
+        type: 'Reservation'
+      })).concat(this.pickUpAppointments.map(appointment => ({
+        title: `Free appointment`,
+        start: appointment.date,
+        type: 'Free appointment'
+      })));
+    }
+  }
+
+  formatDate(date: Date | number[]): string {
+    const convertedDate = Array.isArray(date) ? this.convertToDate(date) : date;
+    
+    if (convertedDate instanceof Date) {
+      return convertedDate.toDateString() + ' ' + convertedDate.toLocaleTimeString();
+    }
+  
+    return '';
+  }
+
+  convertToDate(dateArray: number[]): Date | null {
+    if (dateArray && dateArray.length === 5) {
+      return new Date(dateArray[0], dateArray[1] - 1, dateArray[2], dateArray[3], dateArray[4]);
+    } else {
+      return null;
     }
   }
 }

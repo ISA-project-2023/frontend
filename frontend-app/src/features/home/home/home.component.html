@@ -6,47 +6,40 @@
     <ul>
       <li><button (click)="navigateToCompanies()">Companies</button></li>
       <li *ngIf="isLoggedIn()"><button (click)="navigateToEquipmentSearch()">Equipment</button> </li>
-      <li *ngIf="isLoggedIn() && isCustomer"><button (click)="navigateToMyProfile()">My Profile</button></li>
-      <li *ngIf="isLoggedIn() && isCustomer"> <button (click)="navigateToMyReservations()">My reservations</button></li>
       <li *ngIf="isLoggedIn() && isCompanyAdmin"><button (click)="navigateToCompanyAdminProfile()">CompanyAdmin Profile</button></li>
-      <li *ngIf="isLoggedIn() && isSystemAdmin"> <button (click)="navigateToCompanyRegistration()">Register new company</button></li>
+      <li *ngIf="isLoggedIn() && isCompanyAdmin"><button (click)="navigateToReservationAccept()">Accept reservation</button></li>
+      <li *ngIf="isLoggedIn() && isCompanyAdmin"><button (click)="navigateToMyReservations()">My reservations</button></li>
+      <li *ngIf="isLoggedIn() && isSystemAdmin"><button (click)="navigateToCompanyRegistration()">Register new company</button></li>
+      <li *ngIf="isLoggedIn() && isCompanyAdmin"><button (click)="navigateToMapSimulator()">Map</button></li>
       <li *ngIf="isLoggedIn()"><button (click)="logout()">Log out</button></li>
       <li><img src="https://cdn-icons-png.flaticon.com/256/8166/8166558.png" alt="Sidebar Toggle" (click)="toggleSidebar()" style="cursor: pointer; width: 30px; height: 30px;"></li>
     </ul>
   </nav>
   <main>
+    <div>
+      <router-outlet></router-outlet>
+    </div>
     <div class="container" *ngIf="!isLoggedIn()">
-      <div class="login-container">
-        <h2>Login</h2>
-        <form [formGroup]="loginForm" (submit)="onSubmit()">
-          <label for="username">Username:</label>
-          <input type="text" id="username" formControlName="username">
-      
-          <label for="password">Password:</label>
-          <input type="password" id="password" formControlName="password">
-      
-          <button type="submit">Login</button>
-        </form>
-        <div class="register-section">
-          <p class="register-text">Don't have an account? <a (click)="register()"><u>Register</u></a></p>
-        </div>
-      </div>
+      <app-login
+          *ngIf="!isLoggedIn()" (loginChanged)="onLoginChanged()" [user]="loggedUser" 
+          [shouldEdit]="!shouldEdit"></app-login>
     </div>
   </main> 
 
   <div id="sidebar">
     <img src="https://cdn-icons-png.flaticon.com/256/8166/8166558.png" alt="Sidebar Toggle" (click)="toggleSidebar()" style="cursor: pointer; width: 30px; height: 30px;"><br><br>
-    <button (click)="navigateToCompanies()">Companies</button>
-    <button *ngIf="isLoggedIn()" (click)="navigateToEquipmentSearch()">Equipment</button>
-    <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToMyProfile()">My Profile</button>
-    <button *ngIf="isLoggedIn() && isCompanyAdmin" (click)="navigateToCompanyAdminProfile()">CompanyAdmin Profile</button>
+    <!-- <button (click)="navigateToCompanies()">Companies</button>
+    <button *ngIf="isLoggedIn()" (click)="navigateToEquipmentSearch()">Equipment</button> -->
     <button *ngIf="isLoggedIn() && isSystemAdmin" (click)="navigateToSystemAdminProfile()">SystemAdmin Profile</button>
+    <button *ngIf="isLoggedIn() && isSystemAdmin" (click)="navigateToCompanyRegistration()">Register new company</button>
+    <button *ngIf="isLoggedIn() && isCompanyAdmin" (click)="navigateToCompanyAdminProfile()">CompanyAdmin Profile</button>
+    <button *ngIf="isLoggedIn() && isCompanyAdmin" (click)="navigateToContracts()">Contracts</button>
+    <button *ngIf="isLoggedIn() && isCompanyAdmin" (click)="navigateToReservationAccept()">Accept reservation</button>
+    <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToMyProfile()">My Profile</button>
+    <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToPickupHistory()">Pickup history</button>
+    <button *ngIf="isLoggedIn() && (isCustomer || isCompanyAdmin)" (click)="navigateToMyReservations()">My reservations</button>
+    <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToQrCodes()">QR codes</button>
+    <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToPenaltyPoints()">Penalty points</button>
+    <button *ngIf="isLoggedIn() && isCustomer" (click)="navigateToMyProfile()">Complaints</button>
   </div>
-
-  <footer>
-    <section>
-      <p>Explore our centralized information system for medical equipment procurement.</p>
-    </section>
-    <p>&copy; 2023 Medical Equipment Reservation System</p>
-  </footer>
 </div>

@@ -10,28 +10,45 @@ import { CompanyAdminProfileComponent } from 'src/features/users/company-admin-p
 import { PickupAppointmentFormComponent } from 'src/features/companies/pickup-appointment-form/pickup-appointment-form.component';
 import { RegistrationComponent } from 'src/features/users/registration/registration.component';
 import { ConfirmRegistrationComponent } from 'src/features/users/confirm-registration/confirm-registration.component';
+import { CompanyAdminRegistrationConfirmComponent } from 'src/features/users/company-admin-registration-confirm/company-admin-registration-confirm.component';
 import { CompanyRegistrationComponent } from 'src/features/companies/company-registration/company-registration.component';
 import { SearchEquipmentComponent } from 'src/features/companies/search-equipment/search-equipment.component';
 import { MyReservationsComponent } from 'src/features/users/my-reservations/my-reservations.component';
 import { SystemAdminProfileComponent } from 'src/features/users/system-admin-profile/system-admin-profile.component';
 import { SystemAdminRegistrationComponent } from 'src/features/users/system-admin-registration/system-admin-registration.component';
+import { AcceptReservationsComponent } from 'src/features/companies/accept-reservations/accept-reservations.component';
+import { PenaltyPointsComponent } from 'src/features/users/penalty-points/penalty-points.component';
+import { PickupHistoryComponent } from 'src/features/users/pickup-history/pickup-history.component';
+import { QrCodesComponent } from 'src/features/users/qr-codes/qr-codes.component';
+import { ContractsComponent } from 'src/features/companies/contracts/contracts.component';
+import { MapSimulatorComponent } from 'src/features/map/map-simulator/map-simulator.component';
+import { LandingPageComponent } from 'src/features/home/landing-page/landing-page.component';
+import { LoginComponent } from 'src/features/home/login/login.component';
 
 const routes: Routes = [
+  { path: 'login', component: LoginComponent},
   { path: 'companiesReview', component: CompanyComponent },
   { path: 'my-profile', component: MyProfileComponent },
   { path: 'company-admin-profile', component: CompanyAdminProfileComponent },
   { path: 'company-profile/:id', component: CompanyProfileComponent },
   { path: 'company-profile/edit/:id', component: CompanyProfileFormComponent },
   { path: 'company-admin-profile/add-appointment', component: PickupAppointmentFormComponent },
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: LandingPageComponent },
   { path: 'change-password', component: ChangePasswordComponent },
   { path: 'register', component: RegistrationComponent },
   { path: 'activate/:token', component: ConfirmRegistrationComponent },
+  { path: 'companyAdmin/activate/:id/:token', component: CompanyAdminRegistrationConfirmComponent },
   { path: 'companyRegistration', component: CompanyRegistrationComponent},
   { path: 'searchEquipment', component: SearchEquipmentComponent},
   { path: 'my-reservations', component: MyReservationsComponent},
   { path: 'system-admin-profile', component: SystemAdminProfileComponent},
   { path: 'system-admin-registration', component: SystemAdminRegistrationComponent},
+  { path: 'accept-reservations', component: AcceptReservationsComponent},
+  { path: 'penalty-points', component: PenaltyPointsComponent},
+  { path: 'pickupHistory', component: PickupHistoryComponent},
+  { path: 'qrCodes', component: QrCodesComponent},
+  { path: 'contracts', component: ContractsComponent},
+  { path: 'map', component: MapSimulatorComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 

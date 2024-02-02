@@ -1,0 +1,12 @@
+<html>
+  <head>
+    <meta name="viewport"/>
+  </head>
+  <body>
+    <div id="map"></div>
+    <p>Do you want to start the delivery?</p>
+    <button (click)="onStartMessageSendingClick()" [disabled]="buttonClicked" [class.clicked]="buttonClicked">Start</button>
+    <p class="time">Estimated time: {{displayTime}}s</p>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

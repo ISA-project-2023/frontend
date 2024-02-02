@@ -21,7 +21,7 @@
             <td>{{c.name}}</td>
             <td>{{c.location}}</td>
             <td>{{c.grade}}</td>
-            <td><a href="/company-profile/{{c.id}}">See details</a></td>
+            <td><a href="/company-profile/{{c.id}}" (click)="profile(c.id)">See details</a></td>
         </tr>
     </table>
     <form (ngSubmit)="filter()">
